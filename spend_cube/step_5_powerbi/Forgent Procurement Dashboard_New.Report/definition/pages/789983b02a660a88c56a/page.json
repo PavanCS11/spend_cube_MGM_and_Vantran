@@ -1,0 +1,15 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/page/2.0.0/schema.json",
+  "name": "789983b02a660a88c56a",
+  "displayName": "Raw Material vs Index",
+  "displayOption": "FitToPage",
+  "height": 720,
+  "width": 1280,
+  "visualInteractions": [
+    {
+      "source": "af1062c4877875e3029e",
+      "target": "43570d59c0924a1a1678",
+      "type": "NoFilter"
+    }
+  ]
+}

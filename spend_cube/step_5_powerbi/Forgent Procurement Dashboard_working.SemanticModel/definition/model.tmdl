@@ -1,0 +1,35 @@
+model Model
+	culture: en-US
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: en-US
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+annotation __PBI_TimeIntelligenceEnabled = 1
+
+annotation PBI_QueryOrder = ["po_fact_table","Time Intelligence"]
+
+annotation PBI_ProTooling = ["DaxQueryView_Desktop","TMDLView_Desktop","DevMode"]
+
+ref table po_fact_table
+ref table DateTableTemplate_5efdbf91-48cd-453b-a8ab-7bab9ea432ba
+ref table LocalDateTable_1ecf1fef-3313-492d-a50d-3aa55e6530d1
+ref table LocalDateTable_7f4f14d3-3e66-488a-85bc-0f3ff43109f3
+ref table LocalDateTable_6146e7d5-e035-43b8-8888-c212c406316b
+ref table LocalDateTable_8b55a8d6-a5b7-4cec-a714-2915ce224156
+ref table 'Time Intelligence'
+ref table LocalDateTable_890dbbf8-b06a-49dd-9e74-d7af4137cd06
+ref table 'Measure Table'
+ref table DatePerspective
+ref table LocalDateTable_f4aed3e7-d092-41f3-8eb0-a56f90ec7437
+ref table DimSupplier
+ref table SupplierRankAxis
+ref table DimCategory
+ref table DimItem
+ref table DateCoverageMeasureList
+ref table CopperPriceIndex
+ref table LocalDateTable_f4fc2168-9aef-4b1a-a7eb-487db70824cd
+
+ref cultureInfo en-US
+

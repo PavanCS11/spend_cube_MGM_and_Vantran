@@ -1,0 +1,84 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.6.0/schema.json",
+  "name": "a000875fda8e8289307c",
+  "position": {
+    "x": 272.9903057419836,
+    "y": 636.65920954511557,
+    "z": 22000,
+    "height": 83.042505592841167,
+    "width": 977.41983594332589,
+    "tabOrder": 22000
+  },
+  "visual": {
+    "visualType": "textbox",
+    "objects": {
+      "general": [
+        {
+          "properties": {
+            "paragraphs": [
+              {
+                "textRuns": [
+                  {
+                    "value": "1",
+                    "textStyle": {
+                      "lineHeight": "0",
+                      "position": "relative",
+                      "verticalAlign": "baseline",
+                      "scriptType": "super",
+                      "top": "-0.25em"
+                    }
+                  },
+                  {
+                    "value": " On-time window: 14 days early to 3 days late from due date"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "2",
+                    "textStyle": {
+                      "lineHeight": "0",
+                      "position": "relative",
+                      "verticalAlign": "baseline",
+                      "scriptType": "super",
+                      "top": "-0.25em"
+                    }
+                  },
+                  {
+                    "value": " Avg Days Late includes only late deliveries (early/on-time lines excluded)"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "3",
+                    "textStyle": {
+                      "lineHeight": "0",
+                      "position": "relative",
+                      "verticalAlign": "baseline",
+                      "scriptType": "super",
+                      "top": "-0.25em"
+                    }
+                  },
+                  {
+                    "value": " OTD Eligible Lines are the number of total PO lines with a date, thus allowing OTD to be calculated"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "4 Promise Date Coverage % is the % of PO lines with a date out of total PO lines"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

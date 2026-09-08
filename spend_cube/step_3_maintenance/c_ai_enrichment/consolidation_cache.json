@@ -1,0 +1,1567 @@
+{
+  "consol_af812b51b35009d7": {
+    "same_product": false,
+    "canonical_name": "1/4\" Thick Hot-Rolled Steel Sheet",
+    "confidence": 1.0
+  },
+  "consol_c0db69062aaf1747": {
+    "same_product": false,
+    "canonical_name": "ALUMINUM GRADE 5052 8'X4' SHEET",
+    "confidence": 1.0
+  },
+  "consol_a4353d52252c2af8": {
+    "same_product": false,
+    "canonical_name": "Hot Rolled Steel Sheets",
+    "confidence": 1.0
+  },
+  "consol_d957c76bd7e0c892": {
+    "same_product": false,
+    "canonical_name": "HOT ROLLED P&O SHEET .187 (7 GA) X 48\"",
+    "confidence": 1.0
+  },
+  "consol_58beff92b59d1e57": {
+    "same_product": false,
+    "canonical_name": "Type 024 Standard Standoff Insulator Boot",
+    "confidence": 1.0
+  },
+  "consol_e94ad78ccd2f5b50": {
+    "same_product": false,
+    "canonical_name": "GALVANNEAL A60 SHEET .104 (12 GA) X 48\"",
+    "confidence": 1.0
+  },
+  "consol_ee979e90934e3ccd": {
+    "same_product": false,
+    "canonical_name": "5052-H32 Aluminum Sheets",
+    "confidence": 1.0
+  },
+  "consol_b327d936ca9a0ff2": {
+    "same_product": false,
+    "canonical_name": "GALVANNEAL A60 SHEET .120 (11 GA)",
+    "confidence": 1.0
+  },
+  "consol_0f3347c9730f7f1d": {
+    "same_product": false,
+    "canonical_name": "6101-T6 Aluminum Bar Tin Plated",
+    "confidence": 1.0
+  },
+  "consol_0ecc0495ec995983": {
+    "same_product": false,
+    "canonical_name": "Red Glastic Hex Insulator 1/4-20 UNC",
+    "confidence": 1.0
+  },
+  "consol_4b0a02e596190334": {
+    "same_product": false,
+    "canonical_name": "GPO CLOVER TUBE",
+    "confidence": 1.0
+  },
+  "consol_776f500bef2da849": {
+    "same_product": false,
+    "canonical_name": "C110 HH Copper Bus Bar",
+    "confidence": 1.0
+  },
+  "consol_9382023fc59917d6": {
+    "same_product": false,
+    "canonical_name": "Owens Corning Natural Polymers Natural Therm Spray Foam",
+    "confidence": 0.95
+  },
+  "consol_8fc88a4c0107ba87": {
+    "same_product": false,
+    "canonical_name": "HOT ROLLED P&O SHEET 1/4 INCH",
+    "confidence": 1.0
+  },
+  "consol_056c81cb8a32415d": {
+    "same_product": false,
+    "canonical_name": "HS Series Heavy-Wall Heat Shrinkable Tubing",
+    "confidence": 1.0
+  },
+  "consol_68d431c170f42acc": {
+    "same_product": false,
+    "canonical_name": "60 DUROMETER (SHORE A) NEOPRENE PAD",
+    "confidence": 1.0
+  },
+  "consol_49811890f0885339": {
+    "same_product": false,
+    "canonical_name": "Aluminum Rectangular Bar 6101 T61",
+    "confidence": 1.0
+  },
+  "consol_9b6bc4136e45cca8": {
+    "same_product": false,
+    "canonical_name": "Main Bus Boot",
+    "confidence": 1.0
+  },
+  "consol_e3575ad3c0b173e2": {
+    "same_product": false,
+    "canonical_name": "MULT-E-POXY 180 LIQUID PAINT",
+    "confidence": 1.0
+  },
+  "consol_e625bd16bbb47aeb": {
+    "same_product": false,
+    "canonical_name": "Structural Steel Channel and Square Tubing Kit",
+    "confidence": 0.95
+  },
+  "consol_151f15581f32cbd6": {
+    "same_product": false,
+    "canonical_name": "304 #4 Stainless Steel Sheet 48\" x 120\" Laser Masked",
+    "confidence": 1.0
+  },
+  "consol_e4270fbacf221c47": {
+    "same_product": false,
+    "canonical_name": "GALVANNEAL A60 SHEET 16 GA",
+    "confidence": 1.0
+  },
+  "consol_e6a4ed9c05eb7795": {
+    "same_product": false,
+    "canonical_name": "Low-Carbon Steel Bar",
+    "confidence": 1.0
+  },
+  "consol_fc2833da2beb0d0c": {
+    "same_product": false,
+    "canonical_name": "RUST-OLEUM Rust Preventative Spray Paint",
+    "confidence": 1.0
+  },
+  "consol_db9b27422868a700": {
+    "same_product": false,
+    "canonical_name": "Contractor Series Soft Woven Roller Cover",
+    "confidence": 1.0
+  },
+  "consol_f01d2217533f0f10": {
+    "same_product": false,
+    "canonical_name": "Handy Paint Pail vs Liners",
+    "confidence": 1.0
+  },
+  "consol_72288e7ea05dc80f": {
+    "same_product": false,
+    "canonical_name": "Purdy NEST 18 inch Paint Tray vs Liner",
+    "confidence": 1.0
+  },
+  "consol_fe011b3321b5f126": {
+    "same_product": false,
+    "canonical_name": "NEOPRENE/EPDM/SBR SINGLE SIDED FOAM TAPE",
+    "confidence": 1.0
+  },
+  "consol_1044130842205420": {
+    "same_product": false,
+    "canonical_name": "Neoprene/EPDM/SBR Single Sided Foam Tape",
+    "confidence": 1.0
+  },
+  "consol_fe783965e3fcdd8c": {
+    "same_product": false,
+    "canonical_name": "Cat6 Shielded Patch Cables (Multiple Lengths)",
+    "confidence": 1.0
+  },
+  "consol_f94afab7ee431944": {
+    "same_product": false,
+    "canonical_name": "Watertight Twist-Lock Plug 2P 3W 125VAC",
+    "confidence": 1.0
+  },
+  "consol_781565d93befe999": {
+    "same_product": false,
+    "canonical_name": "Eaton Crouse-Hinds series Roughneck E1049 plug",
+    "confidence": 1.0
+  },
+  "consol_1744534223319c29": {
+    "same_product": false,
+    "canonical_name": "10AWG SIS Wire 105 Strand 90C 1C",
+    "confidence": 1.0
+  },
+  "consol_5ebd07e040f287b3": {
+    "same_product": false,
+    "canonical_name": "18AWG MTW WIRE UL LISTED VW-1",
+    "confidence": 1.0
+  },
+  "consol_99b0b1f496c47683": {
+    "same_product": false,
+    "canonical_name": "CAT6 24AWG ETHERNET NETWORK PATCH CABLE BLACK",
+    "confidence": 1.0
+  },
+  "consol_2b4d90b9f0a29141": {
+    "same_product": false,
+    "canonical_name": "DIGIBUS RJ45 CABLE FOR DIGIWARE SYSTEM",
+    "confidence": 1.0
+  },
+  "consol_95dabf0c9b862eda": {
+    "same_product": true,
+    "canonical_name": "SEL-C804 Multimode Arc-Flash Detection Cable, 2m Length A, 6m Loop, ST Connector",
+    "confidence": 1.0
+  },
+  "consol_605e442d7fa712e0": {
+    "same_product": false,
+    "canonical_name": "RG58A/U Coaxial Cable Male BNC/Male BNC",
+    "confidence": 1.0
+  },
+  "consol_b909f63facf54e36": {
+    "same_product": false,
+    "canonical_name": "SEL-C953 Coaxial Cable for IRIG-B Distribution",
+    "confidence": 1.0
+  },
+  "consol_7ad46d2d98ede381": {
+    "same_product": false,
+    "canonical_name": "Cat5e Ethernet Patch Cables",
+    "confidence": 1.0
+  },
+  "consol_3665947b83ec9376": {
+    "same_product": false,
+    "canonical_name": "FLEXIBLE DLO BLACK 90\u00b0C COPPER UL LISTED",
+    "confidence": 1.0
+  },
+  "consol_16efa881465ea8c7": {
+    "same_product": false,
+    "canonical_name": "SEL-C804 Multimode Arc-Flash Detection Fiber-Optic Cable",
+    "confidence": 0.95
+  },
+  "consol_bc312f2a91c43567": {
+    "same_product": false,
+    "canonical_name": "Cat6 Ethernet Patch Cable - Standard Boot",
+    "confidence": 1.0
+  },
+  "consol_217200ec51f55606": {
+    "same_product": false,
+    "canonical_name": "SEL-C605A Serial Cable",
+    "confidence": 1.0
+  },
+  "consol_6948a75df7a297d8": {
+    "same_product": true,
+    "canonical_name": "Fiber Quencher Cable 3m",
+    "confidence": 0.95
+  },
+  "consol_ee659dce51b064cb": {
+    "same_product": false,
+    "canonical_name": "Fiber Patch Cables",
+    "confidence": 1.0
+  },
+  "consol_d5ca90ec2d87e5af": {
+    "same_product": false,
+    "canonical_name": "SEL-C972 Serial Cable for SEL-3390 S8",
+    "confidence": 1.0
+  },
+  "consol_e8d040cfff781f96": {
+    "same_product": false,
+    "canonical_name": "Coaxial cable with braided shield and PVC jacket BNC MALE / FERRULES 20AWG",
+    "confidence": 0.95
+  },
+  "consol_dc5dd0db232bb978": {
+    "same_product": false,
+    "canonical_name": "Cat5e Shielded Patch Cable - Yellow",
+    "confidence": 1.0
+  },
+  "consol_0811fa1c5651d66e": {
+    "same_product": false,
+    "canonical_name": "Cat5e Blue Plenum Ethernet Patch Cable - White Slip On Boot",
+    "confidence": 1.0
+  },
+  "consol_6c0079c9764258dc": {
+    "same_product": false,
+    "canonical_name": "Cat5e Ethernet Patch Cable - Standard Boot",
+    "confidence": 1.0
+  },
+  "consol_e266a892f3ba399a": {
+    "same_product": false,
+    "canonical_name": "GE Fanuc IC693 Series 24-Pin 90 Degree Connector Cable",
+    "confidence": 1.0
+  },
+  "consol_22dc499c0a896308": {
+    "same_product": false,
+    "canonical_name": "GE Fanuc 90-30 I/O Cable",
+    "confidence": 1.0
+  },
+  "consol_8ea8add09f923aea": {
+    "same_product": false,
+    "canonical_name": "20 FT Cat6 Cable",
+    "confidence": 0.95
+  },
+  "consol_b90609d7d3e0af40": {
+    "same_product": false,
+    "canonical_name": "62.5 Micron OM1 Multimode Fiber Optic Patch Cable",
+    "confidence": 1.0
+  },
+  "consol_f9815ef3e4c2d8bd": {
+    "same_product": false,
+    "canonical_name": "Breaker Door Wire Harness",
+    "confidence": 1.0
+  },
+  "consol_624af97cfa733939": {
+    "same_product": false,
+    "canonical_name": "Generic RQ LP Series",
+    "confidence": 0.85
+  },
+  "consol_90ae1f78fd6d0489": {
+    "same_product": true,
+    "canonical_name": "GENERIC RS LP - NORMAL",
+    "confidence": 0.85
+  },
+  "consol_02c1a858f4a384f2": {
+    "same_product": false,
+    "canonical_name": "1000VDC Electrical Switchgear/Distribution Section",
+    "confidence": 1.0
+  },
+  "consol_31b9d9e25538bdeb": {
+    "same_product": false,
+    "canonical_name": "GE 8000 MCC Starter Units",
+    "confidence": 1.0
+  },
+  "consol_3cd33399fa21150b": {
+    "same_product": true,
+    "canonical_name": "GE Evolution 9000 Series LV MCC 12\" Bucket",
+    "confidence": 0.98
+  },
+  "consol_64fa73f49e4f5561": {
+    "same_product": false,
+    "canonical_name": "ALLEN BRADLEY 2100 SERIES CENTERLINE MCC 6\" BUCKET",
+    "confidence": 0.95
+  },
+  "consol_45c934b008f93146": {
+    "same_product": false,
+    "canonical_name": "Cutler Hammer Fusible Bus-Plug 600V 3PH 3W",
+    "confidence": 1.0
+  },
+  "consol_190ec6a3c5fdf089": {
+    "same_product": false,
+    "canonical_name": "N/A - Multiple Amperage Ratings Detected",
+    "confidence": 1.0
+  },
+  "consol_74f2b75caffda15a": {
+    "same_product": false,
+    "canonical_name": "GE 3PH 4W 240V Fusible Bus-Plug",
+    "confidence": 1.0
+  },
+  "consol_c9141d044bddcad9": {
+    "same_product": false,
+    "canonical_name": "Siemens Sentron Busway Plug-In Fusible Switch",
+    "confidence": 1.0
+  },
+  "consol_ef38340cd7bd4ede": {
+    "same_product": false,
+    "canonical_name": "Gould 3PH 4W 240V Fusible Bus-Plug",
+    "confidence": 1.0
+  },
+  "consol_a96e5d42678a32f8": {
+    "same_product": false,
+    "canonical_name": "CUSTOM SWBD 1200A 277/480V 65KAIC GE SPECTRA",
+    "confidence": 1.0
+  },
+  "consol_42f905f2b42a8b58": {
+    "same_product": false,
+    "canonical_name": "GE Spectra Series Bus Duct Plug",
+    "confidence": 1.0
+  },
+  "consol_43c97f636eadd550": {
+    "same_product": false,
+    "canonical_name": "ABB AQF 225A MLO 54-Circuit Lighting Panelboard",
+    "confidence": 0.85
+  },
+  "consol_515a877f49de7ae7": {
+    "same_product": true,
+    "canonical_name": "4000A 480V 3PH 3W NEMA 3R Main Breaker Switchboard",
+    "confidence": 1.0
+  },
+  "consol_5f3fb34e93ee0b71": {
+    "same_product": false,
+    "canonical_name": "Siemens GMSG Medium Voltage Vacuum Circuit Breaker",
+    "confidence": 1.0
+  },
+  "consol_0371d85961b20c61": {
+    "same_product": true,
+    "canonical_name": "Siemens P2 Panelboard Interior P2O18ML125ATS",
+    "confidence": 0.95
+  },
+  "consol_66fc6b840c0aaa2e": {
+    "same_product": false,
+    "canonical_name": "Medium Voltage PT Compartments",
+    "confidence": 1.0
+  },
+  "consol_b22cc0696c995494": {
+    "same_product": false,
+    "canonical_name": "Medium Voltage Vacuum Circuit Breakers",
+    "confidence": 1.0
+  },
+  "consol_8837e242b71df063": {
+    "same_product": false,
+    "canonical_name": "Powell Switchgear Frames",
+    "confidence": 1.0
+  },
+  "consol_b36b7b1cb1cb5a85": {
+    "same_product": false,
+    "canonical_name": "15kV 61kA Vacuum Circuit Breaker Component",
+    "confidence": 1.0
+  },
+  "consol_59b67da85ec7cdb1": {
+    "same_product": true,
+    "canonical_name": "GMSG 50 KV SKEL A-3000 E-VENT F-VT",
+    "confidence": 0.98
+  },
+  "consol_22f609d10b9ffcf3": {
+    "same_product": true,
+    "canonical_name": "Eaton 35kV GOAB NEMA 3R Medium Voltage Switch",
+    "confidence": 0.98
+  },
+  "consol_f02c7f2286a7454b": {
+    "same_product": false,
+    "canonical_name": "ABB AMVAC Medium Voltage Vacuum Circuit Breaker",
+    "confidence": 1.0
+  },
+  "consol_8ee0f4f2f4895880": {
+    "same_product": false,
+    "canonical_name": "Type 007 Standard Right End/Left End Connection Boot",
+    "confidence": 1.0
+  },
+  "consol_7a625c1f3c5a9611": {
+    "same_product": false,
+    "canonical_name": "ABB AF Series 2-Pole Connection Busbar",
+    "confidence": 0.95
+  },
+  "consol_88b2d225c5a2f9b9": {
+    "same_product": false,
+    "canonical_name": "Cope cable tray 12' straight length",
+    "confidence": 1.0
+  },
+  "consol_d2c0a2d6e45542a6": {
+    "same_product": false,
+    "canonical_name": "ReliaGear Panelboards",
+    "confidence": 1.0
+  },
+  "consol_679614f400950cc3": {
+    "same_product": false,
+    "canonical_name": "SIERS 2.0 CB GMSG 50 KV SKEL",
+    "confidence": 0.95
+  },
+  "consol_824dd08304ed7a3d": {
+    "same_product": false,
+    "canonical_name": "GMSG Vacuum Circuit Breaker 15KV 50KA",
+    "confidence": 1.0
+  },
+  "consol_92ca8e1c35f0399b": {
+    "same_product": false,
+    "canonical_name": "SB INT 48X 3P CENUPR 1S/2S DNST AG",
+    "confidence": 1.0
+  },
+  "consol_d301dcae2c40c501": {
+    "same_product": false,
+    "canonical_name": "ABB ReliaGear RE Lighting Panelboard",
+    "confidence": 1.0
+  },
+  "consol_a61d495358e72181": {
+    "same_product": false,
+    "canonical_name": "Breaker Section Assembly",
+    "confidence": 1.0
+  },
+  "consol_42eb78da174f6d8e": {
+    "same_product": true,
+    "canonical_name": "Motor Control Center (MCC) NETA Testing and Inspection Service",
+    "confidence": 0.95
+  },
+  "consol_63273950cdb1f961": {
+    "same_product": false,
+    "canonical_name": "Commissioning on Power House 2 Switchgear Units",
+    "confidence": 0.95
+  },
+  "consol_181d4ad4bf1df0bc": {
+    "same_product": false,
+    "canonical_name": "Circuit Breaker Test Station",
+    "confidence": 1.0
+  },
+  "consol_14155262bb13344c": {
+    "same_product": true,
+    "canonical_name": "20% Due at Approval Drawing Release",
+    "confidence": 1.0
+  },
+  "consol_c5010d8885ce9641": {
+    "same_product": false,
+    "canonical_name": "Radan Software Training Services",
+    "confidence": 1.0
+  },
+  "consol_f3a5088892c6b1cb": {
+    "same_product": false,
+    "canonical_name": "Doble F6150E Relay Test Set (with vs without Laptop)",
+    "confidence": 0.95
+  },
+  "consol_6ca0bd59b78890a2": {
+    "same_product": false,
+    "canonical_name": "3PH Control Transformer 24VDC 5A 24W",
+    "confidence": 1.0
+  },
+  "consol_61a586e8b2ae0372": {
+    "same_product": false,
+    "canonical_name": "GE ITI Voltage Transformer",
+    "confidence": 1.0
+  },
+  "consol_1999e1d07530ad36": {
+    "same_product": false,
+    "canonical_name": "VANTRAN Substation Transformer",
+    "confidence": 1.0
+  },
+  "consol_79ac0707e8521510": {
+    "same_product": false,
+    "canonical_name": "Current Transformers",
+    "confidence": 1.0
+  },
+  "consol_d1d8848880df888b": {
+    "same_product": false,
+    "canonical_name": "Voltage Transformer",
+    "confidence": 0.95
+  },
+  "consol_42b74743596df4e6": {
+    "same_product": false,
+    "canonical_name": "Current Transformer",
+    "confidence": 1.0
+  },
+  "consol_0e35739734df3317": {
+    "same_product": false,
+    "canonical_name": "Current Transformer",
+    "confidence": 1.0
+  },
+  "consol_03dc3a2d2cce8625": {
+    "same_product": false,
+    "canonical_name": "Current Transformer 600:5 C100",
+    "confidence": 0.95
+  },
+  "consol_ee45fa4a626159f2": {
+    "same_product": false,
+    "canonical_name": "Potential Transformer VIZ-11 Series",
+    "confidence": 1.0
+  },
+  "consol_e6e1cfd4c56673fa": {
+    "same_product": false,
+    "canonical_name": "Medium Voltage PT Compartments",
+    "confidence": 0.95
+  },
+  "consol_ebfe87b6aaa413f8": {
+    "same_product": false,
+    "canonical_name": "Voltage Transformer VT Model 465",
+    "confidence": 0.95
+  },
+  "consol_a090a30351af5474": {
+    "same_product": false,
+    "canonical_name": "Multiple Transformer SKUs",
+    "confidence": 1.0
+  },
+  "consol_ea808f06b572f290": {
+    "same_product": false,
+    "canonical_name": "VIZ-11 Indoor Voltage Transformer",
+    "confidence": 1.0
+  },
+  "consol_b4f1af50a88f0916": {
+    "same_product": false,
+    "canonical_name": "Current Transformer 2RL Series",
+    "confidence": 1.0
+  },
+  "consol_72450c07c01bbb77": {
+    "same_product": true,
+    "canonical_name": "45KVA 415-208Y/120V NEMA 1 LV Transformer",
+    "confidence": 0.95
+  },
+  "consol_7ccddd02bdf9ee76": {
+    "same_product": true,
+    "canonical_name": "MV Transformer-Oil filled 500KVA 15kV-480Y/277",
+    "confidence": 1.0
+  },
+  "consol_f93b2aa17fb91daf": {
+    "same_product": false,
+    "canonical_name": "ABB AMVAC Medium Voltage Vacuum Circuit Breaker",
+    "confidence": 1.0
+  },
+  "consol_fcdaec94c7a56dc7": {
+    "same_product": false,
+    "canonical_name": "Medium Voltage Vacuum Circuit Breakers",
+    "confidence": 1.0
+  },
+  "consol_4a845add661d3f59": {
+    "same_product": false,
+    "canonical_name": "GPO CLOVER TUBE",
+    "confidence": 1.0
+  },
+  "consol_20278dec3d24e559": {
+    "same_product": false,
+    "canonical_name": "Low Voltage Transformer",
+    "confidence": 1.0
+  },
+  "consol_db6814bcf9a4bd48": {
+    "same_product": true,
+    "canonical_name": "1PH 3000VA 240x480V-120x240V 50/60Hz Copper Control Transformer",
+    "confidence": 0.98
+  },
+  "consol_08ad48e0ff5709a3": {
+    "same_product": false,
+    "canonical_name": "Cat6 Shielded Patch Cable - Black",
+    "confidence": 1.0
+  },
+  "consol_85f0908558e080cc": {
+    "same_product": false,
+    "canonical_name": "CAT6 Shielded Ethernet Patch Cable, Blue",
+    "confidence": 1.0
+  },
+  "consol_e5f34ae9d7e4912a": {
+    "same_product": false,
+    "canonical_name": "Anaconda Sealtite 1/2 UA Gray Type UAG Series",
+    "confidence": 0.95
+  },
+  "consol_6fbda3ef67beca8e": {
+    "same_product": false,
+    "canonical_name": "38 kV Breaker Compartment",
+    "confidence": 1.0
+  },
+  "consol_6f0fb01d77a68334": {
+    "same_product": false,
+    "canonical_name": "Generic RQ LP Interior Series",
+    "confidence": 0.4
+  },
+  "consol_86a14cffeadae8ce": {
+    "same_product": false,
+    "canonical_name": "HV/LV ATC Enclosures",
+    "confidence": 1.0
+  },
+  "consol_7e887d57c349bb1c": {
+    "same_product": false,
+    "canonical_name": "HV ATC FH Enclosures",
+    "confidence": 1.0
+  },
+  "consol_4767b26341875c9f": {
+    "same_product": false,
+    "canonical_name": "ATC Enclosures (Various Dimensions and Voltage Ratings)",
+    "confidence": 1.0
+  },
+  "consol_584c69236ee40ef9": {
+    "same_product": false,
+    "canonical_name": "ATC FH Enclosures",
+    "confidence": 1.0
+  },
+  "consol_93a5947bd35e1e31": {
+    "same_product": false,
+    "canonical_name": "Steel Storage Compartment",
+    "confidence": 1.0
+  },
+  "consol_1082330932d866e7": {
+    "same_product": false,
+    "canonical_name": "A36 Mild Steel Containment Pan",
+    "confidence": 1.0
+  },
+  "consol_df98ebeb090211dc": {
+    "same_product": false,
+    "canonical_name": "LV ATC FH Enclosure",
+    "confidence": 1.0
+  },
+  "consol_943b0593d4abb9f6": {
+    "same_product": false,
+    "canonical_name": "LV FLANGE, OS, A36 MS, 12GA",
+    "confidence": 1.0
+  },
+  "consol_53eeb12d54dc7f61": {
+    "same_product": false,
+    "canonical_name": "HV FLANGE, OS, A36 MS, 12GA",
+    "confidence": 1.0
+  },
+  "consol_fdc85ac7c8f3d378": {
+    "same_product": false,
+    "canonical_name": "LV/HV ATC Enclosures",
+    "confidence": 1.0
+  },
+  "consol_aad2b71228f4c71b": {
+    "same_product": false,
+    "canonical_name": "LV FLANGE A36 MS 12 GA",
+    "confidence": 1.0
+  },
+  "consol_7a273e1309450925": {
+    "same_product": false,
+    "canonical_name": "ATC 25X18X59 12GA A36 MS Enclosure",
+    "confidence": 0.95
+  },
+  "consol_d72e470d75622742": {
+    "same_product": false,
+    "canonical_name": "LV FLANGE, OS, 44X24.5X42.125, A36 MS, 12GA",
+    "confidence": 0.8
+  },
+  "consol_2ec1fc23e4f68db6": {
+    "same_product": false,
+    "canonical_name": "HEADIRON OS DN Series SS TOP",
+    "confidence": 0.95
+  },
+  "consol_0ddf839f029c8536": {
+    "same_product": false,
+    "canonical_name": "HEADIRON, OS, 304L SS TOP ASSBLY",
+    "confidence": 0.95
+  },
+  "consol_fa7e24990ffb65ce": {
+    "same_product": false,
+    "canonical_name": "Weld-on Radiator Plate Assembly",
+    "confidence": 0.95
+  },
+  "consol_942a5b3f7faad353": {
+    "same_product": false,
+    "canonical_name": "Radiator Demountable MS WHR",
+    "confidence": 0.95
+  },
+  "consol_0e4c57f5bd740b49": {
+    "same_product": false,
+    "canonical_name": "Demountable Radiator Plate",
+    "confidence": 0.95
+  },
+  "consol_3616db3e115af7f8": {
+    "same_product": false,
+    "canonical_name": "A36 MS 5/16\" OS Tank Series",
+    "confidence": 1.0
+  },
+  "consol_d7e01b2edc12608c": {
+    "same_product": false,
+    "canonical_name": "A36 MS OS Tank",
+    "confidence": 1.0
+  },
+  "consol_111782fb0c503fbb": {
+    "same_product": false,
+    "canonical_name": "A36 Mild Steel Tanks",
+    "confidence": 1.0
+  },
+  "consol_3b213db3b2e1a5b5": {
+    "same_product": false,
+    "canonical_name": "A36 Mild Steel Tanks",
+    "confidence": 1.0
+  },
+  "consol_3820d2fbfa05afae": {
+    "same_product": false,
+    "canonical_name": "304L SS 1/4\" THK OS TANKS",
+    "confidence": 1.0
+  },
+  "consol_7f19a0f8e61d1a01": {
+    "same_product": false,
+    "canonical_name": "A36 Mild Steel OS Tanks",
+    "confidence": 1.0
+  },
+  "consol_b92759efd06d941b": {
+    "same_product": false,
+    "canonical_name": "TANK, OS, A36 MS BUY USA",
+    "confidence": 1.0
+  },
+  "consol_ccf68bdc02000ca2": {
+    "same_product": false,
+    "canonical_name": "A36 MS OS Tank 77x38x90",
+    "confidence": 0.8
+  },
+  "consol_0d4005441b05408c": {
+    "same_product": true,
+    "canonical_name": "TANK ASSBLY, OS, 78X43X82, A36 MS, 5/16\" THK",
+    "confidence": 0.99
+  },
+  "consol_b6e26de5cd916239": {
+    "same_product": false,
+    "canonical_name": "A36 Mild Steel OS Tanks",
+    "confidence": 1.0
+  },
+  "consol_96c15ed76d739e3d": {
+    "same_product": false,
+    "canonical_name": "A36 Mild Steel Tank 74x40x74 1/4 inch",
+    "confidence": 0.8
+  },
+  "consol_aae4a8300d3065a1": {
+    "same_product": false,
+    "canonical_name": "Tap Changer, 3 Phase, 5 Position, 100A",
+    "confidence": 0.95
+  },
+  "consol_f4faa93e37ce4e21": {
+    "same_product": false,
+    "canonical_name": "Load Break Oil Rotary Switch (LBOR)",
+    "confidence": 0.95
+  },
+  "consol_a7c2615e6a6bc1de": {
+    "same_product": true,
+    "canonical_name": "BSHNG, 18KV, 442A, 2-H INLINE",
+    "confidence": 0.95
+  },
+  "consol_256336357fc22e36": {
+    "same_product": true,
+    "canonical_name": "BSHNG, 5KV, 1767A, 4-H SPADE",
+    "confidence": 0.95
+  },
+  "consol_a10017e7b834cd98": {
+    "same_product": false,
+    "canonical_name": "Low Voltage Bushing 1.2KV 2200A",
+    "confidence": 1.0
+  },
+  "consol_3d6249a6e678e9ed": {
+    "same_product": false,
+    "canonical_name": "Electrical Bushing 2.5KV 4515A",
+    "confidence": 0.95
+  },
+  "consol_2c2cdce91f82e2df": {
+    "same_product": false,
+    "canonical_name": "Electrical Bushing 2.5KV 6500A",
+    "confidence": 1.0
+  },
+  "consol_c426affadf644b66": {
+    "same_product": false,
+    "canonical_name": "BSHNG, 2.5 KV, 3300A, INDOOR 45KV BIL, 3.06\" DIA",
+    "confidence": 0.95
+  },
+  "consol_bfa58268c3c7d715": {
+    "same_product": true,
+    "canonical_name": "Winding Temperature Gauge with 3 Contacts",
+    "confidence": 0.95
+  },
+  "consol_18fabf79838bd861": {
+    "same_product": false,
+    "canonical_name": "Temperature Gauge with Contacts and SCADA Output",
+    "confidence": 0.85
+  },
+  "consol_a24225fa14f82e33": {
+    "same_product": true,
+    "canonical_name": "OIL GA W/2 CONTACTS LO FACEPLATE ONLY",
+    "confidence": 0.95
+  },
+  "consol_6fb8a0b75a378fce": {
+    "same_product": false,
+    "canonical_name": "Rapid Rise Relay",
+    "confidence": 0.85
+  },
+  "consol_3a8a3285f3272339": {
+    "same_product": true,
+    "canonical_name": "Current Transformer, 4000:5 Ratio",
+    "confidence": 0.95
+  },
+  "consol_8681b15fd414980f": {
+    "same_product": false,
+    "canonical_name": "CURRENT TRANSFORMER, 400:5A, MR, INTERNAL",
+    "confidence": 0.95
+  },
+  "consol_8f1b42a772e3b769": {
+    "same_product": true,
+    "canonical_name": "Current Transformer, 200:5A",
+    "confidence": 0.9
+  },
+  "consol_738d8d5b8a0e3efb": {
+    "same_product": false,
+    "canonical_name": "Current Transformers",
+    "confidence": 1.0
+  },
+  "consol_13815595fc19a7c2": {
+    "same_product": false,
+    "canonical_name": "Current Limiting Fuses (CLF) with varying voltage ratings",
+    "confidence": 0.95
+  },
+  "consol_0634dd4380f5f99d": {
+    "same_product": false,
+    "canonical_name": "FUSE, EXPULSION, 15KV",
+    "confidence": 0.95
+  },
+  "consol_fe70cdc50a90ea1e": {
+    "same_product": false,
+    "canonical_name": "Control Enclosure Assembly, NEMA 4",
+    "confidence": 0.85
+  },
+  "consol_84dfdf51d23f4219": {
+    "same_product": false,
+    "canonical_name": "CTRL ENCLOSURE ASSBLY, NEMA 4X 304L SS",
+    "confidence": 0.95
+  },
+  "consol_de092dd5eab38ddb": {
+    "same_product": false,
+    "canonical_name": "Control Enclosure Assembly NEMA 4",
+    "confidence": 0.95
+  },
+  "consol_a9c22a03219a2982": {
+    "same_product": false,
+    "canonical_name": "Industrial Fan 24 inch 1/3HP 1140RPM",
+    "confidence": 0.95
+  },
+  "consol_7248659bde20ca3b": {
+    "same_product": false,
+    "canonical_name": "AK Steel M4 3P Cores",
+    "confidence": 0.95
+  },
+  "consol_b51c738c56f1f28f": {
+    "same_product": false,
+    "canonical_name": "Copper Ground Hat Bus",
+    "confidence": 1.0
+  },
+  "consol_3e02322276ee617a": {
+    "same_product": false,
+    "canonical_name": "LV ATC Enclosure, A36 MS, 12GA",
+    "confidence": 1.0
+  },
+  "consol_07c423eb21a63878": {
+    "same_product": false,
+    "canonical_name": "HV/LV FLANGES",
+    "confidence": 1.0
+  },
+  "consol_7c0e5db1c9034115": {
+    "same_product": false,
+    "canonical_name": "HV/LV ATC Enclosures",
+    "confidence": 1.0
+  },
+  "consol_094a8849539d0ead": {
+    "same_product": false,
+    "canonical_name": "LV/HV Throat Assemblies",
+    "confidence": 1.0
+  },
+  "consol_2df00b27d4798c4a": {
+    "same_product": false,
+    "canonical_name": "Steel Compartment 66.75x24x85 A36 MS 12GA",
+    "confidence": 0.95
+  },
+  "consol_a92eca4dd4bbf99d": {
+    "same_product": false,
+    "canonical_name": "Steel Compartment Units",
+    "confidence": 1.0
+  },
+  "consol_bbe90eb3f7b2c3f4": {
+    "same_product": false,
+    "canonical_name": "ATC OS SCHAEFER 34X26X81 316 SS 12GA",
+    "confidence": 0.95
+  },
+  "consol_4035d4a19f564807": {
+    "same_product": false,
+    "canonical_name": "ATC OS Enclosures (Various Dimensions)",
+    "confidence": 1.0
+  },
+  "consol_156a552353b9cbb6": {
+    "same_product": false,
+    "canonical_name": "SPECIAL LV COMPARTMENT, OS, 85.13X30X84.75",
+    "confidence": 0.95
+  },
+  "consol_6a4ee09f094f1145": {
+    "same_product": false,
+    "canonical_name": "A36 Mild Steel OS Compartment",
+    "confidence": 1.0
+  },
+  "consol_0f620aef381a2041": {
+    "same_product": false,
+    "canonical_name": "Steel Storage Compartments",
+    "confidence": 1.0
+  },
+  "consol_39978ab672383748": {
+    "same_product": false,
+    "canonical_name": "COMPARTMENT, OS, 304L SS, 12GA",
+    "confidence": 1.0
+  },
+  "consol_2e5190f7c57b454a": {
+    "same_product": false,
+    "canonical_name": "LV FLANGE, A36 MS, 12 GA",
+    "confidence": 1.0
+  },
+  "consol_44974d821b3d129f": {
+    "same_product": false,
+    "canonical_name": "LV ATC Enclosures",
+    "confidence": 1.0
+  },
+  "consol_c824548ea55c61c6": {
+    "same_product": false,
+    "canonical_name": "COMPARTMENT, OS, 69.75X24X87 A36 MS 12GA",
+    "confidence": 0.95
+  },
+  "consol_937c22929dcbb775": {
+    "same_product": false,
+    "canonical_name": "Steel Compartment A36 MS 12GA 69.75x24x91",
+    "confidence": 0.95
+  },
+  "consol_e903db327110d2bf": {
+    "same_product": false,
+    "canonical_name": "COMPARTMENT, OS, 69.75X24X89 A36 MS 12GA",
+    "confidence": 0.95
+  },
+  "consol_cb6d881aacefbd0f": {
+    "same_product": false,
+    "canonical_name": "COMPARTMENT, OS, 82.75X24X89 A36 MS, 12GA",
+    "confidence": 0.95
+  },
+  "consol_80bc174d5f9c0c76": {
+    "same_product": false,
+    "canonical_name": "COMPARTMENT, OS, 74.75X24X85 A36 MS 12GA",
+    "confidence": 0.95
+  },
+  "consol_63451f21ed9137a4": {
+    "same_product": false,
+    "canonical_name": "COMPARTMENT, OS, 88.75x24x89 A36 MS 12GA",
+    "confidence": 0.95
+  },
+  "consol_166ef0b982bcd9f3": {
+    "same_product": false,
+    "canonical_name": "LV/HV THROAT, OS, A36 MS, 12GA",
+    "confidence": 1.0
+  },
+  "consol_79d211784ae9c98a": {
+    "same_product": false,
+    "canonical_name": "LV/HV ATC Outdoor Enclosure, A36 MS, 12GA",
+    "confidence": 1.0
+  },
+  "consol_a05a4aa76b18f036": {
+    "same_product": false,
+    "canonical_name": "COMPARTMENT, OS, 68.75X24X83 A36 MS, 12GA",
+    "confidence": 0.8
+  },
+  "consol_54fc297c289a5fe5": {
+    "same_product": false,
+    "canonical_name": "ATC Enclosure 52X20X87 304L SS 12GA",
+    "confidence": 0.95
+  },
+  "consol_576bef3314b3ef81": {
+    "same_product": true,
+    "canonical_name": "COMPARTMENT, 80.75X24X87, A36 MS, 12GA",
+    "confidence": 0.95
+  },
+  "consol_4d1047dbe1bed2df": {
+    "same_product": false,
+    "canonical_name": "LV THROAT, A36 MS, 12 GA",
+    "confidence": 1.0
+  },
+  "consol_d600fcc1a0477011": {
+    "same_product": false,
+    "canonical_name": "LV ATC PH OS A36 MS Enclosure",
+    "confidence": 1.0
+  },
+  "consol_3cfa6d22107b22c2": {
+    "same_product": false,
+    "canonical_name": "ATC Enclosures",
+    "confidence": 1.0
+  },
+  "consol_d804d4297d095322": {
+    "same_product": false,
+    "canonical_name": "ATC Enclosures",
+    "confidence": 1.0
+  },
+  "consol_72aa0fa330aca1bc": {
+    "same_product": false,
+    "canonical_name": "LV ATC OS 304L SS 12GA Enclosure",
+    "confidence": 1.0
+  },
+  "consol_3be015e9802389d7": {
+    "same_product": false,
+    "canonical_name": "HV ATC OS 304L SS 12GA Enclosure",
+    "confidence": 1.0
+  },
+  "consol_8cc8ac22eeecca5b": {
+    "same_product": false,
+    "canonical_name": "ATC Enclosure 34X18X84 A36 MS 12GA",
+    "confidence": 0.95
+  },
+  "consol_9711c9e61983f9b5": {
+    "same_product": false,
+    "canonical_name": "ATC Enclosure 50x24x84 12GA A36 MS",
+    "confidence": 0.95
+  },
+  "consol_5d98474a93216e06": {
+    "same_product": false,
+    "canonical_name": "ATC Outdoor Enclosure 36X24X76 12GA",
+    "confidence": 0.95
+  },
+  "consol_61d2fa78b0b1400e": {
+    "same_product": false,
+    "canonical_name": "HV ATC Enclosure",
+    "confidence": 0.95
+  },
+  "consol_5939058d165e455c": {
+    "same_product": false,
+    "canonical_name": "COMPARTMENT, OS, A36 MS, 12 GA",
+    "confidence": 1.0
+  },
+  "consol_92fb746abcef95ea": {
+    "same_product": true,
+    "canonical_name": "HEADIRON OS DN12425 TOP 304LSS/A36 MS #25560",
+    "confidence": 0.95
+  },
+  "consol_7cd96a736e3c7048": {
+    "same_product": false,
+    "canonical_name": "RAD, 20.5X60 PLT, GALV 3.5\" DIA, WHR, WELDED",
+    "confidence": 0.95
+  },
+  "consol_41b639d33bba31b2": {
+    "same_product": false,
+    "canonical_name": "Demountable Galvanized MS Radiator",
+    "confidence": 0.95
+  },
+  "consol_c708ce069f5a5baa": {
+    "same_product": false,
+    "canonical_name": "A36 MS 5/16\" OS Tank with Loose Brackets",
+    "confidence": 1.0
+  },
+  "consol_a99c56ae7220eb7b": {
+    "same_product": false,
+    "canonical_name": "TANK OS, A36 MS, 5/16\" THK",
+    "confidence": 1.0
+  },
+  "consol_513972d1bb974bd8": {
+    "same_product": false,
+    "canonical_name": "A36 MS 5/16\" THK OS Tank",
+    "confidence": 1.0
+  },
+  "consol_17ce1e38cf3f71e2": {
+    "same_product": false,
+    "canonical_name": "A36 Mild Steel OS Tanks",
+    "confidence": 1.0
+  },
+  "consol_3a4f8d6d01c97f4e": {
+    "same_product": false,
+    "canonical_name": "A36 Mild Steel Tanks",
+    "confidence": 1.0
+  },
+  "consol_5f87cbe448802bfe": {
+    "same_product": false,
+    "canonical_name": "A36 Mild Steel Oil Storage Tanks",
+    "confidence": 1.0
+  },
+  "consol_0002778ef64bac1f": {
+    "same_product": false,
+    "canonical_name": "A36 MS OS Tank 77x38x90",
+    "confidence": 0.85
+  },
+  "consol_c0943b689ea7e267": {
+    "same_product": true,
+    "canonical_name": "TANK ASSBLY, OS, 78X43X82, A36 MS, 5/16\" THK WITH CONTROL BOX BRACKET",
+    "confidence": 0.99
+  },
+  "consol_111419ceb170de5b": {
+    "same_product": false,
+    "canonical_name": "TANK ASSBLY, OS, A36 MS, 5/16\"",
+    "confidence": 1.0
+  },
+  "consol_c76507e593a7ec88": {
+    "same_product": false,
+    "canonical_name": "TANK ASSBLY, OS, A36 MS, 5/16\" THK",
+    "confidence": 1.0
+  },
+  "consol_f45d622c7ad4c0e6": {
+    "same_product": false,
+    "canonical_name": "A36 Mild Steel OS Tanks",
+    "confidence": 1.0
+  },
+  "consol_8808ce40607149d3": {
+    "same_product": false,
+    "canonical_name": "TANK OS, 74X40X74, A36 MS, 1/4 INCH",
+    "confidence": 0.95
+  },
+  "consol_e81fdb89fbf197cd": {
+    "same_product": false,
+    "canonical_name": "TANK OS, 64X34X76, A36 MS, 1/4\" THK",
+    "confidence": 0.8
+  },
+  "consol_270f1d13561b25d8": {
+    "same_product": false,
+    "canonical_name": "A36 MS OS Tank 50x38x69",
+    "confidence": 0.85
+  },
+  "consol_cdfdb6680aa948f9": {
+    "same_product": false,
+    "canonical_name": "TANK OS A36 MS 5/16\" THK",
+    "confidence": 1.0
+  },
+  "consol_585d8cbe6ce00229": {
+    "same_product": false,
+    "canonical_name": "A36 Mild Steel Open Top Tanks",
+    "confidence": 1.0
+  },
+  "consol_aad49035956e59b2": {
+    "same_product": false,
+    "canonical_name": "25KV 150KV BIL Bushing",
+    "confidence": 1.0
+  },
+  "consol_99dc58f81021997f": {
+    "same_product": false,
+    "canonical_name": "15KV 785A 110KV BIL Bushing",
+    "confidence": 0.95
+  },
+  "consol_91f5e5e239da32e5": {
+    "same_product": true,
+    "canonical_name": "Current Transformer, 1200:5 Ratio",
+    "confidence": 0.95
+  },
+  "consol_9fce9300c832cc3b": {
+    "same_product": false,
+    "canonical_name": "Current Transformer 3000:5A SR INT MIN ID 5.00\"",
+    "confidence": 1.0
+  },
+  "consol_08eec330384bb06a": {
+    "same_product": false,
+    "canonical_name": "CTRL ENCLOSURE ASSBLY, NEMA 4X 304L SS",
+    "confidence": 0.95
+  },
+  "consol_6306e010b369ea63": {
+    "same_product": false,
+    "canonical_name": "Control Enclosure Assembly, NEMA 4X 304L SS",
+    "confidence": 0.95
+  },
+  "consol_c95928f1113e3f4a": {
+    "same_product": false,
+    "canonical_name": "Control Enclosure Assembly NEMA 4X 304LSS",
+    "confidence": 0.95
+  },
+  "consol_98b32249b5bddb36": {
+    "same_product": false,
+    "canonical_name": "Control Enclosure Assembly, NEMA 4X, 304L SS",
+    "confidence": 0.95
+  },
+  "consol_358f4a6d666fd48b": {
+    "same_product": false,
+    "canonical_name": "Control Enclosure Assembly, NEMA 4X, 304L SS",
+    "confidence": 0.95
+  },
+  "consol_817fd3af8dfd8e9a": {
+    "same_product": false,
+    "canonical_name": "Control Enclosure Assembly, NEMA 4X 304 SS",
+    "confidence": 0.95
+  },
+  "consol_fd9cfc988fa79daf": {
+    "same_product": true,
+    "canonical_name": "CTRL ENCLOSURE ASSBLY, NEMA 4X, 304SS",
+    "confidence": 0.95
+  },
+  "consol_4c419a94882634dd": {
+    "same_product": false,
+    "canonical_name": "Control Enclosure Assembly, NEMA 4X, 304L SS",
+    "confidence": 0.95
+  },
+  "consol_c3cde0a64e8f87b3": {
+    "same_product": false,
+    "canonical_name": "Control Enclosure Assembly, NEMA 4X 316SS",
+    "confidence": 0.95
+  },
+  "consol_8f6d037193e9def6": {
+    "same_product": false,
+    "canonical_name": "Control Enclosure Assembly, NEMA 4X, Stainless Steel",
+    "confidence": 0.95
+  },
+  "consol_43f7dafb743225c9": {
+    "same_product": true,
+    "canonical_name": "LUG, 2-HOLE, 2/0 AWG, 1/2\" STUD COMPRESSION",
+    "confidence": 0.95
+  },
+  "consol_3f006954916b461c": {
+    "same_product": false,
+    "canonical_name": "Medium Voltage Interrupter (MVI)",
+    "confidence": 1.0
+  },
+  "consol_67279f37fa475a3c": {
+    "same_product": true,
+    "canonical_name": "CORES, 3P, M4, 8029.83 LBS, W-18, STK-4.6, WW-6, H-28",
+    "confidence": 0.95
+  },
+  "consol_c5367f483ea784fb": {
+    "same_product": true,
+    "canonical_name": "CORES, 3P, M4, 9687.12 LBS STK= 5.44 W=17 WW=7.4 X 28",
+    "confidence": 0.99
+  },
+  "consol_bb0097d3931c0352": {
+    "same_product": false,
+    "canonical_name": "Transformer Cores, 3P, M4, FW=18, STKH=3.6, WNDW=4.8X29",
+    "confidence": 0.95
+  },
+  "consol_59b9d914253a2c67": {
+    "same_product": true,
+    "canonical_name": "CORES, 3P, M4, 2111.01LBS, W-10, STK-3.73, WW-5.2, H-12",
+    "confidence": 0.98
+  },
+  "consol_a667004f79f379f3": {
+    "same_product": false,
+    "canonical_name": "Aluminum Square Tube (3 SQ x .125 Wall)",
+    "confidence": 1.0
+  },
+  "consol_e557aec43b4716e8": {
+    "same_product": false,
+    "canonical_name": "C110 HH Copper Bus Bar Tin Plated",
+    "confidence": 1.0
+  },
+  "consol_e0b5193cda8bc3c4": {
+    "same_product": false,
+    "canonical_name": "Hot Rolled P&O Steel Sheets",
+    "confidence": 1.0
+  },
+  "consol_22bd0fa7d1ce69a8": {
+    "same_product": true,
+    "canonical_name": "Belden 3106A RS-485 Cable, 22 AWG, 1.5 Pair, Shielded, PLTC/CM",
+    "confidence": 0.98
+  },
+  "consol_590ff4b45d2ecf7c": {
+    "same_product": false,
+    "canonical_name": "50 Ohm Shielded Coaxial Cable (CCS, 20 AWG)",
+    "confidence": 1.0
+  },
+  "consol_c53f49c85d9f7f81": {
+    "same_product": false,
+    "canonical_name": "Cat6 Network Ethernet Patch Cable- Black",
+    "confidence": 1.0
+  },
+  "consol_d37f84957f3b99a1": {
+    "same_product": false,
+    "canonical_name": "Cat6 Shielded Patch Cable - Black",
+    "confidence": 1.0
+  },
+  "consol_a6c9f0c48914f9d6": {
+    "same_product": false,
+    "canonical_name": "SEL-C605A Serial Cable Series",
+    "confidence": 1.0
+  },
+  "consol_b438a38ff43cecc3": {
+    "same_product": false,
+    "canonical_name": "Coaxial Cable for IRIG-B Distribution, BNC with wireleads",
+    "confidence": 1.0
+  },
+  "consol_11d08220b6afb1e8": {
+    "same_product": false,
+    "canonical_name": "CAT6 Ethernet Patch Cable Snagless Boot Black",
+    "confidence": 1.0
+  },
+  "consol_a300ca094a3a3ef0": {
+    "same_product": false,
+    "canonical_name": "Cradle, 38kV, 31.5kA, Direct Roll-In",
+    "confidence": 1.0
+  },
+  "consol_bd97654929f2d37f": {
+    "same_product": false,
+    "canonical_name": "LS Susol 38kV Vacuum Circuit Breaker",
+    "confidence": 1.0
+  },
+  "consol_df731a9b51c5df36": {
+    "same_product": false,
+    "canonical_name": "Siemens GMSG Vacuum Circuit Breakers",
+    "confidence": 1.0
+  },
+  "consol_dc39b9d80eadfe29": {
+    "same_product": false,
+    "canonical_name": "15kV CPT Compartment",
+    "confidence": 0.95
+  },
+  "consol_61e535bc62950b13": {
+    "same_product": false,
+    "canonical_name": "Medium Voltage PT Compartments",
+    "confidence": 1.0
+  },
+  "consol_a38972046867ed43": {
+    "same_product": false,
+    "canonical_name": "Main Bus Support Assembly",
+    "confidence": 0.85
+  },
+  "consol_6dc144b2f2b3adc6": {
+    "same_product": false,
+    "canonical_name": "Medium Voltage Breaker Compartment (38kV)",
+    "confidence": 1.0
+  },
+  "consol_aebc3f8e9c2bedad": {
+    "same_product": false,
+    "canonical_name": "Bus Stack, Center Tier - Upper Strap, 48X",
+    "confidence": 1.0
+  },
+  "consol_9cf84ebb7bd8819d": {
+    "same_product": false,
+    "canonical_name": "ABB AMVAC Medium Voltage Vacuum Circuit Breaker",
+    "confidence": 1.0
+  },
+  "consol_762a264fbbedc3e2": {
+    "same_product": false,
+    "canonical_name": "Control Power Transformer",
+    "confidence": 1.0
+  },
+  "consol_f1f8ae1ae4c51218": {
+    "same_product": false,
+    "canonical_name": "3-Phase 45kVA Transformer",
+    "confidence": 1.0
+  },
+  "consol_8d0b38701186c10c": {
+    "same_product": false,
+    "canonical_name": "3-Phase 480 Pri 208Y/120 Sec Encapsulated Transformer",
+    "confidence": 1.0
+  },
+  "consol_e0869cea1a2d091d": {
+    "same_product": false,
+    "canonical_name": "Current Transformer, Single Ratio, class C20, 7.02\" Window",
+    "confidence": 1.0
+  },
+  "consol_60ce429807eadc3f": {
+    "same_product": false,
+    "canonical_name": "Current Transformer 50:5",
+    "confidence": 0.95
+  },
+  "consol_2c33c5bd52679f63": {
+    "same_product": false,
+    "canonical_name": "GPO CLOVER TUBE",
+    "confidence": 0.95
+  },
+  "consol_67e9fdd455edbb3b": {
+    "same_product": false,
+    "canonical_name": "Rectangular Copper 110 Bar, Silver Flashed",
+    "confidence": 1.0
+  },
+  "consol_069177ff3fd1b691": {
+    "same_product": false,
+    "canonical_name": "Current Transformers, 600V, BIL 10kV Full-Wave, Single-Ratio (SR), C10",
+    "confidence": 1.0
+  },
+  "consol_82252c127ff21e95": {
+    "same_product": false,
+    "canonical_name": "ReliaGear Lighting Panelboards",
+    "confidence": 1.0
+  },
+  "consol_13f71c0ff73e8e18": {
+    "same_product": false,
+    "canonical_name": "Hot Rolled P&O Steel Sheets",
+    "confidence": 1.0
+  },
+  "consol_6adb372c5e25a57b": {
+    "same_product": false,
+    "canonical_name": "SEL-C605A Serial Cable",
+    "confidence": 1.0
+  },
+  "consol_df605a6529fd3d30": {
+    "same_product": false,
+    "canonical_name": "Cat6 Shielded Patch Cable - Black",
+    "confidence": 1.0
+  },
+  "consol_8179aec60f488a33": {
+    "same_product": false,
+    "canonical_name": "SEL-C605A Serial Cable",
+    "confidence": 1.0
+  },
+  "consol_20d1bc47c25383e2": {
+    "same_product": false,
+    "canonical_name": "SEL-C605A Serial Cable (Various Lengths)",
+    "confidence": 1.0
+  },
+  "consol_0a8419286504c746": {
+    "same_product": false,
+    "canonical_name": "ABB ReliaGear Lighting Panelboards",
+    "confidence": 1.0
+  },
+  "consol_7e4888e870d061af": {
+    "same_product": false,
+    "canonical_name": "ABB ReliaGear Panelboards",
+    "confidence": 1.0
+  },
+  "consol_6466862b77d00b3e": {
+    "same_product": false,
+    "canonical_name": "SEL-C605A Serial Cable",
+    "confidence": 1.0
+  },
+  "consol_b9b0256478ba6b47": {
+    "same_product": false,
+    "canonical_name": "SEL-C605A Serial Cable Series",
+    "confidence": 1.0
+  },
+  "consol_30eb5e7d724e418a": {
+    "same_product": false,
+    "canonical_name": "SEL-C605A Serial Cable Series",
+    "confidence": 1.0
+  },
+  "consol_c298f3f52c37bde6": {
+    "same_product": false,
+    "canonical_name": "Cat6 Shielded Patch Cables (Various Lengths/Colors)",
+    "confidence": 1.0
+  },
+  "consol_99ca7b27c416b750": {
+    "same_product": false,
+    "canonical_name": "ABB ReliaGear Lighting Panelboards",
+    "confidence": 0.95
+  },
+  "consol_d52bc153f1bd2741": {
+    "same_product": false,
+    "canonical_name": "SEL-C605A Serial Cable Series",
+    "confidence": 1.0
+  },
+  "consol_066a16f3fdc23bf5": {
+    "same_product": false,
+    "canonical_name": "Cat6 Shielded Patch Cables",
+    "confidence": 1.0
+  },
+  "consol_9b1b260ffecbe2bd": {
+    "same_product": false,
+    "canonical_name": "SEL-C605A Serial Cable",
+    "confidence": 1.0
+  },
+  "consol_d56ba4ae57ce0d57": {
+    "same_product": false,
+    "canonical_name": "Cat6 Shielded Patch Cable",
+    "confidence": 1.0
+  },
+  "consol_0aa875b060f1d904": {
+    "same_product": false,
+    "canonical_name": "ABB ReliaGear Lighting Panelboards",
+    "confidence": 1.0
+  },
+  "consol_6ddd4fe9f18f5e0a": {
+    "same_product": false,
+    "canonical_name": "SEL-C605A Serial Cable",
+    "confidence": 1.0
+  },
+  "consol_c54ad97014fbccb2": {
+    "same_product": false,
+    "canonical_name": "ABB ReliaGear Lighting Panelboards",
+    "confidence": 1.0
+  },
+  "consol_c1813a3a436a83eb": {
+    "same_product": false,
+    "canonical_name": "ABB ReliaGear Lighting Panelboards",
+    "confidence": 1.0
+  },
+  "consol_720e3be6c0d98a88": {
+    "same_product": false,
+    "canonical_name": "SEL-C605A Serial Cable Series",
+    "confidence": 1.0
+  },
+  "consol_fa0dc996ccb367b5": {
+    "same_product": false,
+    "canonical_name": "Cat6 Shielded Patch Cable",
+    "confidence": 1.0
+  },
+  "consol_99779a9bb1b08876": {
+    "same_product": false,
+    "canonical_name": "SEL-C605A Serial Cable Series",
+    "confidence": 1.0
+  },
+  "consol_460a1c497c483e3a": {
+    "same_product": false,
+    "canonical_name": "Cat6 Shielded Patch Cable - Black",
+    "confidence": 1.0
+  },
+  "consol_2804103b20680e01": {
+    "same_product": false,
+    "canonical_name": "ReliaGear Panelboards",
+    "confidence": 1.0
+  },
+  "consol_f4ee6acc87143552": {
+    "same_product": false,
+    "canonical_name": "SEL-C605A Serial Cable",
+    "confidence": 1.0
+  },
+  "consol_472474fc13ddc274": {
+    "same_product": false,
+    "canonical_name": "Cat6 Shielded Patch Cable",
+    "confidence": 1.0
+  },
+  "consol_cae8cad1dd4ed167": {
+    "same_product": false,
+    "canonical_name": "ABB ReliaGear Lighting Panelboards",
+    "confidence": 1.0
+  },
+  "consol_1397ddf222f8a89c": {
+    "same_product": false,
+    "canonical_name": "SEL-C605A Serial Cable",
+    "confidence": 1.0
+  },
+  "consol_e87f8af0e4f2d656": {
+    "same_product": false,
+    "canonical_name": "ABB ReliaGear Lighting Panelboards",
+    "confidence": 1.0
+  },
+  "consol_3436dc4c348bf6cb": {
+    "same_product": false,
+    "canonical_name": "SEL-C605A Serial Cable for SEL-3300/3500/3600 Series",
+    "confidence": 1.0
+  },
+  "consol_6f585f3653a29366": {
+    "same_product": false,
+    "canonical_name": "ABB ReliaGear Lighting Panelboards",
+    "confidence": 1.0
+  },
+  "consol_5968ea294691a593": {
+    "same_product": false,
+    "canonical_name": "Cat6 Shielded Patch Cable - Black",
+    "confidence": 1.0
+  },
+  "consol_419500c67b14ad02": {
+    "same_product": false,
+    "canonical_name": "SEL-C605A Serial Cable",
+    "confidence": 1.0
+  },
+  "consol_3f60e465389fd261": {
+    "same_product": false,
+    "canonical_name": "Cat6 Shielded Patch Cables",
+    "confidence": 1.0
+  },
+  "consol_b8af26c56671c964": {
+    "same_product": false,
+    "canonical_name": "SEL-C605A Serial Cable",
+    "confidence": 1.0
+  }
+}

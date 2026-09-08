@@ -1,0 +1,9 @@
+EVALUATE
+SUMMARIZECOLUMNS (
+    'Time Intelligence'[Year],
+    "Open Amount (Order perspective)",
+        CALCULATE ( [Open Amount], TREATAS ( { "Order Date" }, DatePerspective[Perspective] ) ),
+    "Open Amount (Receipt/Analysis perspective)",
+        CALCULATE ( [Open Amount], TREATAS ( { "Receipt Date" }, DatePerspective[Perspective] ) )
+)
+ORDER BY 'Time Intelligence'[Year]

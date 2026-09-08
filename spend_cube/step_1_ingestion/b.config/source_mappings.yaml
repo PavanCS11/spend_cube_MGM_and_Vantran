@@ -1,0 +1,108 @@
+# Source Configuration for Transaction Normalization
+# Field mappings are defined in transaction_field_mapping.csv (the authoritative source)
+
+# Path to the CSV mapping file (relative to b.config/)
+field_mapping_file: "transaction_field_mapping.csv"
+
+sources:
+  # -------------------------
+  # Netsuite Open POs
+  # -------------------------
+  - name: "Netsuite Open POs"
+    type: "transaction"
+    source_system: "NETSUITE"
+    transaction_type: "OPEN_ORDER"
+    file_pattern: "Netsuite/Netsuite Open POs*.csv"
+    csv_mapping_column: "NS Open POs"
+
+  # -------------------------
+  # Netsuite Receipts
+  # -------------------------
+  - name: "Netsuite Receipts"
+    type: "transaction"
+    source_system: "NETSUITE"
+    transaction_type: "RECEIPT"
+    file_pattern: "Netsuite/Netsuite Receipts*.csv"
+    csv_mapping_column: "NS Receipts"
+
+  # -------------------------
+  # Netsuite Open POs Vantran
+  # -------------------------
+  - name: "Netsuite Open POs Vantran"
+    type: "transaction"
+    source_system: "NETSUITE VANTRAN"
+    transaction_type: "OPEN_ORDER"
+    file_pattern: "Vantran/Netsuite Vantran Open POs*.xlsx"
+    csv_mapping_column: "NS Open POs Vantran"
+
+  # -------------------------
+  # Netsuite Receipts Vantran
+  # -------------------------
+  - name: "Netsuite Receipts Vantran"
+    type: "transaction"
+    source_system: "NETSUITE VANTRAN"
+    transaction_type: "RECEIPT"
+    file_pattern: "Vantran/Netsuite Vantran Receipts*.xlsx"
+    csv_mapping_column: "NS Receipts Vantran"
+
+
+  # -------------------------
+  # Epicor Open POs (CSV)
+  # -------------------------
+  - name: "Epicor Open POs"
+    type: "transaction"
+    source_system: "EPICOR"
+    transaction_type: "OPEN_ORDER"
+    file_pattern: "Epicor/Epicor Open POs*.csv"
+    csv_mapping_column: "Epicor Open POs"
+
+  # -------------------------
+  # Epicor Open POs (Excel)
+  # -------------------------
+  - name: "Epicor Open POs (Excel)"
+    type: "transaction"
+    source_system: "EPICOR"
+    transaction_type: "OPEN_ORDER"
+    file_pattern: "Epicor/Epicor Open POs*.xlsx"
+    csv_mapping_column: "Epicor Open POs"
+
+  # -------------------------
+  # Epicor Receipts (CSV)
+  # -------------------------
+  - name: "Epicor Receipts"
+    type: "transaction"
+    source_system: "EPICOR"
+    transaction_type: "RECEIPT"
+    file_pattern: "Epicor/Epicor Receipts*.csv"
+    csv_mapping_column: "Epicor Receipts"
+
+  # -------------------------
+  # Epicor Receipts (Excel)
+  # -------------------------
+  - name: "Epicor Receipts (Excel)"
+    type: "transaction"
+    source_system: "EPICOR"
+    transaction_type: "RECEIPT"
+    file_pattern: "Epicor/Epicor Receipts*.xlsx"
+    csv_mapping_column: "Epicor Receipts"
+
+  # -------------------------
+  # Syteline Open POs (Excel)
+  # -------------------------
+  - name: "Syteline Open POs (Excel)"
+    type: "transaction"
+    source_system: "SYTELINE"
+    transaction_type: "OPEN_ORDER"
+    file_pattern: "Syteline/Syteline Open POs*.xlsx"
+    csv_mapping_column: "Syteline Open POs"
+
+
+  # -------------------------
+  # Syteline Receipts (Excel)
+  # -------------------------
+  - name: "Syteline Receipts (Excel)"
+    type: "transaction"
+    source_system: "SYTELINE"
+    transaction_type: "RECEIPT"
+    file_pattern: "Syteline/Syteline Receipts*.xlsx"
+    csv_mapping_column: "Syteline Receipts"

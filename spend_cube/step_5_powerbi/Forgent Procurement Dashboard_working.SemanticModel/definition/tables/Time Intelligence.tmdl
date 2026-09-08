@@ -1,0 +1,124 @@
+table 'Time Intelligence'
+	lineageTag: 9ffd86a5-1ad1-49e3-94e3-43ade5831809
+	dataCategory: Time
+
+	column Date
+		dataType: dateTime
+		formatString: m/d/yy
+		lineageTag: e4192447-85f1-4c5c-9250-6f5da2feaabe
+		summarizeBy: none
+		sourceColumn: Date
+
+		variation Variation
+			isDefault
+			relationship: d2a8232a-2559-4af9-93da-76ac554aece6
+			defaultHierarchy: LocalDateTable_890dbbf8-b06a-49dd-9e74-d7af4137cd06.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column Year
+		dataType: int64
+		formatString: 0
+		lineageTag: 61fefac8-67f1-4a8d-b89c-2b5c560c7ca7
+		summarizeBy: none
+		sourceColumn: Year
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Month Number'
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 2ac74c81-9815-4c6d-a3c5-ec7a879a257f
+		summarizeBy: none
+		sourceColumn: Month Number
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Month Name'
+		dataType: string
+		lineageTag: d053f16f-75f3-47c3-92cc-175f0b1658f7
+		summarizeBy: none
+		sourceColumn: Month Name
+		sortByColumn: 'Month Number'
+
+		annotation SummarizationSetBy = Automatic
+
+	column Quarter
+		dataType: string
+		lineageTag: a2be8657-3b6f-44a2-a349-9b283749652f
+		summarizeBy: none
+		sourceColumn: Quarter
+
+		annotation SummarizationSetBy = Automatic
+
+	column Year-Month
+		dataType: string
+		lineageTag: 4812b68e-37e2-4615-8139-98f4415249db
+		summarizeBy: none
+		sourceColumn: Year-Month
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Day of Week'
+		dataType: string
+		lineageTag: ea2a7937-5099-461d-90ef-e928969f3ca5
+		summarizeBy: none
+		sourceColumn: Day of Week
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Is Weekday'
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: dabc98dd-c485-48b9-893e-e478ee3d5c9c
+		summarizeBy: none
+		sourceColumn: Is Weekday
+
+		annotation SummarizationSetBy = Automatic
+
+	hierarchy Calendar
+		lineageTag: a1b2c3d4-e5f6-7890-abcd-calendar00001
+
+		level Year
+			lineageTag: a1b2c3d4-e5f6-7890-abcd-calendar00002
+			column: Year
+
+		level Quarter
+			lineageTag: a1b2c3d4-e5f6-7890-abcd-calendar00003
+			column: Quarter
+
+		level Month
+			lineageTag: a1b2c3d4-e5f6-7890-abcd-calendar00004
+			column: 'Month Name'
+
+		level Date
+			lineageTag: a1b2c3d4-e5f6-7890-abcd-calendar00005
+			column: Date
+
+	partition 'Time Intelligence' = m
+		mode: import
+		source =
+				let
+				    StartDate = #date(2021, 1, 1),
+				    EndDate = #date(2027, 12, 31),
+				    NumberOfDays = Duration.Days(EndDate - StartDate) + 1,
+				    DateList = List.Dates(StartDate, NumberOfDays, #duration(1, 0, 0, 0)),
+				    #"Converted to Table" = Table.FromList(DateList, Splitter.SplitByNothing(), {"Date"}, null, ExtraValues.Error),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Converted to Table", {{"Date", type date}}),
+				    #"Added Year" = Table.AddColumn(#"Changed Type", "Year", each Date.Year([Date]), Int64.Type),
+				    #"Added Month Number" = Table.AddColumn(#"Added Year", "Month Number", each Date.Month([Date]), Int64.Type),
+				    #"Added Month Name" = Table.AddColumn(#"Added Month Number", "Month Name", each Date.MonthName([Date]), type text),
+				    #"Added Quarter" = Table.AddColumn(#"Added Month Name", "Quarter", each "Q" & Text.From(Date.QuarterOfYear([Date])), type text),
+				    #"Added Year-Month" = Table.AddColumn(#"Added Quarter", "Year-Month", each Date.ToText([Date], "yyyy-MM"), type text),
+				    #"Added Day of Week" = Table.AddColumn(#"Added Year-Month", "Day of Week", each Date.DayOfWeekName([Date]), type text),
+				    #"Added Is Weekday" = Table.AddColumn(#"Added Day of Week", "Is Weekday", each Date.DayOfWeek([Date], Day.Monday) < 5, type logical)
+				in
+				    #"Added Is Weekday"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

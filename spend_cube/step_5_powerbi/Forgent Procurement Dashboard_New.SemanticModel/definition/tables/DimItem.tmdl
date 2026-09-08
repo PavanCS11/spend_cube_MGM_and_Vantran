@@ -1,0 +1,65 @@
+table DimItem
+	lineageTag: 22222222-2222-2222-2222-222222222222
+
+	column item_name_mpn
+		dataType: string
+		lineageTag: 85ada082-e9ab-43ad-b07b-4aa5b830d501
+		summarizeBy: none
+		sourceColumn: [item_name_mpn]
+
+		annotation SummarizationSetBy = Automatic
+
+	column item_display_name
+		dataType: string
+		lineageTag: 4ed56d54-18d2-46a8-a2e6-940f0d229448
+		summarizeBy: none
+		sourceColumn: [item_display_name]
+
+		annotation SummarizationSetBy = Automatic
+
+	column item_category_l1
+		dataType: string
+		lineageTag: 7296ce27-ac3b-4053-b9b8-9e4c5375c275
+		summarizeBy: none
+		sourceColumn: [item_category_l1]
+
+		annotation SummarizationSetBy = Automatic
+
+	column item_id
+		lineageTag: 1a609744-9cdc-4c6b-80fe-2c0fb952708f
+		isNameInferred
+		sourceColumn: po_fact_table[item_id]
+
+	column item_short_name
+		dataType: string
+		lineageTag: a1b2c3d4-e5f6-7890-abcd-ef1234567890
+		summarizeBy: none
+		sourceColumn: [item_short_name]
+
+		annotation SummarizationSetBy = Automatic
+
+	column item_name
+		dataType: string
+		lineageTag: f7a1b2c3-d4e5-6789-0abc-def123456789
+		summarizeBy: none
+		sourceColumn: [item_name]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition DimItem = calculated
+		mode: import
+		source =
+				ADDCOLUMNS (
+				    VALUES ( po_fact_table[item_id] ),
+				    "item_name",
+				        CALCULATE ( MAX ( po_fact_table[item_name] ) ),
+				    "item_name_mpn",
+				        CALCULATE ( MAX ( po_fact_table[item_name_mpn] ) ),
+				    "item_short_name",
+				        CALCULATE ( MAX ( po_fact_table[item_short_name] ) ),
+				    "item_display_name",
+				        CALCULATE ( MAX ( po_fact_table[item_display_name] ) ),
+				    "item_category_l1",
+				        CALCULATE ( MAX ( po_fact_table[item_category_l1] ) )
+				)
+

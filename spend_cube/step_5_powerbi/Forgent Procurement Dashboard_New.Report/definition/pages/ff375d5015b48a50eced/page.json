@@ -1,0 +1,8 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/page/2.0.0/schema.json",
+  "name": "ff375d5015b48a50eced",
+  "displayName": "Executive Spend Summary",
+  "displayOption": "FitToPage",
+  "height": 720,
+  "width": 1280
+}

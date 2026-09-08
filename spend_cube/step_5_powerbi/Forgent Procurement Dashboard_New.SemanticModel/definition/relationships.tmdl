@@ -1,0 +1,56 @@
+relationship 87f83729-8810-40b6-8c13-0cdaefc0761f
+	joinOnDateBehavior: datePartOnly
+	fromColumn: po_fact_table.due_date
+	toColumn: LocalDateTable_1ecf1fef-3313-492d-a50d-3aa55e6530d1.Date
+
+relationship 834aa3a3-a8e9-40bf-9e94-2b936e20aad9
+	joinOnDateBehavior: datePartOnly
+	fromColumn: po_fact_table.promise_date
+	toColumn: LocalDateTable_7f4f14d3-3e66-488a-85bc-0f3ff43109f3.Date
+
+relationship 489a13b8-31ad-48c9-905f-5091e47707fe
+	joinOnDateBehavior: datePartOnly
+	fromColumn: po_fact_table.receipt_date
+	toColumn: LocalDateTable_6146e7d5-e035-43b8-8888-c212c406316b.Date
+
+relationship 27e97348-8631-4fea-898a-8be9f06ff897
+	joinOnDateBehavior: datePartOnly
+	fromColumn: po_fact_table.arrived_date
+	toColumn: LocalDateTable_8b55a8d6-a5b7-4cec-a714-2915ce224156.Date
+
+relationship d2a8232a-2559-4af9-93da-76ac554aece6
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'Time Intelligence'.Date
+	toColumn: LocalDateTable_890dbbf8-b06a-49dd-9e74-d7af4137cd06.Date
+
+relationship f5103486-9635-df6d-533c-58393fb72b18
+	isActive: false
+	fromColumn: po_fact_table.order_date
+	toColumn: 'Time Intelligence'.Date
+
+relationship 68ce3c0c-b1fa-8c32-942d-81af21d97b52
+	fromColumn: po_fact_table.analysis_date
+	toColumn: 'Time Intelligence'.Date
+
+relationship 4e2f0a55-82cb-4678-be88-4dcc5cb3dd7f
+	joinOnDateBehavior: datePartOnly
+	fromColumn: po_fact_table._load_timestamp
+	toColumn: LocalDateTable_f4aed3e7-d092-41f3-8eb0-a56f90ec7437.Date
+
+relationship DimCategory-po_fact_table
+	fromColumn: po_fact_table.item_category_l1
+	toColumn: DimCategory.item_category_l1
+
+relationship DimItem-po_fact_table
+	fromColumn: po_fact_table.item_id
+	toColumn: DimItem.item_id
+
+relationship c66d30d6-002b-c872-563f-f4464148dd79
+	fromColumn: po_fact_table.standardized_vendor_name
+	toColumn: DimSupplier.standardized_vendor_name
+
+relationship 1391020e-b019-4b4b-8f07-a312e09f6747
+	joinOnDateBehavior: datePartOnly
+	fromColumn: po_fact_table.old_promise_date
+	toColumn: LocalDateTable_f4fc2168-9aef-4b1a-a7eb-487db70824cd.Date
+

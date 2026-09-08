@@ -1,0 +1,22 @@
+table SupplierRankAxis
+	lineageTag: cfc941fa-300e-4b7f-bfb0-4ba974f18b82
+
+	column Value
+		formatString: 0
+		lineageTag: d43ab62b-0efa-4bb3-9192-e4e63f744b7d
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Value]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition SupplierRankAxis = calculated
+		mode: import
+		source = ```
+				
+				GENERATESERIES( 1, 5000, 1 )
+				
+				```
+
+	annotation PBI_Id = 9a5974d2b5f64df88640d6cfca4a39c0
+

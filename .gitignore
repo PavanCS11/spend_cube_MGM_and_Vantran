@@ -1,0 +1,4 @@
+# Spend Cube generated CSV files
+spend_cube/step_1_ingestion/e.normalized/all_transactions_normalized.csv
+spend_cube/step_2_enrichment/b.staging/pre_cleaned_staging.csv
+spend_cube/step_4_assembly/b.final/po_fact_table.csv

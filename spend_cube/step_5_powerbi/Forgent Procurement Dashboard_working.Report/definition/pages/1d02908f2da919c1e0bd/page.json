@@ -1,0 +1,25 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/page/2.0.0/schema.json",
+  "name": "1d02908f2da919c1e0bd",
+  "displayName": "Supplier Risk & Opportunity",
+  "displayOption": "FitToPage",
+  "height": 720,
+  "width": 1280,
+  "visualInteractions": [
+    {
+      "source": "acef940098a15e8641b9",
+      "target": "cf552488c060422711c0",
+      "type": "NoFilter"
+    },
+    {
+      "source": "acef940098a15e8641b9",
+      "target": "a52743df32060a878368",
+      "type": "NoFilter"
+    },
+    {
+      "source": "acef940098a15e8641b9",
+      "target": "108dbb502b62dc2983a6",
+      "type": "NoFilter"
+    }
+  ]
+}

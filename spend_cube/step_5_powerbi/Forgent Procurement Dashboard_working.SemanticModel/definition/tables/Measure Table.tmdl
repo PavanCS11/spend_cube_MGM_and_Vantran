@@ -1,0 +1,1518 @@
+table 'Measure Table'
+	lineageTag: 18a9ba7b-952b-4bce-b4af-b58ede00c69a
+
+	measure 'Total Spend' = [Received Spend] + [Open Spend]
+		formatString: \$#,0;(\$#,0);\$#,0
+		displayFolder: 01 - KPIs
+		lineageTag: e9e65540-4f57-4ea3-a88a-8b8ead3e0364
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	measure 'Avg Order Value' =
+			
+			DIVIDE([Total Spend], [Order Count], 0)
+		formatString: \$#,0;(\$#,0);\$#,0
+		displayFolder: 01 - KPIs
+		lineageTag: 7d261279-773e-4077-89ce-23a3aa07daf0
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	measure 'Avg Unit Cost' =
+			
+			DIVIDE([Total Spend], [Total Quantity], 0)
+		formatString: \$#,0;(\$#,0);\$#,0
+		displayFolder: 01 - KPIs
+		lineageTag: 67bd973b-7ddb-46ec-a624-1a7d0741a468
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	measure 'Order Count' = ```
+			
+			COUNTROWS(
+			    FILTER(
+			        VALUES( po_fact_table[po_number] ),
+			        ABS( COALESCE( [Total Spend], 0 ) ) > 0
+			    )
+			)
+			
+			```
+		formatString: #,0
+		displayFolder: 01 - KPIs
+		lineageTag: a32932a7-19ff-4bde-b04d-fa4d0a37a6c6
+
+	measure 'Line Count' =
+			
+			COUNTROWS(po_fact_table)
+		formatString: 0
+		displayFolder: 01 - KPIs
+		lineageTag: 099a72f7-0a02-4ec1-b2c2-80a8ca4efc30
+
+	measure 'Supplier Count' = ```
+			
+			COUNTROWS(
+			    FILTER(
+			        VALUES( DimSupplier[standardized_vendor_name] ),
+			        COALESCE( [Total Spend], 0 ) > 0
+			    )
+			)
+			
+			```
+		formatString: 0
+		displayFolder: 01 - KPIs
+		lineageTag: 54b8c793-148a-4f32-9d90-1d4ffe96f7f2
+
+	measure 'Item Count' = ```
+			
+			COUNTROWS(
+			    FILTER(
+			        VALUES( po_fact_table[item_name_mpn] ),
+			        COALESCE( [Total Spend], 0 ) > 0
+			    )
+			)
+			
+			```
+		formatString: #,0
+		displayFolder: 01 - KPIs
+		lineageTag: c1123145-97d8-443a-acfe-8e34e2508146
+
+	measure 'States Spend' =
+			
+			CALCULATE([Total Spend], po_fact_table[source_system] = "EPICOR")
+		formatString: \$#,0;(\$#,0);\$#,0
+		displayFolder: 03 - Business Unit
+		lineageTag: dd62eeee-65cd-4097-82e3-fc41e2ba0f4a
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	measure 'PwrQ Spend' =
+			
+			CALCULATE([Total Spend], po_fact_table[source_system] = "NETSUITE")
+		formatString: \$#,0;(\$#,0);\$#,0
+		displayFolder: 03 - Business Unit
+		lineageTag: 5391e40d-6cd9-4754-b21c-9ef548861212
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	measure 'Open Orders' =
+			
+			CALCULATE([Order Count], po_fact_table[is_open_order] = TRUE)
+		formatString: 0
+		displayFolder: 06 - Operations
+		lineageTag: 66efd3e9-132b-4bf3-8acd-84a0bab3d7cf
+
+	measure 'Open Lines – Ordered Amount' = ```
+			
+			CALCULATE (
+			    [Total Spend],
+			    po_fact_table[is_open_order] = TRUE ()
+			)
+			
+			
+			```
+		formatString: \$#,0;(\$#,0);\$#,0
+		displayFolder: 06 - Operations
+		lineageTag: 0e039b03-5d33-4da9-a33a-b205c6b40605
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	measure 'YTD Spend' = ```
+			
+			CALCULATE (
+			    [Total Spend],
+			    DATESYTD ( 'Time Intelligence'[Date] )
+			)
+			
+			```
+		formatString: \$#,0;(\$#,0);\$#,0
+		displayFolder: 02 - Time Intelligence
+		lineageTag: b5eb18c4-bfb7-4819-96fb-b84042e9aa9f
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	measure 'QTD Spend' = ```
+			
+			CALCULATE (
+			    [Total Spend],
+			    DATESQTD ( 'Time Intelligence'[Date] )
+			)
+			
+			```
+		formatString: \$#,0;(\$#,0);\$#,0
+		displayFolder: 02 - Time Intelligence
+		lineageTag: 50f0fdd4-cb37-4557-8c0d-eea76d379a83
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	measure 'MTD Spend' = ```
+			
+			CALCULATE (
+			    [Total Spend],
+			    DATESMTD ( 'Time Intelligence'[Date] )
+			)
+			
+			```
+		formatString: \$#,0;(\$#,0);\$#,0
+		displayFolder: 02 - Time Intelligence
+		lineageTag: 98504938-b90c-4b45-9b97-b8fd9962a7fe
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	measure 'Prior Year Spend' = ```
+			
+			CALCULATE (
+			    [Total Spend],
+			    DATEADD ( 'Time Intelligence'[Date], -1, YEAR )
+			)
+			
+			```
+		formatString: \$#,0;(\$#,0);\$#,0
+		displayFolder: 02 - Time Intelligence
+		lineageTag: 23ff2987-e6e3-4763-b8be-b4a3dbc5c710
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	measure 'YoY %' = ```
+			
+			VAR PY = [Prior Year Spend]
+			RETURN
+			DIVIDE ( [Total Spend] - PY, PY )
+			
+			```
+		formatString: 0%;-0%;0%
+		displayFolder: 02 - Time Intelligence
+		lineageTag: d058f867-5f90-443d-8fd5-08bb7cbe96dd
+
+	measure 'Rolling 12M Spend' = ```
+			
+			VAR EndDate = MAX ( 'Time Intelligence'[Date] )
+			RETURN
+			CALCULATE (
+			    [Total Spend],
+			    DATESINPERIOD ( 'Time Intelligence'[Date], EndDate, -12, MONTH )
+			)
+			
+			```
+		formatString: \$#,0;(\$#,0);\$#,0
+		displayFolder: 02 - Time Intelligence
+		lineageTag: 66512e80-9651-46d0-bba2-3f9c01bb7904
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	measure 'Top 10 Supplier Concentration %' = ```
+			
+			VAR t =
+			    TOPN(
+			        10,
+			        ALLSELECTED( DimSupplier[standardized_vendor_name] ),
+			        [Total Spend],
+			        DESC
+			    )
+			VAR Top10Spend = SUMX( t, [Total Spend] )
+			VAR TotalSpend =
+			    CALCULATE( [Total Spend], ALLSELECTED( DimSupplier[standardized_vendor_name] ) )
+			RETURN
+			DIVIDE( Top10Spend, TotalSpend )
+			
+			```
+		formatString: 0%;-0%;0%
+		displayFolder: 04 - Supplier Analysis
+		lineageTag: f4c3b7f5-1441-49af-944d-d747fcfe788e
+
+	measure 'Top 3 Supplier Concentration %' = ```
+			
+			VAR Top3Suppliers =
+			    TOPN(
+			        3,
+			        ALLSELECTED(DimSupplier[standardized_vendor_name]),
+			        [Total Spend],
+			        DESC
+			    )
+			VAR Top3Spend = SUMX(Top3Suppliers, [Total Spend])
+			VAR TotalSpend =
+			    CALCULATE( [Total Spend], ALLSELECTED( DimSupplier[standardized_vendor_name] ) )
+			RETURN
+			DIVIDE(Top3Spend, TotalSpend, 0)
+			
+			```
+		formatString: 0%;-0%;0%
+		displayFolder: 04 - Supplier Analysis
+		lineageTag: ad69590d-490c-4706-9f07-fd5283525e83
+
+	measure 'Overdue Amount' =
+			CALCULATE(
+			    SUM(po_fact_table[open_amount]),
+			    po_fact_table[is_overdue] = TRUE,
+			    ALL('Time Intelligence')
+			)
+		formatString: \$#,0;(\$#,0);\$#,0
+		displayFolder: 06 - Operations
+		lineageTag: ad7e17d3-e4dc-40e1-9ed1-dff9fd83f60b
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	measure 'Avg Lead Time' =
+			
+			AVERAGE(po_fact_table[lead_time_days])
+		formatString: 0
+		displayFolder: 06 - Operations
+		lineageTag: 6f18b35a-48b3-4053-987c-6351fd872905
+
+	measure 'Total Spend (Raw)' =
+			CALCULATE (
+				SUM ( 'po_fact_table'[received_amount] ),
+				KEEPFILTERS ( 'po_fact_table'[transaction_type] = "Receipts" )
+			) +
+			CALCULATE (
+				SUM ( 'po_fact_table'[open_amount] ),
+				KEEPFILTERS ( 'po_fact_table'[transaction_type] = "Open Orders" )
+			)
+		isHidden
+		displayFolder: _Base
+		lineageTag: 98ba5d69-1b89-469b-a282-2db305c7f2da
+
+	measure 'Open Lines – Remaining Amount' = ```
+			
+			CALCULATE (
+			    SUM ( po_fact_table[open_amount] ),
+			    po_fact_table[is_open_order] = TRUE ()
+			)
+			
+			```
+		formatString: \$#,0;(\$#,0);\$#,0
+		displayFolder: 06 - Operations
+		lineageTag: 10fa5f2a-2fbc-426a-86ea-d344e5cd27f7
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	measure 'Spend at Rank' = ```
+			
+			VAR r = SELECTEDVALUE( SupplierRankAxis[Value] )
+			VAR t =
+			    ADDCOLUMNS(
+			        ALLSELECTED( DimSupplier[standardized_vendor_name] ),
+			        "__Spend", [Total Spend]
+			    )
+			VAR tRanked =
+			    ADDCOLUMNS(
+			        t,
+			        "__Rank", RANKX( t, [__Spend], , DESC, Dense )
+			    )
+			RETURN
+			SUMX( FILTER( tRanked, [__Rank] = r ), [__Spend] )
+			
+			```
+		formatString: \$#,0;(\$#,0);\$#,0
+		displayFolder: 04 - Supplier Analysis
+		lineageTag: b0e805a8-19d9-413a-be9c-1826f91fa136
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	measure 'Cum Supplier % at Rank' = ```
+			
+			VAR r = SELECTEDVALUE( SupplierRankAxis[Value] )
+			VAR t =
+			    ADDCOLUMNS(
+			        ALLSELECTED( DimSupplier[standardized_vendor_name] ),
+			        "__Spend", [Total Spend]
+			    )
+			VAR tRanked =
+			    ADDCOLUMNS(
+			        t,
+			        "__Rank", RANKX( t, [__Spend], , DESC, Dense )
+			    )
+			VAR cumSpend =
+			    SUMX( FILTER( tRanked, [__Rank] <= r ), [__Spend] )
+			VAR totalSpend =
+			    SUMX( tRanked, [__Spend] )
+			RETURN
+			DIVIDE( cumSpend, totalSpend )
+			
+			```
+		formatString: 0%;-0%;0%
+		displayFolder: 04 - Supplier Analysis
+		lineageTag: 97adbc2b-d559-452b-969f-e498191c509d
+
+	measure 'Supplier Count @ 80%' = ```
+			
+			VAR t =
+			    ADDCOLUMNS(
+			        ALLSELECTED( DimSupplier[standardized_vendor_name] ),
+			        "__Spend", [Total Spend]
+			    )
+			VAR tRanked =
+			    ADDCOLUMNS(
+			        t,
+			        "__Rank", RANKX( t, [__Spend], , DESC, Dense )
+			    )
+			VAR totalSpend = SUMX( tRanked, [__Spend] )
+			VAR tCum =
+			    ADDCOLUMNS(
+			        tRanked,
+			        "__CumSpend",
+			            VAR r = [__Rank]
+			            RETURN SUMX( FILTER( tRanked, [__Rank] <= r ), [__Spend] )
+			    )
+			RETURN
+			MINX( FILTER( tCum, DIVIDE( [__CumSpend], totalSpend ) >= 0.8 ), [__Rank] )
+			
+			```
+		formatString: #,0
+		displayFolder: 04 - Supplier Analysis
+		lineageTag: e4a983e7-1de6-4550-9ef3-2d93b6f53ad3
+
+	measure 'Supplier Share of Category' = ```
+			
+			VAR VendorSpend = [Total Spend]
+			VAR CategoryTotal =
+			    CALCULATE(
+			        [Total Spend],
+			        REMOVEFILTERS( DimSupplier[standardized_vendor_name] )
+			    )
+			RETURN
+			DIVIDE( VendorSpend, CategoryTotal )
+			
+			```
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: 04 - Supplier Analysis
+		lineageTag: 1d4b7256-1d16-45a0-900e-afc1addf8479
+
+	measure 'Category Spend' = ```
+			
+			CALCULATE( [Total Spend], REMOVEFILTERS( DimSupplier[standardized_vendor_name] ) )
+			
+			```
+		displayFolder: 04 - Supplier Analysis
+		lineageTag: 7776f956-3d63-4fe8-8b0c-fd7feeaabbce
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Top Supplier Share %' = ```
+			
+			VAR CatTotal = [Category Spend]
+			VAR TopSupplierSpend =
+			    MAXX(
+			        VALUES( DimSupplier[standardized_vendor_name] ),
+			        [Total Spend]
+			    )
+			RETURN
+			DIVIDE( TopSupplierSpend, CatTotal )
+			
+			```
+		formatString: 0%;-0%;0%
+		displayFolder: 04 - Supplier Analysis
+		lineageTag: ed91d1f8-5e4a-432e-83f9-4a2144781c46
+
+	measure 'Top Supplier Name' = ```
+			
+			VAR t =
+			    TOPN(
+			        1,
+			        VALUES( DimSupplier[standardized_vendor_name] ),
+			        [Total Spend],
+			        DESC
+			    )
+			RETURN
+			MAXX( t, DimSupplier[standardized_vendor_name] )
+			
+			```
+		displayFolder: 04 - Supplier Analysis
+		lineageTag: bc13ea36-77a8-40e6-972c-5e9c85a428b8
+
+	measure 'Top Category Name' = ```
+			
+			VAR t =
+			    TOPN(
+			        1,
+			        VALUES( po_fact_table[item_category_l1] ),
+			        [Total Spend],
+			        DESC
+			    )
+			RETURN
+			MAXX( t, po_fact_table[item_category_l1] )
+			
+			```
+		displayFolder: 05 - Category Analysis
+		lineageTag: add0af24-90d0-4378-bc0b-40365a102f5f
+
+	measure 'Top Category Spend' = ```
+			
+			VAR TopCat = [Top Category Name]
+			RETURN
+			CALCULATE(
+			    [Total Spend],
+			    KEEPFILTERS( po_fact_table[item_category_l1] = TopCat )
+			)
+			
+			```
+		formatString: \$#,0;(\$#,0);\$#,0
+		displayFolder: 05 - Category Analysis
+		lineageTag: 693b01b8-5c5e-4703-82ad-9beee26a6934
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	measure 'Top Category Supplier Count' = ```
+			
+			VAR TopCat = [Top Category Name]
+			RETURN
+			CALCULATE(
+			    COUNTROWS(
+			        FILTER(
+			            VALUES( DimSupplier[standardized_vendor_name] ),
+			            COALESCE( [Total Spend], 0 ) > 0
+			        )
+			    ),
+			    KEEPFILTERS( po_fact_table[item_category_l1] = TopCat )
+			)
+			
+			```
+		formatString: #,0
+		displayFolder: 05 - Category Analysis
+		lineageTag: a2fd9b3b-2793-4271-b997-80fe6f8fc5a6
+
+	measure 'Top Category Top Supplier Share %' = ```
+			
+			VAR TopCat = [Top Category Name]
+			VAR CatTotal =
+			    CALCULATE(
+			        [Total Spend],
+			        KEEPFILTERS( po_fact_table[item_category_l1] = TopCat ),
+			        REMOVEFILTERS( DimSupplier[standardized_vendor_name] )
+			    )
+			VAR TopSuppSpend =
+			    CALCULATE(
+			        MAXX( VALUES( DimSupplier[standardized_vendor_name] ), [Total Spend] ),
+			        KEEPFILTERS( po_fact_table[item_category_l1] = TopCat )
+			    )
+			RETURN
+			DIVIDE( TopSuppSpend, CatTotal )
+			
+			```
+		formatString: 0%;-0%;0%
+		displayFolder: 05 - Category Analysis
+		lineageTag: a4abd8e8-2793-4c60-9286-582daf164d68
+
+	measure 'Avg Unit Cost (Top Category)' = ```
+			
+			VAR TopCat = [Top Category Name]
+			VAR Spend =
+			    CALCULATE( [Total Spend], KEEPFILTERS( po_fact_table[item_category_l1] = TopCat ) )
+			VAR Qty =
+			    CALCULATE( [Total Quantity], KEEPFILTERS( po_fact_table[item_category_l1] = TopCat ) )
+			RETURN
+			DIVIDE( Spend, Qty )
+			
+			
+			```
+		formatString: \$#,0;(\$#,0);\$#,0
+		displayFolder: 05 - Category Analysis
+		lineageTag: c9c6f144-58d6-4c54-b39c-829e3c830152
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	measure 'Category YoY %' = ```
+			
+			VAR CY = [Total Spend]
+			VAR PY = CALCULATE( [Total Spend], SAMEPERIODLASTYEAR( 'Time Intelligence'[Date] ) )
+			RETURN
+			DIVIDE( CY - PY, PY )
+			
+			```
+		formatString: 0%;-0%;0%
+		displayFolder: 05 - Category Analysis
+		lineageTag: 0642d307-c54a-4b1d-a85f-7948861b1c91
+
+	measure 'YoY Growth Leader (Category)' = ```
+			
+			VAR t =
+			    TOPN(
+			        1,
+			        ADDCOLUMNS(
+			            VALUES( po_fact_table[item_category_l1] ),
+			            "__YoY", [Category YoY %]
+			        ),
+			        [__YoY],
+			        DESC
+			    )
+			RETURN
+			MAXX( t, po_fact_table[item_category_l1] )
+			
+			```
+		displayFolder: 05 - Category Analysis
+		lineageTag: 5210b5ac-31a9-4e83-a527-1619d7fedb05
+
+	measure 'YoY Growth Leader %' = ```
+			
+			VAR Cat = [YoY Growth Leader (Category)]
+			RETURN
+			CALCULATE(
+			    [Category YoY %],
+			    KEEPFILTERS( po_fact_table[item_category_l1] = Cat )
+			)
+			
+			```
+		formatString: 0%;-0%;0%
+		displayFolder: 05 - Category Analysis
+		lineageTag: edaf99c7-c660-4b86-a4c6-7378ee7d0d94
+
+	measure 'Received Quantity (Raw)' = SUM ( 'po_fact_table'[received_quantity] )
+		isHidden
+		displayFolder: _Base
+		lineageTag: 56c507c0-e8de-463b-a18e-66608a802e44
+
+	measure 'Received Spend' = ```
+			
+			VAR SelectedPerspective =
+			    SELECTEDVALUE ( DatePerspective[Perspective], "Receipt Date" )
+			RETURN
+			    SWITCH (
+			        TRUE (),
+			        SelectedPerspective = "Order Date",
+			            CALCULATE (
+			                SUM ( po_fact_table[received_amount] ),
+			                KEEPFILTERS ( po_fact_table[transaction_type] = "Receipts" ),
+			                USERELATIONSHIP ( 'Time Intelligence'[Date], po_fact_table[order_date] )
+			            ),
+			        CALCULATE (
+			            SUM ( po_fact_table[received_amount] ),
+			            KEEPFILTERS ( po_fact_table[transaction_type] = "Receipts" ),
+			            USERELATIONSHIP ( 'Time Intelligence'[Date], po_fact_table[analysis_date] )
+			        )
+			    )
+			
+			```
+		formatString: $#,0;($#,0);$#,0
+		displayFolder: 08 - Receipts & Backlog
+		lineageTag: d1685c17-91c6-438c-b823-f6f0b09d1206
+
+	measure 'Received Quantity' =
+			VAR SelectedPerspective =
+				SELECTEDVALUE ( DatePerspective[Perspective], "Receipt Date" )
+			RETURN
+				SWITCH (
+					TRUE (),
+					SelectedPerspective = "Order Date",
+						CALCULATE (
+							SUM ( 'po_fact_table'[received_quantity] ),
+							KEEPFILTERS ( 'po_fact_table'[transaction_type] = "Receipts" ),
+							USERELATIONSHIP ( 'Time Intelligence'[Date], 'po_fact_table'[order_date] )
+						),
+					CALCULATE (
+						SUM ( 'po_fact_table'[received_quantity] ),
+						KEEPFILTERS ( 'po_fact_table'[transaction_type] = "Receipts" ),
+						USERELATIONSHIP ( 'Time Intelligence'[Date], 'po_fact_table'[analysis_date] )
+					)
+				)
+		formatString: #,0
+		displayFolder: 08 - Receipts & Backlog
+		lineageTag: 47f3106e-a013-4540-b56f-5484fc106f86
+
+	measure 'Open Spend' =
+			VAR SelectedPerspective =
+				SELECTEDVALUE ( DatePerspective[Perspective], "Receipt Date" )
+			RETURN
+				SWITCH (
+					TRUE (),
+					SelectedPerspective = "Order Date",
+						CALCULATE (
+							SUM ( 'po_fact_table'[open_amount] ),
+							KEEPFILTERS ( 'po_fact_table'[transaction_type] = "Open Orders" ),
+							'po_fact_table'[is_open_order] = TRUE (),
+							USERELATIONSHIP ( 'Time Intelligence'[Date], 'po_fact_table'[order_date] )
+						),
+					CALCULATE (
+						SUM ( 'po_fact_table'[open_amount] ),
+						KEEPFILTERS ( 'po_fact_table'[transaction_type] = "Open Orders" ),
+						'po_fact_table'[is_open_order] = TRUE (),
+						USERELATIONSHIP ( 'Time Intelligence'[Date], 'po_fact_table'[analysis_date] )
+					)
+				)
+		formatString: $#,0;($#,0);$#,0
+		displayFolder: 08 - Receipts & Backlog
+		lineageTag: fb31e97e-a6ac-45a7-a1e8-f41d8eecd20b
+
+	measure 'Open Qty' =
+			VAR SelectedPerspective =
+				SELECTEDVALUE ( DatePerspective[Perspective], "Receipt Date" )
+			RETURN
+				SWITCH (
+					TRUE (),
+					SelectedPerspective = "Order Date",
+						CALCULATE (
+							SUM ( 'po_fact_table'[open_quantity] ),
+							KEEPFILTERS ( 'po_fact_table'[transaction_type] = "Open Orders" ),
+							'po_fact_table'[is_open_order] = TRUE (),
+							USERELATIONSHIP ( 'Time Intelligence'[Date], 'po_fact_table'[order_date] )
+						),
+					CALCULATE (
+						SUM ( 'po_fact_table'[open_quantity] ),
+						KEEPFILTERS ( 'po_fact_table'[transaction_type] = "Open Orders" ),
+						'po_fact_table'[is_open_order] = TRUE (),
+						USERELATIONSHIP ( 'Time Intelligence'[Date], 'po_fact_table'[analysis_date] )
+					)
+				)
+		formatString: #,0
+		displayFolder: 08 - Receipts & Backlog
+		lineageTag: d87da207-3a6c-4c0f-99f2-7f0cb986d88f
+
+	measure 'Total Quantity' = [Received Quantity] + [Open Qty]
+		formatString: #,0
+		displayFolder: 01 - KPIs
+		lineageTag: 86542fd8-3258-47eb-8d74-63ca273b139c
+
+	measure 'New Vendors (YTD)' =
+			VAR CurrentYear = YEAR ( CALCULATE ( MAX ( po_fact_table[order_date] ), ALL ( po_fact_table ) ) )
+			VAR VendorsThisYear =
+			    CALCULATETABLE (
+			        VALUES ( po_fact_table[standardized_vendor_name] ),
+			        YEAR ( po_fact_table[order_date] ) = CurrentYear,
+			        REMOVEFILTERS ( 'Time Intelligence' )
+			    )
+			VAR VendorsPriorYears =
+			    CALCULATETABLE (
+			        VALUES ( po_fact_table[standardized_vendor_name] ),
+			        YEAR ( po_fact_table[order_date] ) < CurrentYear,
+			        REMOVEFILTERS ( 'Time Intelligence' )
+			    )
+			RETURN
+			    COUNTROWS ( EXCEPT ( VendorsThisYear, VendorsPriorYears ) ) + 0
+		formatString: 0
+		displayFolder: 04 - Supplier Analysis
+		lineageTag: aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa
+
+	measure 'Avg Vendors per Category' =
+			AVERAGEX (
+			    VALUES ( po_fact_table[item_category_l1] ),
+			    [Supplier Count]
+			)
+		formatString: 0.0
+		displayFolder: 05 - Category Analysis
+		lineageTag: bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb
+
+	measure 'Multi-Source Items' =
+			COUNTROWS (
+			    FILTER (
+			        SUMMARIZE (
+			            po_fact_table,
+			            po_fact_table[item_name_mpn],
+			            "VendorCt", DISTINCTCOUNT ( po_fact_table[standardized_vendor_name] )
+			        ),
+			        [VendorCt] >= 2
+			    )
+			)
+		formatString: #,0
+		displayFolder: 05 - Category Analysis
+		lineageTag: cccccccc-cccc-cccc-cccc-cccccccccccc
+
+	measure 'Items with Price Increase' =
+			VAR ItemsWithIncrease =
+			    COUNTROWS (
+			        FILTER (
+			            VALUES ( po_fact_table[item_name_mpn] ),
+			            VAR CurrentAvg = AVERAGE ( po_fact_table[unit_cost] )
+			            VAR PriorAvg =
+			                CALCULATE (
+			                    AVERAGE ( po_fact_table[unit_cost] ),
+			                    SAMEPERIODLASTYEAR ( 'Time Intelligence'[Date] )
+			                )
+			            RETURN
+			                NOT ISBLANK ( PriorAvg )
+			                    && CurrentAvg > PriorAvg * 1.10
+			        )
+			    )
+			RETURN
+			    ItemsWithIncrease
+		formatString: #,0
+		displayFolder: 05 - Category Analysis
+		lineageTag: dddddddd-dddd-dddd-dddd-dddddddddddd
+
+	measure 'Received Amount (Raw)' = SUM ( 'po_fact_table'[received_amount] )
+		isHidden
+		displayFolder: _Base
+		lineageTag: 7a8b9c0d-1e2f-3a4b-5c6d-7e8f9a0b1c2d
+
+	measure 'Open + Received Quantity (Raw)' = SUM ( 'po_fact_table'[open_plus_received_quantity] )
+		isHidden
+		displayFolder: _Base
+		lineageTag: 8b9c0d1e-2f3a-4b5c-6d7e-8f9a0b1c2d3e
+
+	measure 'Open + Received Amount (Raw)' = SUM ( 'po_fact_table'[open_plus_received_amount] )
+		isHidden
+		displayFolder: _Base
+		lineageTag: 9c0d1e2f-3a4b-5c6d-7e8f-9a0b1c2d3e4f
+
+	measure 'OTD % (Due Date)' = ```
+			
+			VAR OnTimeCount = CALCULATE([Line Count], po_fact_table[on_time_vs_due_flag] = "On Time")
+			VAR TotalWithFlag = CALCULATE([Line Count], NOT(ISBLANK(po_fact_table[on_time_vs_due_flag])))
+			RETURN
+			DIVIDE(OnTimeCount, TotalWithFlag, 0)
+			
+			```
+		formatString: 0%;-0%;0%
+		displayFolder: 06 - Operations
+		lineageTag: 8a1b2c3d-4e5f-6a7b-8c9d-0e1f2a3b4c5d
+
+	measure 'OTD % (Promise Date)' = ```
+			
+			VAR OnTimeCount = CALCULATE([Line Count], po_fact_table[on_time_vs_promise_flag] = "On Time")
+			VAR TotalWithFlag = CALCULATE([Line Count], NOT(ISBLANK(po_fact_table[on_time_vs_promise_flag])))
+			RETURN
+			DIVIDE(OnTimeCount, TotalWithFlag, 0)
+			
+			```
+		formatString: 0%;-0%;0%
+		displayFolder: 06 - Operations
+		lineageTag: 9b2c3d4e-5f6a-7b8c-9d0e-1f2a3b4c5d6e
+
+	measure 'Late Count (Due Date)' = CALCULATE([Line Count], po_fact_table[on_time_vs_due_flag] = "Late")
+		formatString: 0
+		displayFolder: 06 - Operations
+		lineageTag: 0c3d4e5f-6a7b-8c9d-0e1f-2a3b4c5d6e7f
+
+	measure 'Late Count (Promise Date)' = CALCULATE([Line Count], po_fact_table[on_time_vs_promise_flag] = "Late")
+		formatString: 0
+		displayFolder: 06 - Operations
+		lineageTag: 1d4e5f6a-7b8c-9d0e-1f2a-3b4c5d6e7f8a
+
+	measure 'Avg Days Late (Due Date)' =
+			AVERAGEX(
+			    FILTER(po_fact_table, po_fact_table[days_early_late_vs_due] > 0),
+			    po_fact_table[days_early_late_vs_due]
+			)
+		formatString: 0
+		displayFolder: 06 - Operations
+		lineageTag: 2e5f6a7b-8c9d-0e1f-2a3b-4c5d6e7f8a9b
+
+	measure 'Avg Days Late (Promise Date)' =
+			AVERAGEX(
+			    FILTER(po_fact_table, po_fact_table[days_early_late_vs_promise] > 0),
+			    po_fact_table[days_early_late_vs_promise]
+			)
+		formatString: 0
+		displayFolder: 06 - Operations
+		lineageTag: 3f6a7b8c-9d0e-1f2a-3b4c-5d6e7f8a9b0c
+
+	measure 'Due Date Coverage %' =
+			DIVIDE(
+			    CALCULATE([Line Count], NOT(ISBLANK(po_fact_table[due_date]))),
+			    [Line Count],
+			    0
+			)
+		formatString: 0%;-0%;0%
+		displayFolder: 07 - Date Coverage
+		lineageTag: 4a6b7c8d-9e0f-1a2b-3c4d-5e6f7a8b9c0d
+
+	measure 'Promise Date Coverage %' =
+			DIVIDE(
+			    CALCULATE([Line Count], NOT(ISBLANK(po_fact_table[promise_date]))),
+			    [Line Count],
+			    0
+			)
+		formatString: 0%;-0%;0%
+		displayFolder: 07 - Date Coverage
+		lineageTag: 5b7c8d9e-0f1a-2b3c-4d5e-6f7a8b9c0d1e
+
+	measure 'OTD Eligible Lines (Due Date)' = CALCULATE([Line Count], NOT(ISBLANK(po_fact_table[on_time_vs_due_flag])))
+		formatString: #,0
+		displayFolder: 06 - Operations
+		lineageTag: 6c8d9e0f-1a2b-3c4d-5e6f-7a8b9c0d1e2f
+
+	measure 'OTD Eligible Lines (Promise Date)' = CALCULATE([Line Count], NOT(ISBLANK(po_fact_table[on_time_vs_promise_flag])))
+		formatString: #,0
+		displayFolder: 06 - Operations
+		lineageTag: 7d9e0f1a-2b3c-4d5e-6f7a-8b9c0d1e2f3a
+
+	measure 'Receipt Date Coverage %' =
+			DIVIDE(
+			    CALCULATE([Line Count], NOT(ISBLANK(po_fact_table[receipt_date]))),
+			    [Line Count],
+			    0
+			)
+		formatString: 0%;-0%;0%
+		displayFolder: 07 - Date Coverage
+		lineageTag: 1a2b3c4d-5e6f-7a8b-9c0d-1e2f3a4b5c6d
+
+	measure 'Old Promise Date Coverage %' =
+			DIVIDE(
+			    CALCULATE([Line Count], NOT(ISBLANK(po_fact_table[old_promise_date]))),
+			    [Line Count],
+			    0
+			)
+		formatString: 0%;-0%;0%
+		displayFolder: 07 - Date Coverage
+		lineageTag: 2b3c4d5e-6f7a-8b9c-0d1e-2f3a4b5c6d7e
+
+	measure 'Arrived Date Coverage %' =
+			DIVIDE(
+			    CALCULATE([Line Count], NOT(ISBLANK(po_fact_table[arrived_date]))),
+			    [Line Count],
+			    0
+			)
+		formatString: 0%;-0%;0%
+		displayFolder: 07 - Date Coverage
+		lineageTag: 3c4d5e6f-7a8b-9c0d-1e2f-3a4b5c6d7e8f
+
+	measure 'Open Orders Due Date Coverage %' =
+			CALCULATE(
+			    [Due Date Coverage %],
+			    po_fact_table[is_open_order] = TRUE
+			)
+		formatString: 0%;-0%;0%
+		displayFolder: 07 - Date Coverage
+		lineageTag: 4d5e6f7a-8b9c-0d1e-2f3a-4b5c6d7e8f9a
+
+	measure 'Closed Orders Receipt Date Coverage %' =
+			CALCULATE(
+			    [Receipt Date Coverage %],
+			    po_fact_table[is_open_order] = FALSE
+			)
+		formatString: 0%;-0%;0%
+		displayFolder: 07 - Date Coverage
+		lineageTag: 5e6f7a8b-9c0d-1e2f-3a4b-5c6d7e8f9a0b
+
+	measure 'Date Completeness Score %' =
+			VAR DuePct = [Due Date Coverage %]
+			VAR PromisePct = [Promise Date Coverage %]
+			VAR ReceiptPct = [Receipt Date Coverage %]
+			RETURN
+			DIVIDE(DuePct + PromisePct + ReceiptPct, 3, 0)
+		formatString: 0%;-0%;0%
+		displayFolder: 07 - Date Coverage
+		lineageTag: 6f7a8b9c-0d1e-2f3a-4b5c-6d7e8f9a0b1c
+
+	measure 'Missing Due Dates Count' =
+			CALCULATE(
+			    [Line Count],
+			    ISBLANK(po_fact_table[due_date])
+			)
+		formatString: #,0
+		displayFolder: 07 - Date Coverage
+		lineageTag: a1b2c3d4-e5f6-7a8b-9c0d-1e2f3a4b5c6d
+
+	measure 'Missing Promise Dates Count' =
+			CALCULATE(
+			    [Line Count],
+			    ISBLANK(po_fact_table[promise_date])
+			)
+		formatString: #,0
+		displayFolder: 07 - Date Coverage
+		lineageTag: b2c3d4e5-f6a7-8b9c-0d1e-2f3a4b5c6d7e
+
+	measure 'Due Date Coverage % (Recent Orders)' =
+			CALCULATE(
+			    [Due Date Coverage %],
+			    DATESINPERIOD(
+			        'Time Intelligence'[Date],
+			        MAX('Time Intelligence'[Date]),
+			        -30,
+			        DAY
+			    )
+			)
+		formatString: 0%;-0%;0%
+		displayFolder: 07 - Date Coverage
+		lineageTag: c3d4e5f6-a7b8-9c0d-1e2f-3a4b5c6d7e8f
+
+	measure 'Selected Coverage' =
+			SWITCH(
+			    SELECTEDVALUE(DateCoverageMeasureList[Measure Name]),
+			    "Due Date Coverage %", [Due Date Coverage %],
+			    "Promise Date Coverage %", [Promise Date Coverage %],
+			    "Receipt Date Coverage %", [Receipt Date Coverage %],
+			    "Old Promise Date Coverage %", [Old Promise Date Coverage %],
+			    "Arrived Date Coverage %", [Arrived Date Coverage %],
+			    "Open Orders Due Date Coverage %", [Open Orders Due Date Coverage %],
+			    "Closed Orders Receipt Date Coverage %", [Closed Orders Receipt Date Coverage %],
+			    "Date Completeness Score %", [Date Completeness Score %],
+			    BLANK()
+			)
+		formatString: 0%;-0%;0%
+		displayFolder: 07 - Date Coverage
+		lineageTag: d4e5f6a7-b8c9-0d1e-2f3a-4b5c6d7e8f9a
+
+	measure 'YoY Unit Cost %' = ```
+			
+			VAR CurrentAvg = [Avg Unit Cost]
+			VAR PriorAvg =
+			    CALCULATE(
+			        [Avg Unit Cost],
+			        DATEADD('Time Intelligence'[Date], -1, YEAR)
+			    )
+			RETURN
+			DIVIDE(CurrentAvg - PriorAvg, PriorAvg)
+			
+			```
+		formatString: 0%;-0%;0%
+		displayFolder: 02 - Time Intelligence
+		lineageTag: e169f978-6a91-4b5c-9d2e-1f3a4b5c6d7e
+
+	measure 'Avg Cost Per Lb' = AVERAGE(po_fact_table[rawmat_price_per_lb])
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		displayFolder: 09 - Raw Materials
+		lineageTag: a1b2c3d4-e5f6-7890-abcd-ef1234567890
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	measure 'Total Weight (Lbs)' = SUM(po_fact_table[rawmat_total_weight_lbs])
+		formatString: #,0
+		displayFolder: 09 - Raw Materials
+		lineageTag: b2c3d4e5-f6a7-8901-bcde-f12345678901
+
+	measure 'Weighted Avg Cost Per Lb' =
+			VAR TotalWeightedCost = SUMX(
+			    FILTER(po_fact_table, NOT(ISBLANK(po_fact_table[rawmat_price_per_lb]))),
+			    po_fact_table[rawmat_total_weight_lbs] * po_fact_table[rawmat_price_per_lb]
+			)
+			VAR TotalWeight = [Total Weight (Lbs)]
+			RETURN
+			DIVIDE(TotalWeightedCost, TotalWeight, BLANK())
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		displayFolder: 09 - Raw Materials
+		lineageTag: c3d4e5f6-a7b8-9012-cdef-123456789012
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	measure 'Cost Per Lb (from Spend)' = DIVIDE([Total Spend], [Total Weight (Lbs)], BLANK())
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		displayFolder: 09 - Raw Materials
+		lineageTag: d4e5f6a7-b8c9-0123-defa-234567890123
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	measure 'Copper Market Price' =
+			AVERAGEX (
+			    VALUES ( 'Time Intelligence'[Year-Month] ),
+			    LOOKUPVALUE (
+			        CopperPriceIndex[Copper_Price_Per_Lb],
+			        CopperPriceIndex[Year_Month], 'Time Intelligence'[Year-Month]
+			    )
+			)
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		displayFolder: 09 - Raw Materials
+		lineageTag: e5f6a7b8-c9d0-1234-efab-345678901234
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	measure 'Copper Spend' =
+			CALCULATE(
+			    SUM(po_fact_table[open_plus_received_amount]),
+			    po_fact_table[item_category_l2] = "Copper Products",
+			    USERELATIONSHIP('Time Intelligence'[Date], po_fact_table[analysis_date])
+			)
+		formatString: \$#,0;(\$#,0);\$#,0
+		displayFolder: 09 - Raw Materials
+		lineageTag: f6a7b8c9-d0e1-2345-fabc-456789012345
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	measure 'Avg Paid Price per Lb (Copper)' =
+			CALCULATE(
+			    AVERAGE(po_fact_table[rawmat_price_per_lb]),
+			    po_fact_table[item_category_l2] = "Copper Products",
+			    USERELATIONSHIP('Time Intelligence'[Date], po_fact_table[analysis_date])
+			)
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		displayFolder: 09 - Raw Materials
+		lineageTag: a7b8c9d0-e1f2-3456-abcd-567890123456
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	measure 'Copper Premium/Discount %' =
+			VAR PaidPrice = [Avg Paid Price per Lb (Copper)]
+			VAR MarketPrice = [Copper Market Price]
+			RETURN
+			IF(MarketPrice <> 0, DIVIDE(PaidPrice - MarketPrice, MarketPrice), BLANK())
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: 09 - Raw Materials
+		lineageTag: b8c9d0e1-f2a3-4567-bcde-678901234567
+
+	measure 'PPV Savings' = ```
+			
+			SUMX (
+			    FILTER (
+			        VALUES ( po_fact_table[item_name_mpn] ),
+			        NOT ISBLANK (
+			            CALCULATE (
+			                [Avg Unit Cost],
+			                DATEADD ( 'Time Intelligence'[Date], -1, YEAR )
+			            )
+			        )
+			            && [Total Quantity] > 0
+			    ),
+			    VAR CurrentPrice = [Avg Unit Cost]
+			    VAR PriorPrice =
+			        CALCULATE (
+			            [Avg Unit Cost],
+			            DATEADD ( 'Time Intelligence'[Date], -1, YEAR )
+			        )
+			    VAR CurrentQty = [Total Quantity]
+			    RETURN
+			        ( PriorPrice - CurrentPrice ) * CurrentQty
+			)
+			
+			```
+		formatString: \$#,0;(\$#,0);\$#,0
+		displayFolder: 02 - Time Intelligence
+		lineageTag: f270a989-7b02-4c6d-ae3f-2g4b5c6d8e9f
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	measure 'Weighted Lead Time' = ```
+			
+			DIVIDE(
+			    SUMX(
+			        po_fact_table,
+			        po_fact_table[lead_time_days] * po_fact_table[open_plus_received_amount]
+			    ),
+			    [Total Spend],
+			    0
+			)
+			
+			```
+		formatString: 0
+		displayFolder: 06 - Operations
+		lineageTag: 7g28c46b-59d4-4164-a98d-7462ge983016
+
+	measure 'Overdue Count' =
+			CALCULATE(
+			    COUNTROWS(po_fact_table),
+			    po_fact_table[is_overdue] = TRUE,
+			    ALL('Time Intelligence')
+			)
+		formatString: #,0
+		displayFolder: 06 - Operations
+		lineageTag: ef30d488-12de-44d5-86fc-b8a12893a374
+
+	measure 'Early Count (Due Date)' = CALCULATE([Line Count], po_fact_table[on_time_vs_due_flag] = "Early")
+		formatString: 0
+		displayFolder: 06 - Operations
+		lineageTag: e1a2b3c4-d5e6-f7a8-b9c0-d1e2f3a4b5c6
+
+	measure 'Early Count (Promise Date)' = CALCULATE([Line Count], po_fact_table[on_time_vs_promise_flag] = "Early")
+		formatString: 0
+		displayFolder: 06 - Operations
+		lineageTag: f2b3c4d5-e6f7-a8b9-c0d1-e2f3a4b5c6d7
+
+	measure 'Data As Of' = FORMAT(MAX(po_fact_table[_data_as_of_date]), "MMMM D, YYYY")
+		displayFolder: 01 - KPIs
+		lineageTag: c3d4e5f6-a7b8-9c0d-1e2f-4a5b6c7d8e9f
+
+	measure 'Buyer Count' = ```
+			
+			COUNTROWS(
+			    FILTER(
+			        VALUES( po_fact_table[buyer_id] ),
+			        COALESCE( [Total Spend], 0 ) > 0
+			    )
+			)
+			
+			```
+		formatString: #,0
+		displayFolder: 10 - Buyer Analysis
+		lineageTag: a1e2f3b4-c5d6-7890-abcd-buyer0count1
+
+	measure 'Avg Spend per Buyer' = DIVIDE([Total Spend], [Buyer Count], 0)
+		formatString: \$#,0;(\$#,0);\$#,0
+		displayFolder: 10 - Buyer Analysis
+		lineageTag: b2f3a4c5-d6e7-8901-bcde-avgspendbuyr
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	measure 'Open Line Count' =
+			CALCULATE(
+			    COUNTROWS(po_fact_table),
+			    po_fact_table[is_open_order] = TRUE,
+			    ALL('Time Intelligence')
+			)
+		formatString: #,0
+		displayFolder: 11 - Open Order Pipeline
+		lineageTag: c1d2e3f4-a5b6-7890-cdef-openlinecnt1
+
+	measure 'Due Next 7 Days' =
+			CALCULATE(
+			    SUM(po_fact_table[open_amount]),
+			    po_fact_table[is_open_order] = TRUE,
+			    po_fact_table[days_until_due] >= 0,
+			    po_fact_table[days_until_due] <= 7,
+			    ALL('Time Intelligence')
+			)
+		formatString: \$#,0;(\$#,0);\$#,0
+		displayFolder: 11 - Open Order Pipeline
+		lineageTag: d2e3f4a5-b6c7-8901-defa-duenxt7days
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	measure 'Due Next 30 Days' =
+			CALCULATE(
+			    SUM(po_fact_table[open_amount]),
+			    po_fact_table[is_open_order] = TRUE,
+			    po_fact_table[days_until_due] >= 0,
+			    po_fact_table[days_until_due] <= 30,
+			    ALL('Time Intelligence')
+			)
+		formatString: \$#,0;(\$#,0);\$#,0
+		displayFolder: 11 - Open Order Pipeline
+		lineageTag: e3f4a5b6-c7d8-9012-efab-duenxt30day
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	/// ─── 12 - Overdue Aging Buckets ───
+	/// days_until_due = due_date - today (negative when overdue)
+	/// Negate to get "days overdue": -days_until_due = days past due
+	measure 'Overdue 0-30 Days (Count)' =
+			CALCULATE(
+			    COUNTROWS(po_fact_table),
+			    po_fact_table[is_overdue] = TRUE,
+			    po_fact_table[days_until_due] <= -1,
+			    po_fact_table[days_until_due] >= -30,
+			    ALL('Time Intelligence')
+			)
+		formatString: #,0
+		displayFolder: 12 - Overdue Aging
+		lineageTag: a1000001-0001-0001-0001-000000000001
+
+	measure 'Overdue 31-60 Days (Count)' =
+			CALCULATE(
+			    COUNTROWS(po_fact_table),
+			    po_fact_table[is_overdue] = TRUE,
+			    po_fact_table[days_until_due] < -30,
+			    po_fact_table[days_until_due] >= -60,
+			    ALL('Time Intelligence')
+			)
+		formatString: #,0
+		displayFolder: 12 - Overdue Aging
+		lineageTag: a1000001-0001-0001-0001-000000000002
+
+	measure 'Overdue 61-90 Days (Count)' =
+			CALCULATE(
+			    COUNTROWS(po_fact_table),
+			    po_fact_table[is_overdue] = TRUE,
+			    po_fact_table[days_until_due] < -60,
+			    po_fact_table[days_until_due] >= -90,
+			    ALL('Time Intelligence')
+			)
+		formatString: #,0
+		displayFolder: 12 - Overdue Aging
+		lineageTag: a1000001-0001-0001-0001-000000000003
+
+	measure 'Overdue 90+ Days (Count)' =
+			CALCULATE(
+			    COUNTROWS(po_fact_table),
+			    po_fact_table[is_overdue] = TRUE,
+			    po_fact_table[days_until_due] < -90,
+			    ALL('Time Intelligence')
+			)
+		formatString: #,0
+		displayFolder: 12 - Overdue Aging
+		lineageTag: a1000001-0001-0001-0001-000000000004
+
+	measure 'Overdue 0-30 Days ($)' =
+			CALCULATE(
+			    SUM(po_fact_table[open_amount]),
+			    po_fact_table[is_overdue] = TRUE,
+			    po_fact_table[days_until_due] <= -1,
+			    po_fact_table[days_until_due] >= -30,
+			    ALL('Time Intelligence')
+			)
+		formatString: \$#,0;(\$#,0);\$#,0
+		displayFolder: 12 - Overdue Aging
+		lineageTag: a1000001-0001-0001-0001-000000000005
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	measure 'Overdue 31-60 Days ($)' =
+			CALCULATE(
+			    SUM(po_fact_table[open_amount]),
+			    po_fact_table[is_overdue] = TRUE,
+			    po_fact_table[days_until_due] < -30,
+			    po_fact_table[days_until_due] >= -60,
+			    ALL('Time Intelligence')
+			)
+		formatString: \$#,0;(\$#,0);\$#,0
+		displayFolder: 12 - Overdue Aging
+		lineageTag: a1000001-0001-0001-0001-000000000006
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	measure 'Overdue 61-90 Days ($)' =
+			CALCULATE(
+			    SUM(po_fact_table[open_amount]),
+			    po_fact_table[is_overdue] = TRUE,
+			    po_fact_table[days_until_due] < -60,
+			    po_fact_table[days_until_due] >= -90,
+			    ALL('Time Intelligence')
+			)
+		formatString: \$#,0;(\$#,0);\$#,0
+		displayFolder: 12 - Overdue Aging
+		lineageTag: a1000001-0001-0001-0001-000000000007
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	measure 'Overdue 90+ Days ($)' =
+			CALCULATE(
+			    SUM(po_fact_table[open_amount]),
+			    po_fact_table[is_overdue] = TRUE,
+			    po_fact_table[days_until_due] < -90,
+			    ALL('Time Intelligence')
+			)
+		formatString: \$#,0;(\$#,0);\$#,0
+		displayFolder: 12 - Overdue Aging
+		lineageTag: a1000001-0001-0001-0001-000000000008
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	measure 'Avg Days Overdue' =
+			CALCULATE(
+			    AVERAGEX( po_fact_table, -po_fact_table[days_until_due] ),
+			    po_fact_table[is_overdue] = TRUE,
+			    ALL('Time Intelligence')
+			)
+		formatString: 0
+		displayFolder: 12 - Overdue Aging
+		lineageTag: a1000001-0001-0001-0001-000000000009
+
+	measure 'Max Days Overdue' =
+			CALCULATE(
+			    MAXX( po_fact_table, -po_fact_table[days_until_due] ),
+			    po_fact_table[is_overdue] = TRUE,
+			    ALL('Time Intelligence')
+			)
+		formatString: 0
+		displayFolder: 12 - Overdue Aging
+		lineageTag: a1000001-0001-0001-0001-00000000000a
+
+	/// ─── 13 - Savings & PPV ───
+	measure 'PPV Savings (by Category)' = ```
+			
+			SUMX (
+			    VALUES ( po_fact_table[item_category_l1] ),
+			    [PPV Savings]
+			)
+			
+			```
+		formatString: \$#,0;(\$#,0);\$#,0
+		displayFolder: 13 - Savings
+		lineageTag: a1000002-0001-0001-0001-000000000001
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	measure 'PPV % Change' = ```
+			
+			VAR CurrentSpend = [Total Spend]
+			VAR Savings = [PPV Savings]
+			RETURN
+			DIVIDE ( Savings, CurrentSpend + Savings, BLANK() )
+			
+			```
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: 13 - Savings
+		lineageTag: a1000002-0001-0001-0001-000000000002
+
+	measure 'Items with Price Decrease' = ```
+			
+			COUNTROWS (
+			    FILTER (
+			        VALUES ( po_fact_table[item_name_mpn] ),
+			        VAR CurrentAvg = [Avg Unit Cost]
+			        VAR PriorAvg =
+			            CALCULATE (
+			                [Avg Unit Cost],
+			                SAMEPERIODLASTYEAR ( 'Time Intelligence'[Date] )
+			            )
+			        RETURN
+			            NOT ISBLANK ( PriorAvg )
+			                && CurrentAvg < PriorAvg * 0.90
+			    )
+			)
+			
+			```
+		formatString: #,0
+		displayFolder: 13 - Savings
+		lineageTag: a1000002-0001-0001-0001-000000000003
+
+	measure 'Net Price Movement' = ```
+			
+			VAR Increases =
+			    SUMX (
+			        FILTER (
+			            VALUES ( po_fact_table[item_name_mpn] ),
+			            NOT ISBLANK (
+			                CALCULATE (
+			                    [Avg Unit Cost],
+			                    DATEADD ( 'Time Intelligence'[Date], -1, YEAR )
+			                )
+			            ) && [Total Quantity] > 0
+			        ),
+			        VAR Curr = [Avg Unit Cost]
+			        VAR Prior =
+			            CALCULATE (
+			                [Avg Unit Cost],
+			                DATEADD ( 'Time Intelligence'[Date], -1, YEAR )
+			            )
+			        VAR Qty = [Total Quantity]
+			        RETURN
+			            IF ( Curr > Prior, ( Curr - Prior ) * Qty, 0 )
+			    )
+			VAR Decreases = [PPV Savings]
+			RETURN
+			Decreases - Increases
+			
+			```
+		formatString: \$#,0;(\$#,0);\$#,0
+		displayFolder: 13 - Savings
+		lineageTag: a1000002-0001-0001-0001-000000000004
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	/// ─── 14 - Lead Time Analysis ───
+	measure 'Lead Time 0-7 Days' =
+			CALCULATE (
+			    COUNTROWS ( po_fact_table ),
+			    po_fact_table[lead_time_days] >= 0,
+			    po_fact_table[lead_time_days] <= 7
+			)
+		formatString: #,0
+		displayFolder: 14 - Lead Time Analysis
+		lineageTag: a1000003-0001-0001-0001-000000000001
+
+	measure 'Lead Time 8-14 Days' =
+			CALCULATE (
+			    COUNTROWS ( po_fact_table ),
+			    po_fact_table[lead_time_days] > 7,
+			    po_fact_table[lead_time_days] <= 14
+			)
+		formatString: #,0
+		displayFolder: 14 - Lead Time Analysis
+		lineageTag: a1000003-0001-0001-0001-000000000002
+
+	measure 'Lead Time 15-30 Days' =
+			CALCULATE (
+			    COUNTROWS ( po_fact_table ),
+			    po_fact_table[lead_time_days] > 14,
+			    po_fact_table[lead_time_days] <= 30
+			)
+		formatString: #,0
+		displayFolder: 14 - Lead Time Analysis
+		lineageTag: a1000003-0001-0001-0001-000000000003
+
+	measure 'Lead Time 31-60 Days' =
+			CALCULATE (
+			    COUNTROWS ( po_fact_table ),
+			    po_fact_table[lead_time_days] > 30,
+			    po_fact_table[lead_time_days] <= 60
+			)
+		formatString: #,0
+		displayFolder: 14 - Lead Time Analysis
+		lineageTag: a1000003-0001-0001-0001-000000000004
+
+	measure 'Lead Time 60+ Days' =
+			CALCULATE (
+			    COUNTROWS ( po_fact_table ),
+			    po_fact_table[lead_time_days] > 60
+			)
+		formatString: #,0
+		displayFolder: 14 - Lead Time Analysis
+		lineageTag: a1000003-0001-0001-0001-000000000005
+
+	measure 'Median Lead Time' = ```
+			
+			PERCENTILE.INC ( po_fact_table[lead_time_days], 0.5 )
+			
+			```
+		formatString: 0
+		displayFolder: 14 - Lead Time Analysis
+		lineageTag: a1000003-0001-0001-0001-000000000006
+
+	measure 'P90 Lead Time' = ```
+			
+			PERCENTILE.INC ( po_fact_table[lead_time_days], 0.9 )
+			
+			```
+		formatString: 0
+		displayFolder: 14 - Lead Time Analysis
+		lineageTag: a1000003-0001-0001-0001-000000000007
+
+	measure 'Lead Time YoY Change' = ```
+			
+			VAR Current = [Avg Lead Time]
+			VAR Prior =
+			    CALCULATE (
+			        [Avg Lead Time],
+			        DATEADD ( 'Time Intelligence'[Date], -1, YEAR )
+			    )
+			RETURN
+			Current - Prior
+			
+			```
+		formatString: 0
+		displayFolder: 14 - Lead Time Analysis
+		lineageTag: a1000003-0001-0001-0001-000000000008
+
+	/// ─── 15 - Supplier Drillthrough ───
+	measure 'Supplier OTD %' = ```
+			
+			VAR OnTime =
+			    CALCULATE ( [Line Count], po_fact_table[on_time_vs_due_flag] = "On Time" )
+			VAR Total =
+			    CALCULATE ( [Line Count], NOT ( ISBLANK ( po_fact_table[on_time_vs_due_flag] ) ) )
+			RETURN
+			DIVIDE ( OnTime, Total, BLANK() )
+			
+			```
+		formatString: 0%;-0%;0%
+		displayFolder: 15 - Supplier Drillthrough
+		lineageTag: a1000004-0001-0001-0001-000000000001
+
+	measure 'Supplier Category Count' = COUNTROWS ( VALUES ( po_fact_table[item_category_l1] ) )
+		formatString: 0
+		displayFolder: 15 - Supplier Drillthrough
+		lineageTag: a1000004-0001-0001-0001-000000000002
+
+	measure 'Supplier Avg Lead Time' = AVERAGE ( po_fact_table[lead_time_days] )
+		formatString: 0
+		displayFolder: 15 - Supplier Drillthrough
+		lineageTag: a1000004-0001-0001-0001-000000000003
+
+	measure 'Supplier First Order' = FORMAT ( MIN ( po_fact_table[order_date] ), "MMM YYYY" )
+		displayFolder: 15 - Supplier Drillthrough
+		lineageTag: a1000004-0001-0001-0001-000000000004
+
+	measure 'Supplier Spend Trend Spark' = ```
+			
+			VAR CurrentMonth =
+			    CALCULATE ( [Total Spend], DATESMTD ( 'Time Intelligence'[Date] ) )
+			VAR PriorMonth =
+			    CALCULATE (
+			        [Total Spend],
+			        DATEADD ( 'Time Intelligence'[Date], -1, MONTH )
+			    )
+			RETURN
+			IF (
+			    CurrentMonth > PriorMonth,
+			    UNICHAR ( 9650 ) & " " & FORMAT ( CurrentMonth, "$#,0" ),
+			    IF (
+			        CurrentMonth < PriorMonth,
+			        UNICHAR ( 9660 ) & " " & FORMAT ( CurrentMonth, "$#,0" ),
+			        UNICHAR ( 9654 ) & " " & FORMAT ( CurrentMonth, "$#,0" )
+			    )
+			)
+			
+			```
+		displayFolder: 15 - Supplier Drillthrough
+		lineageTag: a1000004-0001-0001-0001-000000000005
+
+	column Column
+		isHidden
+		formatString: 0
+		lineageTag: 17aa14aa-65a6-4b53-8b32-7d28fb53f4f5
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Column]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Measure Table' = calculated
+		mode: import
+		source = Row("Column", BLANK())
+
+	annotation PBI_Id = 895dbde2a6424c3c89d3e76b0159a4d4
+

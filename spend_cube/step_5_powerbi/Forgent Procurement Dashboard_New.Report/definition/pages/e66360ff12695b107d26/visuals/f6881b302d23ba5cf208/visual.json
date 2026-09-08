@@ -1,0 +1,503 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.5.0/schema.json",
+  "name": "f6881b302d23ba5cf208",
+  "position": {
+    "x": 264.82758620689657,
+    "y": 141.50101419878297,
+    "z": 6000,
+    "height": 553.02231237322519,
+    "width": 995.69979716024352,
+    "tabOrder": 6000
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "po_fact_table"
+                    }
+                  },
+                  "Property": "item_id"
+                }
+              },
+              "queryRef": "po_fact_table.item_id",
+              "nativeQueryRef": "item_id"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "DimItem"
+                    }
+                  },
+                  "Property": "item_name"
+                }
+              },
+              "queryRef": "DimItem.item_name",
+              "nativeQueryRef": "item_name"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Measure Table"
+                    }
+                  },
+                  "Property": "Total Spend"
+                }
+              },
+              "queryRef": "Measure Table.Total Spend",
+              "nativeQueryRef": "Total Spend"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Measure Table"
+                    }
+                  },
+                  "Property": "Total Quantity"
+                }
+              },
+              "queryRef": "Measure Table.Total Quantity",
+              "nativeQueryRef": "Total Quantity"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Measure Table"
+                    }
+                  },
+                  "Property": "Avg Unit Cost"
+                }
+              },
+              "queryRef": "Measure Table.Avg Unit Cost",
+              "nativeQueryRef": "Avg Unit Cost"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Measure Table"
+                    }
+                  },
+                  "Property": "Total Weight (Lbs)"
+                }
+              },
+              "queryRef": "Measure Table.Total Weight (Lbs)",
+              "nativeQueryRef": "Total Weight (Lbs)"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Measure Table"
+                    }
+                  },
+                  "Property": "Received Quantity"
+                }
+              },
+              "queryRef": "Measure Table.Received Quantity",
+              "nativeQueryRef": "Received Quantity"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Measure Table"
+                    }
+                  },
+                  "Property": "Open Qty"
+                }
+              },
+              "queryRef": "Measure Table.Open Qty",
+              "nativeQueryRef": "Open Qty"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "po_fact_table"
+                    }
+                  },
+                  "Property": "item_spec_frame"
+                }
+              },
+              "queryRef": "po_fact_table.item_spec_frame",
+              "nativeQueryRef": "item_spec_frame"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "po_fact_table"
+                    }
+                  },
+                  "Property": "item_spec_amps"
+                }
+              },
+              "queryRef": "po_fact_table.item_spec_amps",
+              "nativeQueryRef": "item_spec_amps"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "po_fact_table"
+                    }
+                  },
+                  "Property": "item_spec_gauge"
+                }
+              },
+              "queryRef": "po_fact_table.item_spec_gauge",
+              "nativeQueryRef": "item_spec_gauge"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "po_fact_table"
+                    }
+                  },
+                  "Property": "item_spec_kaic"
+                }
+              },
+              "queryRef": "po_fact_table.item_spec_kaic",
+              "nativeQueryRef": "item_spec_kaic"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "po_fact_table"
+                    }
+                  },
+                  "Property": "item_spec_kva"
+                }
+              },
+              "queryRef": "po_fact_table.item_spec_kva",
+              "nativeQueryRef": "item_spec_kva"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "po_fact_table"
+                    }
+                  },
+                  "Property": "item_spec_nema"
+                }
+              },
+              "queryRef": "po_fact_table.item_spec_nema",
+              "nativeQueryRef": "item_spec_nema"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "po_fact_table"
+                    }
+                  },
+                  "Property": "item_spec_phase"
+                }
+              },
+              "queryRef": "po_fact_table.item_spec_phase",
+              "nativeQueryRef": "item_spec_phase"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "po_fact_table"
+                    }
+                  },
+                  "Property": "item_spec_poles"
+                }
+              },
+              "queryRef": "po_fact_table.item_spec_poles",
+              "nativeQueryRef": "item_spec_poles"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "po_fact_table"
+                    }
+                  },
+                  "Property": "item_spec_type"
+                }
+              },
+              "queryRef": "po_fact_table.item_spec_type",
+              "nativeQueryRef": "item_spec_type"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "po_fact_table"
+                    }
+                  },
+                  "Property": "item_spec_voltage"
+                }
+              },
+              "queryRef": "po_fact_table.item_spec_voltage",
+              "nativeQueryRef": "item_spec_voltage"
+            },
+            {
+              "field": {
+                "Aggregation": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "po_fact_table"
+                        }
+                      },
+                      "Property": "rawmat_length"
+                    }
+                  },
+                  "Function": 0
+                }
+              },
+              "queryRef": "Sum(po_fact_table.rawmat_length)",
+              "nativeQueryRef": "Sum of rawmat_length"
+            },
+            {
+              "field": {
+                "Aggregation": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "po_fact_table"
+                        }
+                      },
+                      "Property": "rawmat_width"
+                    }
+                  },
+                  "Function": 0
+                }
+              },
+              "queryRef": "Sum(po_fact_table.rawmat_width)",
+              "nativeQueryRef": "Sum of rawmat_width"
+            },
+            {
+              "field": {
+                "Aggregation": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "po_fact_table"
+                        }
+                      },
+                      "Property": "rawmat_thickness"
+                    }
+                  },
+                  "Function": 0
+                }
+              },
+              "queryRef": "Sum(po_fact_table.rawmat_thickness)",
+              "nativeQueryRef": "Sum of rawmat_thickness"
+            },
+            {
+              "field": {
+                "Aggregation": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "po_fact_table"
+                        }
+                      },
+                      "Property": "rawmat_weight_lbs"
+                    }
+                  },
+                  "Function": 0
+                }
+              },
+              "queryRef": "Sum(po_fact_table.rawmat_weight_lbs)",
+              "nativeQueryRef": "Sum of rawmat_weight_lbs"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "po_fact_table"
+                    }
+                  },
+                  "Property": "rawmat_finish"
+                }
+              },
+              "queryRef": "po_fact_table.rawmat_finish",
+              "nativeQueryRef": "rawmat_finish"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "po_fact_table"
+                    }
+                  },
+                  "Property": "rawmat_uom"
+                }
+              },
+              "queryRef": "po_fact_table.rawmat_uom",
+              "nativeQueryRef": "rawmat_uom"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Measure": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "Measure Table"
+                  }
+                },
+                "Property": "Total Spend"
+              }
+            },
+            "direction": "Descending"
+          }
+        ]
+      }
+    },
+    "objects": {
+      "values": [
+        {
+          "properties": {
+            "wordWrap": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Part Explorer'"
+                }
+              }
+            },
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "12D"
+                }
+              }
+            },
+            "fontColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "ThemeDataColor": {
+                      "ColorId": 1,
+                      "Percent": 0.2
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ],
+      "dropShadow": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "stylePreset": [
+        {
+          "properties": {
+            "name": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Minimal'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "4e441fc4f8d14f1855f5",
+        "field": {
+          "Aggregation": {
+            "Expression": {
+              "Column": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "SupplierRankAxis"
+                  }
+                },
+                "Property": "Value"
+              }
+            },
+            "Function": 0
+          }
+        },
+        "type": "Advanced",
+        "howCreated": "User"
+      }
+    ]
+  }
+}

@@ -1,0 +1,16 @@
+table DimCategory
+	lineageTag: 11111111-1111-1111-1111-111111111111
+
+	column item_category_l1
+		dataType: string
+		lineageTag: b21b861f-e2b6-4e9e-bfa5-fbe36ed4f4ef
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: po_fact_table[item_category_l1]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition DimCategory = calculated
+		mode: import
+		source = DISTINCT ( po_fact_table[item_category_l1] )
+

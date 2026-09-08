@@ -1,0 +1,19 @@
+table DatePerspective
+	isHidden
+	lineageTag: 5a2e1c28-1c96-4581-a3be-83aac4bd13ae
+
+	column Perspective
+		isHidden
+		lineageTag: ce11db62-436b-4add-a735-fd463ee729d6
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Perspective]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition DatePerspective = calculated
+		mode: import
+		source = DATATABLE("Perspective", STRING, {{"Receipt Date"}, {"Order Date"}})
+
+	annotation PBI_Id = 04620caa71a54212a9561708e8135f41
+

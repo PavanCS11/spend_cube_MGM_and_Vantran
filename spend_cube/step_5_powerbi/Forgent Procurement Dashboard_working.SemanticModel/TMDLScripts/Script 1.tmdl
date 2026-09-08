@@ -1,0 +1,2695 @@
+createOrReplace
+
+	table 'Measure Table'
+		lineageTag: 18a9ba7b-952b-4bce-b4af-b58ede00c69a
+
+		measure 'Total Spend' = [Received Spend] + [Open Spend]
+			formatString: \$#,0;(\$#,0);\$#,0
+			displayFolder: 01 - KPIs
+			lineageTag: e9e65540-4f57-4ea3-a88a-8b8ead3e0364
+
+			annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+		measure 'Avg Order Value' =
+				
+				DIVIDE([Total Spend], [Order Count], 0)
+			formatString: \$#,0;(\$#,0);\$#,0
+			displayFolder: 01 - KPIs
+			lineageTag: 7d261279-773e-4077-89ce-23a3aa07daf0
+
+			annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+		measure 'Avg Unit Cost' =
+				
+				AVERAGE(po_fact_table[unit_cost])
+			formatString: \$#,0;(\$#,0);\$#,0
+			displayFolder: 01 - KPIs
+			lineageTag: 67bd973b-7ddb-46ec-a624-1a7d0741a468
+
+			annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+		measure 'Order Count' = ```
+				
+				COUNTROWS(
+				    FILTER(
+				        VALUES( po_fact_table[po_number] ),
+				        ABS( COALESCE( [Total Spend], 0 ) ) > 0
+				    )
+				)
+				
+				```
+			formatString: #,0
+			displayFolder: 01 - KPIs
+			lineageTag: a32932a7-19ff-4bde-b04d-fa4d0a37a6c6
+
+		measure 'Line Count' =
+				
+				COUNTROWS(po_fact_table)
+			formatString: 0
+			displayFolder: 01 - KPIs
+			lineageTag: 099a72f7-0a02-4ec1-b2c2-80a8ca4efc30
+
+		measure 'Supplier Count' = ```
+				
+				COUNTROWS(
+				    FILTER(
+				        VALUES( DimSupplier[standardized_vendor_name] ),
+				        COALESCE( [Total Spend], 0 ) > 0
+				    )
+				)
+				
+				```
+			formatString: 0
+			displayFolder: 01 - KPIs
+			lineageTag: 54b8c793-148a-4f32-9d90-1d4ffe96f7f2
+
+		measure 'Item Count' = ```
+				
+				COUNTROWS(
+				    FILTER(
+				        VALUES( po_fact_table[item_id] ),
+				        COALESCE( [Total Spend], 0 ) > 0
+				    )
+				)
+				
+				```
+			formatString: #,0
+			displayFolder: 01 - KPIs
+			lineageTag: c1123145-97d8-443a-acfe-8e34e2508146
+
+		measure 'States Spend' =
+				
+				CALCULATE([Total Spend], po_fact_table[source_system] = "EPICOR")
+			formatString: \$#,0;(\$#,0);\$#,0
+			displayFolder: 03 - Business Unit
+			lineageTag: dd62eeee-65cd-4097-82e3-fc41e2ba0f4a
+
+			annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+		measure 'PwrQ Spend' =
+				
+				CALCULATE([Total Spend], po_fact_table[source_system] = "NETSUITE")
+			formatString: \$#,0;(\$#,0);\$#,0
+			displayFolder: 03 - Business Unit
+			lineageTag: 5391e40d-6cd9-4754-b21c-9ef548861212
+
+			annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+		measure 'Open Orders' =
+				
+				CALCULATE([Order Count], po_fact_table[is_open_order] = TRUE)
+			formatString: 0
+			displayFolder: 06 - Operations
+			lineageTag: 66efd3e9-132b-4bf3-8acd-84a0bab3d7cf
+
+		measure 'Open Lines – Ordered Amount' = ```
+				
+				CALCULATE (
+				    [Total Spend],
+				    po_fact_table[is_open_order] = TRUE ()
+				)
+				
+				
+				```
+			formatString: \$#,0;(\$#,0);\$#,0
+			displayFolder: 06 - Operations
+			lineageTag: 0e039b03-5d33-4da9-a33a-b205c6b40605
+
+			annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+		measure 'YTD Spend' = ```
+				
+				CALCULATE (
+				    [Total Spend],
+				    DATESYTD ( 'Time Intelligence'[Date] )
+				)
+				
+				```
+			formatString: \$#,0;(\$#,0);\$#,0
+			displayFolder: 02 - Time Intelligence
+			lineageTag: b5eb18c4-bfb7-4819-96fb-b84042e9aa9f
+
+			annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+		measure 'QTD Spend' = ```
+				
+				CALCULATE (
+				    [Total Spend],
+				    DATESQTD ( 'Time Intelligence'[Date] )
+				)
+				
+				```
+			formatString: \$#,0;(\$#,0);\$#,0
+			displayFolder: 02 - Time Intelligence
+			lineageTag: 50f0fdd4-cb37-4557-8c0d-eea76d379a83
+
+			annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+		measure 'MTD Spend' = ```
+				
+				CALCULATE (
+				    [Total Spend],
+				    DATESMTD ( 'Time Intelligence'[Date] )
+				)
+				
+				```
+			formatString: \$#,0;(\$#,0);\$#,0
+			displayFolder: 02 - Time Intelligence
+			lineageTag: 98504938-b90c-4b45-9b97-b8fd9962a7fe
+
+			annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+		measure 'Prior Year Spend' = ```
+				
+				CALCULATE (
+				    [Total Spend],
+				    DATEADD ( 'Time Intelligence'[Date], -1, YEAR )
+				)
+				
+				```
+			formatString: \$#,0;(\$#,0);\$#,0
+			displayFolder: 02 - Time Intelligence
+			lineageTag: 23ff2987-e6e3-4763-b8be-b4a3dbc5c710
+
+			annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+		measure 'YoY %' = ```
+
+				VAR PY = [Prior Year Spend]
+				RETURN
+				DIVIDE ( [Total Spend] - PY, PY )
+
+				```
+			formatString: 0%;-0%;0%
+			displayFolder: 02 - Time Intelligence
+			lineageTag: d058f867-5f90-443d-8fd5-08bb7cbe96dd
+
+		measure 'YoY Unit Cost %' = ```
+
+				VAR CurrentAvg = [Avg Unit Cost]
+				VAR PriorAvg =
+				    CALCULATE(
+				        [Avg Unit Cost],
+				        DATEADD('Time Intelligence'[Date], -1, YEAR)
+				    )
+				RETURN
+				DIVIDE(CurrentAvg - PriorAvg, PriorAvg)
+
+				```
+			formatString: 0%;-0%;0%
+			displayFolder: 02 - Time Intelligence
+			lineageTag: e169f978-6a91-4b5c-9d2e-1f3a4b5c6d7e
+
+		measure 'PPV Savings' = ```
+
+				VAR CurrentAvgCost = [Avg Unit Cost]
+				VAR PriorAvgCost =
+				    CALCULATE(
+				        [Avg Unit Cost],
+				        DATEADD('Time Intelligence'[Date], -1, YEAR)
+				    )
+				VAR TotalQty = [Total Quantity]
+				RETURN
+				IF(
+				    NOT ISBLANK(PriorAvgCost) && NOT ISBLANK(CurrentAvgCost),
+				    (PriorAvgCost - CurrentAvgCost) * TotalQty,
+				    BLANK()
+				)
+
+				```
+			formatString: \$#,0;(\$#,0);\$#,0
+			displayFolder: 02 - Time Intelligence
+			lineageTag: f270a989-7b02-4c6d-ae3f-2g4b5c6d8e9f
+
+			annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+		measure 'Rolling 12M Spend' = ```
+				
+				VAR EndDate = MAX ( 'Time Intelligence'[Date] )
+				RETURN
+				CALCULATE (
+				    [Total Spend],
+				    DATESINPERIOD ( 'Time Intelligence'[Date], EndDate, -12, MONTH )
+				)
+				
+				```
+			formatString: \$#,0;(\$#,0);\$#,0
+			displayFolder: 02 - Time Intelligence
+			lineageTag: 66512e80-9651-46d0-bba2-3f9c01bb7904
+
+			annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+		measure 'Top 10 Supplier Concentration %' = ```
+				
+				VAR t =
+				    TOPN(
+				        10,
+				        ALLSELECTED( DimSupplier[standardized_vendor_name] ),
+				        [Total Spend],
+				        DESC
+				    )
+				VAR Top10Spend = SUMX( t, [Total Spend] )
+				VAR TotalSpend =
+				    CALCULATE( [Total Spend], ALLSELECTED( DimSupplier[standardized_vendor_name] ) )
+				RETURN
+				DIVIDE( Top10Spend, TotalSpend )
+				
+				```
+			formatString: 0%;-0%;0%
+			displayFolder: 04 - Supplier Analysis
+			lineageTag: f4c3b7f5-1441-49af-944d-d747fcfe788e
+
+		measure 'Top 3 Supplier Concentration %' = ```
+
+				VAR Top3Suppliers =
+				    TOPN(
+				        3,
+				        VALUES(DimSupplier[standardized_vendor_name]),
+				        [Total Spend],
+				        DESC
+				    )
+				VAR Top3Spend = SUMX(Top3Suppliers, [Total Spend])
+				VAR CategoryTotal = [Category Spend]
+				RETURN
+				DIVIDE(Top3Spend, CategoryTotal, 0)
+
+				```
+			formatString: 0%;-0%;0%
+			displayFolder: 04 - Supplier Analysis
+			lineageTag: ad69590d-490c-4706-9f07-fd5283525e83
+
+		measure 'Overdue Count' =
+				CALCULATE(
+				    COUNTROWS(po_fact_table),
+				    po_fact_table[is_overdue] = TRUE,
+				    ALL('Time Intelligence')
+				)
+			formatString: #,0
+			displayFolder: 06 - Operations
+			lineageTag: ef30d488-12de-44d5-86fc-b8a12893a374
+
+		measure 'Overdue Amount' =
+				CALCULATE(
+				    SUM(po_fact_table[open_amount]),
+				    po_fact_table[is_overdue] = TRUE,
+				    ALL('Time Intelligence')
+				)
+			formatString: \$#,0;(\$#,0);\$#,0
+			displayFolder: 06 - Operations
+			lineageTag: ad7e17d3-e4dc-40e1-9ed1-dff9fd83f60b
+
+			annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+		measure 'Avg Lead Time' =
+
+				AVERAGE(po_fact_table[lead_time_days])
+			formatString: 0
+			displayFolder: 06 - Operations
+			lineageTag: 6f18b35a-48b3-4053-987c-6351fd872905
+
+		measure 'Weighted Lead Time' = ```
+
+				DIVIDE(
+				    SUMX(
+				        po_fact_table,
+				        po_fact_table[lead_time_days] * po_fact_table[open_plus_received_amount]
+				    ),
+				    [Total Spend],
+				    0
+				)
+
+				```
+			formatString: 0.0
+			displayFolder: 06 - Operations
+			lineageTag: 7g28c46b-59d4-4164-a98d-7462ge983016
+
+		measure 'Total Spend (Raw)' =
+				CALCULATE (
+					SUM ( 'po_fact_table'[received_amount] ),
+					KEEPFILTERS ( 'po_fact_table'[transaction_type] = "RECEIPT" )
+				) +
+				CALCULATE (
+					SUM ( 'po_fact_table'[open_amount] ),
+					KEEPFILTERS ( 'po_fact_table'[transaction_type] = "OPEN_ORDER" )
+				)
+			isHidden
+			displayFolder: _Base
+			lineageTag: 98ba5d69-1b89-469b-a282-2db305c7f2da
+
+		measure 'Open Lines – Remaining Amount' = ```
+				
+				CALCULATE (
+				    SUM ( po_fact_table[open_amount] ),
+				    po_fact_table[is_open_order] = TRUE ()
+				)
+				
+				```
+			formatString: \$#,0;(\$#,0);\$#,0
+			displayFolder: 06 - Operations
+			lineageTag: 10fa5f2a-2fbc-426a-86ea-d344e5cd27f7
+
+			annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+		measure 'Spend at Rank' = ```
+				
+				VAR r = SELECTEDVALUE( SupplierRankAxis[Value] )
+				VAR t =
+				    ADDCOLUMNS(
+				        ALLSELECTED( DimSupplier[standardized_vendor_name] ),
+				        "__Spend", [Total Spend]
+				    )
+				VAR tRanked =
+				    ADDCOLUMNS(
+				        t,
+				        "__Rank", RANKX( t, [__Spend], , DESC, Dense )
+				    )
+				RETURN
+				SUMX( FILTER( tRanked, [__Rank] = r ), [__Spend] )
+				
+				```
+			formatString: \$#,0;(\$#,0);\$#,0
+			displayFolder: 04 - Supplier Analysis
+			lineageTag: b0e805a8-19d9-413a-be9c-1826f91fa136
+
+			annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+		measure 'Cum Supplier % at Rank' = ```
+				
+				VAR r = SELECTEDVALUE( SupplierRankAxis[Value] )
+				VAR t =
+				    ADDCOLUMNS(
+				        ALLSELECTED( DimSupplier[standardized_vendor_name] ),
+				        "__Spend", [Total Spend]
+				    )
+				VAR tRanked =
+				    ADDCOLUMNS(
+				        t,
+				        "__Rank", RANKX( t, [__Spend], , DESC, Dense )
+				    )
+				VAR cumSpend =
+				    SUMX( FILTER( tRanked, [__Rank] <= r ), [__Spend] )
+				VAR totalSpend =
+				    SUMX( tRanked, [__Spend] )
+				RETURN
+				DIVIDE( cumSpend, totalSpend )
+				
+				```
+			formatString: 0%;-0%;0%
+			displayFolder: 04 - Supplier Analysis
+			lineageTag: 97adbc2b-d559-452b-969f-e498191c509d
+
+		measure 'Supplier Count @ 80%' = ```
+				
+				VAR t =
+				    ADDCOLUMNS(
+				        ALLSELECTED( DimSupplier[standardized_vendor_name] ),
+				        "__Spend", [Total Spend]
+				    )
+				VAR tRanked =
+				    ADDCOLUMNS(
+				        t,
+				        "__Rank", RANKX( t, [__Spend], , DESC, Dense )
+				    )
+				VAR totalSpend = SUMX( tRanked, [__Spend] )
+				VAR tCum =
+				    ADDCOLUMNS(
+				        tRanked,
+				        "__CumSpend",
+				            VAR r = [__Rank]
+				            RETURN SUMX( FILTER( tRanked, [__Rank] <= r ), [__Spend] )
+				    )
+				RETURN
+				MINX( FILTER( tCum, DIVIDE( [__CumSpend], totalSpend ) >= 0.8 ), [__Rank] )
+				
+				```
+			formatString: #,0
+			displayFolder: 04 - Supplier Analysis
+			lineageTag: e4a983e7-1de6-4550-9ef3-2d93b6f53ad3
+
+		measure 'Supplier Share of Category' = ```
+				
+				VAR VendorSpend = [Total Spend]
+				VAR CategoryTotal =
+				    CALCULATE(
+				        [Total Spend],
+				        REMOVEFILTERS( DimSupplier[standardized_vendor_name] )
+				    )
+				RETURN
+				DIVIDE( VendorSpend, CategoryTotal )
+				
+				```
+			formatString: 0.0%;-0.0%;0.0%
+			displayFolder: 04 - Supplier Analysis
+			lineageTag: 1d4b7256-1d16-45a0-900e-afc1addf8479
+
+		measure 'Category Spend' = ```
+				
+				CALCULATE( [Total Spend], REMOVEFILTERS( DimSupplier[standardized_vendor_name] ) )
+				
+				```
+			displayFolder: 04 - Supplier Analysis
+			lineageTag: 7776f956-3d63-4fe8-8b0c-fd7feeaabbce
+
+			annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+		measure 'Top Supplier Share %' = ```
+				
+				VAR CatTotal = [Category Spend]
+				VAR TopSupplierSpend =
+				    MAXX(
+				        VALUES( DimSupplier[standardized_vendor_name] ),
+				        [Total Spend]
+				    )
+				RETURN
+				DIVIDE( TopSupplierSpend, CatTotal )
+				
+				```
+			formatString: 0%;-0%;0%
+			displayFolder: 04 - Supplier Analysis
+			lineageTag: ed91d1f8-5e4a-432e-83f9-4a2144781c46
+
+		measure 'Top Supplier Name' = ```
+				
+				VAR t =
+				    TOPN(
+				        1,
+				        VALUES( DimSupplier[standardized_vendor_name] ),
+				        [Total Spend],
+				        DESC
+				    )
+				RETURN
+				MAXX( t, DimSupplier[standardized_vendor_name] )
+				
+				```
+			displayFolder: 04 - Supplier Analysis
+			lineageTag: bc13ea36-77a8-40e6-972c-5e9c85a428b8
+
+		measure 'Top Category Name' = ```
+				
+				VAR t =
+				    TOPN(
+				        1,
+				        VALUES( po_fact_table[item_category_l1] ),
+				        [Total Spend],
+				        DESC
+				    )
+				RETURN
+				MAXX( t, po_fact_table[item_category_l1] )
+				
+				```
+			displayFolder: 05 - Category Analysis
+			lineageTag: add0af24-90d0-4378-bc0b-40365a102f5f
+
+		measure 'Top Category Spend' = ```
+				
+				VAR TopCat = [Top Category Name]
+				RETURN
+				CALCULATE(
+				    [Total Spend],
+				    KEEPFILTERS( po_fact_table[item_category_l1] = TopCat )
+				)
+				
+				```
+			formatString: \$#,0;(\$#,0);\$#,0
+			displayFolder: 05 - Category Analysis
+			lineageTag: 693b01b8-5c5e-4703-82ad-9beee26a6934
+
+			annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+		measure 'Top Category Supplier Count' = ```
+				
+				VAR TopCat = [Top Category Name]
+				RETURN
+				CALCULATE(
+				    COUNTROWS(
+				        FILTER(
+				            VALUES( DimSupplier[standardized_vendor_name] ),
+				            COALESCE( [Total Spend], 0 ) > 0
+				        )
+				    ),
+				    KEEPFILTERS( po_fact_table[item_category_l1] = TopCat )
+				)
+				
+				```
+			formatString: #,0
+			displayFolder: 05 - Category Analysis
+			lineageTag: a2fd9b3b-2793-4271-b997-80fe6f8fc5a6
+
+		measure 'Top Category Top Supplier Share %' = ```
+				
+				VAR TopCat = [Top Category Name]
+				VAR CatTotal =
+				    CALCULATE(
+				        [Total Spend],
+				        KEEPFILTERS( po_fact_table[item_category_l1] = TopCat ),
+				        REMOVEFILTERS( DimSupplier[standardized_vendor_name] )
+				    )
+				VAR TopSuppSpend =
+				    CALCULATE(
+				        MAXX( VALUES( DimSupplier[standardized_vendor_name] ), [Total Spend] ),
+				        KEEPFILTERS( po_fact_table[item_category_l1] = TopCat )
+				    )
+				RETURN
+				DIVIDE( TopSuppSpend, CatTotal )
+				
+				```
+			formatString: 0%;-0%;0%
+			displayFolder: 05 - Category Analysis
+			lineageTag: a4abd8e8-2793-4c60-9286-582daf164d68
+
+		measure 'Avg Unit Cost (Top Category)' = ```
+				
+				VAR TopCat = [Top Category Name]
+				VAR Spend =
+				    CALCULATE( [Total Spend], KEEPFILTERS( po_fact_table[item_category_l1] = TopCat ) )
+				VAR Qty =
+				    CALCULATE( [Total Quantity], KEEPFILTERS( po_fact_table[item_category_l1] = TopCat ) )
+				RETURN
+				DIVIDE( Spend, Qty )
+				
+				
+				```
+			formatString: \$#,0;(\$#,0);\$#,0
+			displayFolder: 05 - Category Analysis
+			lineageTag: c9c6f144-58d6-4c54-b39c-829e3c830152
+
+			annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+		measure 'Category YoY %' = ```
+				
+				VAR CY = [Total Spend]
+				VAR PY = CALCULATE( [Total Spend], SAMEPERIODLASTYEAR( 'Time Intelligence'[Date] ) )
+				RETURN
+				DIVIDE( CY - PY, PY )
+				
+				```
+			formatString: 0%;-0%;0%
+			displayFolder: 05 - Category Analysis
+			lineageTag: 0642d307-c54a-4b1d-a85f-7948861b1c91
+
+		measure 'YoY Growth Leader (Category)' = ```
+				
+				VAR t =
+				    TOPN(
+				        1,
+				        ADDCOLUMNS(
+				            VALUES( po_fact_table[item_category_l1] ),
+				            "__YoY", [Category YoY %]
+				        ),
+				        [__YoY],
+				        DESC
+				    )
+				RETURN
+				MAXX( t, po_fact_table[item_category_l1] )
+				
+				```
+			displayFolder: 05 - Category Analysis
+			lineageTag: 5210b5ac-31a9-4e83-a527-1619d7fedb05
+
+		measure 'YoY Growth Leader %' = ```
+				
+				VAR Cat = [YoY Growth Leader (Category)]
+				RETURN
+				CALCULATE(
+				    [Category YoY %],
+				    KEEPFILTERS( po_fact_table[item_category_l1] = Cat )
+				)
+				
+				```
+			formatString: 0%;-0%;0%
+			displayFolder: 05 - Category Analysis
+			lineageTag: edaf99c7-c660-4b86-a4c6-7378ee7d0d94
+
+		measure 'Received Quantity (Raw)' = SUM ( 'po_fact_table'[received_quantity] )
+			isHidden
+			displayFolder: _Base
+			lineageTag: 56c507c0-e8de-463b-a18e-66608a802e44
+
+		measure 'Received Spend' = ```
+				
+				VAR SelectedPerspective =
+				    SELECTEDVALUE ( DatePerspective[Perspective], "Receipt Date" )
+				RETURN
+				    SWITCH (
+				        TRUE (),
+				        SelectedPerspective = "Order Date",
+				            CALCULATE (
+				                SUM ( po_fact_table[received_amount] ),
+				                KEEPFILTERS ( po_fact_table[transaction_type] = "RECEIPT" ),
+				                USERELATIONSHIP ( 'Time Intelligence'[Date], po_fact_table[order_date] )
+				            ),
+				        CALCULATE (
+				            SUM ( po_fact_table[received_amount] ),
+				            KEEPFILTERS ( po_fact_table[transaction_type] = "RECEIPT" ),
+				            USERELATIONSHIP ( 'Time Intelligence'[Date], po_fact_table[analysis_date] )
+				        )
+				    )
+				
+				```
+			formatString: $#,0;($#,0);$#,0
+			displayFolder: 08 - Receipts & Backlog
+			lineageTag: d1685c17-91c6-438c-b823-f6f0b09d1206
+
+		measure 'Received Quantity' =
+				VAR SelectedPerspective =
+					SELECTEDVALUE ( DatePerspective[Perspective], "Receipt Date" )
+				RETURN
+					SWITCH (
+						TRUE (),
+						SelectedPerspective = "Order Date",
+							CALCULATE (
+								SUM ( 'po_fact_table'[received_quantity] ),
+								KEEPFILTERS ( 'po_fact_table'[transaction_type] = "RECEIPT" ),
+								USERELATIONSHIP ( 'Time Intelligence'[Date], 'po_fact_table'[order_date] )
+							),
+						CALCULATE (
+							SUM ( 'po_fact_table'[received_quantity] ),
+							KEEPFILTERS ( 'po_fact_table'[transaction_type] = "RECEIPT" ),
+							USERELATIONSHIP ( 'Time Intelligence'[Date], 'po_fact_table'[analysis_date] )
+						)
+					)
+			formatString: #,0
+			displayFolder: 08 - Receipts & Backlog
+			lineageTag: 47f3106e-a013-4540-b56f-5484fc106f86
+
+		measure 'Open Spend' =
+				VAR SelectedPerspective =
+					SELECTEDVALUE ( DatePerspective[Perspective], "Receipt Date" )
+				RETURN
+					SWITCH (
+						TRUE (),
+						SelectedPerspective = "Order Date",
+							CALCULATE (
+								SUM ( 'po_fact_table'[open_amount] ),
+								KEEPFILTERS ( 'po_fact_table'[transaction_type] = "OPEN_ORDER" ),
+								'po_fact_table'[is_open_order] = TRUE (),
+								USERELATIONSHIP ( 'Time Intelligence'[Date], 'po_fact_table'[order_date] )
+							),
+						CALCULATE (
+							SUM ( 'po_fact_table'[open_amount] ),
+							KEEPFILTERS ( 'po_fact_table'[transaction_type] = "OPEN_ORDER" ),
+							'po_fact_table'[is_open_order] = TRUE (),
+							USERELATIONSHIP ( 'Time Intelligence'[Date], 'po_fact_table'[analysis_date] )
+						)
+					)
+			formatString: $#,0;($#,0);$#,0
+			displayFolder: 08 - Receipts & Backlog
+			lineageTag: fb31e97e-a6ac-45a7-a1e8-f41d8eecd20b
+
+		measure 'Open Qty' =
+				VAR SelectedPerspective =
+					SELECTEDVALUE ( DatePerspective[Perspective], "Receipt Date" )
+				RETURN
+					SWITCH (
+						TRUE (),
+						SelectedPerspective = "Order Date",
+							CALCULATE (
+								SUM ( 'po_fact_table'[open_quantity] ),
+								KEEPFILTERS ( 'po_fact_table'[transaction_type] = "OPEN_ORDER" ),
+								'po_fact_table'[is_open_order] = TRUE (),
+								USERELATIONSHIP ( 'Time Intelligence'[Date], 'po_fact_table'[order_date] )
+							),
+						CALCULATE (
+							SUM ( 'po_fact_table'[open_quantity] ),
+							KEEPFILTERS ( 'po_fact_table'[transaction_type] = "OPEN_ORDER" ),
+							'po_fact_table'[is_open_order] = TRUE (),
+							USERELATIONSHIP ( 'Time Intelligence'[Date], 'po_fact_table'[analysis_date] )
+						)
+					)
+			formatString: #,0
+			displayFolder: 08 - Receipts & Backlog
+			lineageTag: d87da207-3a6c-4c0f-99f2-7f0cb986d88f
+
+		measure 'Total Quantity' = [Received Quantity] + [Open Qty]
+			formatString: #,0
+			displayFolder: 01 - KPIs
+			lineageTag: 86542fd8-3258-47eb-8d74-63ca273b139c
+
+		measure 'New Vendors (YTD)' =
+				VAR CurrentYear = YEAR ( CALCULATE ( MAX ( po_fact_table[order_date] ), ALL ( po_fact_table ) ) )
+				VAR VendorsThisYear =
+				    CALCULATETABLE (
+				        VALUES ( po_fact_table[standardized_vendor_name] ),
+				        YEAR ( po_fact_table[order_date] ) = CurrentYear,
+				        ALL ( po_fact_table )
+				    )
+				VAR VendorsPriorYears =
+				    CALCULATETABLE (
+				        VALUES ( po_fact_table[standardized_vendor_name] ),
+				        YEAR ( po_fact_table[order_date] ) < CurrentYear,
+				        ALL ( po_fact_table )
+				    )
+				RETURN
+				    COUNTROWS ( EXCEPT ( VendorsThisYear, VendorsPriorYears ) ) + 0
+			formatString: 0
+			displayFolder: 04 - Supplier Analysis
+			lineageTag: aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa
+
+		measure 'Avg Vendors per Category' =
+				AVERAGEX (
+				    VALUES ( po_fact_table[item_category_l1] ),
+				    [Supplier Count]
+				)
+			formatString: 0.0
+			displayFolder: 05 - Category Analysis
+			lineageTag: bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb
+
+		measure 'Multi-Source Items' =
+				COUNTROWS (
+				    FILTER (
+				        SUMMARIZE (
+				            po_fact_table,
+				            po_fact_table[item_id],
+				            "VendorCt", DISTINCTCOUNT ( po_fact_table[standardized_vendor_name] )
+				        ),
+				        [VendorCt] >= 2
+				    )
+				)
+			formatString: #,0
+			displayFolder: 05 - Category Analysis
+			lineageTag: cccccccc-cccc-cccc-cccc-cccccccccccc
+
+		measure 'Items with Price Increase' =
+				VAR ItemsWithIncrease =
+				    COUNTROWS (
+				        FILTER (
+				            VALUES ( po_fact_table[item_id] ),
+				            VAR CurrentAvg = AVERAGE ( po_fact_table[unit_cost] )
+				            VAR PriorAvg =
+				                CALCULATE (
+				                    AVERAGE ( po_fact_table[unit_cost] ),
+				                    SAMEPERIODLASTYEAR ( 'Time Intelligence'[Date] )
+				                )
+				            RETURN
+				                NOT ISBLANK ( PriorAvg )
+				                    && CurrentAvg > PriorAvg * 1.10
+				        )
+				    )
+				RETURN
+				    ItemsWithIncrease
+			formatString: #,0
+			displayFolder: 05 - Category Analysis
+			lineageTag: dddddddd-dddd-dddd-dddd-dddddddddddd
+
+		measure 'Received Amount (Raw)' = SUM ( 'po_fact_table'[received_amount] )
+			isHidden
+			displayFolder: _Base
+			lineageTag: 7a8b9c0d-1e2f-3a4b-5c6d-7e8f9a0b1c2d
+
+		measure 'Open + Received Quantity (Raw)' = SUM ( 'po_fact_table'[open_plus_received_quantity] )
+			isHidden
+			displayFolder: _Base
+			lineageTag: 8b9c0d1e-2f3a-4b5c-6d7e-8f9a0b1c2d3e
+
+		measure 'Open + Received Amount (Raw)' = SUM ( 'po_fact_table'[open_plus_received_amount] )
+			isHidden
+			displayFolder: _Base
+			lineageTag: 9c0d1e2f-3a4b-5c6d-7e8f-9a0b1c2d3e4f
+
+		measure 'OTD % (Due Date)' = ```
+				
+				VAR OnTimeCount = CALCULATE([Line Count], po_fact_table[on_time_vs_due_flag] = TRUE)
+				VAR TotalWithFlag = CALCULATE([Line Count], NOT(ISBLANK(po_fact_table[on_time_vs_due_flag])))
+				RETURN
+				DIVIDE(OnTimeCount, TotalWithFlag, 0)
+				
+				```
+			formatString: 0%;-0%;0%
+			displayFolder: 06 - Operations
+			lineageTag: 8a1b2c3d-4e5f-6a7b-8c9d-0e1f2a3b4c5d
+
+		measure 'OTD % (Promise Date)' = ```
+				
+				VAR OnTimeCount = CALCULATE([Line Count], po_fact_table[on_time_vs_promise_flag] = TRUE)
+				VAR TotalWithFlag = CALCULATE([Line Count], NOT(ISBLANK(po_fact_table[on_time_vs_promise_flag])))
+				RETURN
+				DIVIDE(OnTimeCount, TotalWithFlag, 0)
+				
+				```
+			formatString: 0%;-0%;0%
+			displayFolder: 06 - Operations
+			lineageTag: 9b2c3d4e-5f6a-7b8c-9d0e-1f2a3b4c5d6e
+
+		measure 'Late Count (Due Date)' = CALCULATE([Line Count], po_fact_table[on_time_vs_due_flag] = FALSE)
+			formatString: 0
+			displayFolder: 06 - Operations
+			lineageTag: 0c3d4e5f-6a7b-8c9d-0e1f-2a3b4c5d6e7f
+
+		measure 'Late Count (Promise Date)' = CALCULATE([Line Count], po_fact_table[on_time_vs_promise_flag] = FALSE)
+			formatString: 0
+			displayFolder: 06 - Operations
+			lineageTag: 1d4e5f6a-7b8c-9d0e-1f2a-3b4c5d6e7f8a
+
+		measure 'Avg Days Late (Due Date)' = AVERAGE(po_fact_table[days_early_late_vs_due])
+			formatString: 0.0
+			displayFolder: 06 - Operations
+			lineageTag: 2e5f6a7b-8c9d-0e1f-2a3b-4c5d6e7f8a9b
+
+		measure 'Avg Days Late (Promise Date)' = AVERAGE(po_fact_table[days_early_late_vs_promise])
+			formatString: 0.0
+			displayFolder: 06 - Operations
+			lineageTag: 3f6a7b8c-9d0e-1f2a-3b4c-5d6e7f8a9b0c
+
+		measure 'Due Date Coverage %' =
+				DIVIDE(
+				    CALCULATE([Line Count], NOT(ISBLANK(po_fact_table[due_date]))),
+				    [Line Count],
+				    0
+				)
+			formatString: 0%;-0%;0%
+			displayFolder: 07 - Date Coverage
+			lineageTag: 4a6b7c8d-9e0f-1a2b-3c4d-5e6f7a8b9c0d
+
+		measure 'Promise Date Coverage %' =
+				DIVIDE(
+				    CALCULATE([Line Count], NOT(ISBLANK(po_fact_table[promise_date]))),
+				    [Line Count],
+				    0
+				)
+			formatString: 0%;-0%;0%
+			displayFolder: 07 - Date Coverage
+			lineageTag: 5b7c8d9e-0f1a-2b3c-4d5e-6f7a8b9c0d1e
+
+		measure 'OTD Eligible Lines (Due Date)' = CALCULATE([Line Count], NOT(ISBLANK(po_fact_table[on_time_vs_due_flag])))
+			formatString: #,0
+			displayFolder: 06 - Operations
+			lineageTag: 6c8d9e0f-1a2b-3c4d-5e6f-7a8b9c0d1e2f
+
+		measure 'OTD Eligible Lines (Promise Date)' = CALCULATE([Line Count], NOT(ISBLANK(po_fact_table[on_time_vs_promise_flag])))
+			formatString: #,0
+			displayFolder: 06 - Operations
+			lineageTag: 7d9e0f1a-2b3c-4d5e-6f7a-8b9c0d1e2f3a
+
+		measure 'Receipt Date Coverage %' =
+				DIVIDE(
+				    CALCULATE([Line Count], NOT(ISBLANK(po_fact_table[receipt_date]))),
+				    [Line Count],
+				    0
+				)
+			formatString: 0%;-0%;0%
+			displayFolder: 07 - Date Coverage
+			lineageTag: 1a2b3c4d-5e6f-7a8b-9c0d-1e2f3a4b5c6d
+
+		measure 'Expected Receipt Date Coverage %' =
+				DIVIDE(
+				    CALCULATE([Line Count], NOT(ISBLANK(po_fact_table[expected_receipt_date]))),
+				    [Line Count],
+				    0
+				)
+			formatString: 0%;-0%;0%
+			displayFolder: 07 - Date Coverage
+			lineageTag: 2b3c4d5e-6f7a-8b9c-0d1e-2f3a4b5c6d7e
+
+		measure 'Arrived Date Coverage %' =
+				DIVIDE(
+				    CALCULATE([Line Count], NOT(ISBLANK(po_fact_table[arrived_date]))),
+				    [Line Count],
+				    0
+				)
+			formatString: 0%;-0%;0%
+			displayFolder: 07 - Date Coverage
+			lineageTag: 3c4d5e6f-7a8b-9c0d-1e2f-3a4b5c6d7e8f
+
+		measure 'Open Orders Due Date Coverage %' =
+				CALCULATE(
+				    [Due Date Coverage %],
+				    po_fact_table[is_open_order] = TRUE
+				)
+			formatString: 0%;-0%;0%
+			displayFolder: 07 - Date Coverage
+			lineageTag: 4d5e6f7a-8b9c-0d1e-2f3a-4b5c6d7e8f9a
+
+		measure 'Closed Orders Receipt Date Coverage %' =
+				CALCULATE(
+				    [Receipt Date Coverage %],
+				    po_fact_table[is_open_order] = FALSE
+				)
+			formatString: 0%;-0%;0%
+			displayFolder: 07 - Date Coverage
+			lineageTag: 5e6f7a8b-9c0d-1e2f-3a4b-5c6d7e8f9a0b
+
+		measure 'Date Completeness Score %' =
+				VAR DuePct = [Due Date Coverage %]
+				VAR PromisePct = [Promise Date Coverage %]
+				VAR ReceiptPct = [Receipt Date Coverage %]
+				RETURN
+				DIVIDE(DuePct + PromisePct + ReceiptPct, 3, 0)
+			formatString: 0%;-0%;0%
+			displayFolder: 07 - Date Coverage
+			lineageTag: 6f7a8b9c-0d1e-2f3a-4b5c-6d7e8f9a0b1c
+
+		measure 'Missing Due Dates Count' =
+				CALCULATE(
+				    [Line Count],
+				    ISBLANK(po_fact_table[due_date])
+				)
+			formatString: #,0
+			displayFolder: 07 - Date Coverage
+			lineageTag: a1b2c3d4-e5f6-7a8b-9c0d-1e2f3a4b5c6d
+
+		measure 'Missing Promise Dates Count' =
+				CALCULATE(
+				    [Line Count],
+				    ISBLANK(po_fact_table[promise_date])
+				)
+			formatString: #,0
+			displayFolder: 07 - Date Coverage
+			lineageTag: b2c3d4e5-f6a7-8b9c-0d1e-2f3a4b5c6d7e
+
+		measure 'Due Date Coverage % (Recent Orders)' =
+				CALCULATE(
+				    [Due Date Coverage %],
+				    DATESINPERIOD(
+				        'Time Intelligence'[Date],
+				        MAX('Time Intelligence'[Date]),
+				        -30,
+				        DAY
+				    )
+				)
+			formatString: 0%;-0%;0%
+			displayFolder: 07 - Date Coverage
+			lineageTag: c3d4e5f6-a7b8-9c0d-1e2f-3a4b5c6d7e8f
+
+		measure 'Selected Coverage' =
+				SWITCH(
+				    SELECTEDVALUE(DateCoverageMeasureList[Measure Name]),
+				    "Due Date Coverage %", [Due Date Coverage %],
+				    "Promise Date Coverage %", [Promise Date Coverage %],
+				    "Receipt Date Coverage %", [Receipt Date Coverage %],
+				    "Expected Receipt Date Coverage %", [Expected Receipt Date Coverage %],
+				    "Arrived Date Coverage %", [Arrived Date Coverage %],
+				    "Open Orders Due Date Coverage %", [Open Orders Due Date Coverage %],
+				    "Closed Orders Receipt Date Coverage %", [Closed Orders Receipt Date Coverage %],
+				    "Date Completeness Score %", [Date Completeness Score %],
+				    BLANK()
+				)
+			formatString: 0%;-0%;0%
+			displayFolder: 07 - Date Coverage
+			lineageTag: d4e5f6a7-b8c9-0d1e-2f3a-4b5c6d7e8f9a
+
+		measure 'Avg Cost Per Lb' =
+				AVERAGE(po_fact_table[rawmat_price_per_lb])
+			formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+			displayFolder: 09 - Raw Materials
+			lineageTag: a1b2c3d4-e5f6-7890-abcd-ef1234567890
+
+			annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+		measure 'Total Weight (Lbs)' =
+				SUM(po_fact_table[rawmat_total_weight_lbs])
+			formatString: #,0.0
+			displayFolder: 09 - Raw Materials
+			lineageTag: b2c3d4e5-f6a7-8901-bcde-f12345678901
+
+		measure 'Weighted Avg Cost Per Lb' = ```
+				VAR TotalWeightedCost = SUMX(
+				    FILTER(po_fact_table, NOT(ISBLANK(po_fact_table[rawmat_price_per_lb]))),
+				    po_fact_table[rawmat_total_weight_lbs] * po_fact_table[rawmat_price_per_lb]
+				)
+				VAR TotalWeight = [Total Weight (Lbs)]
+				RETURN
+				DIVIDE(TotalWeightedCost, TotalWeight, BLANK())
+				```
+			formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+			displayFolder: 09 - Raw Materials
+			lineageTag: c3d4e5f6-a7b8-9012-cdef-123456789012
+
+			annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+		measure 'Cost Per Lb (from Spend)' =
+				DIVIDE([Total Spend], [Total Weight (Lbs)], BLANK())
+			formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+			displayFolder: 09 - Raw Materials
+			lineageTag: d4e5f6a7-b8c9-0123-defa-234567890123
+
+			annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+		measure 'Copper Market Price' = ```
+				VAR CurrentYearMonth = SELECTEDVALUE('Time Intelligence'[Year-Month])
+				RETURN
+				LOOKUPVALUE(
+				    CopperPriceIndex[Copper_Price_Per_Lb],
+				    CopperPriceIndex[Year_Month], CurrentYearMonth
+				)
+				```
+			formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+			displayFolder: 09 - Raw Materials
+			lineageTag: e5f6a7b8-c9d0-1234-efab-345678901234
+
+			annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+		measure 'Copper Spend' = ```
+				CALCULATE(
+				    SUM(po_fact_table[open_plus_received_amount]),
+				    po_fact_table[item_category_l2] = "Copper Products",
+				    USERELATIONSHIP('Time Intelligence'[Date], po_fact_table[analysis_date])
+				)
+				```
+			formatString: \$#,0;(\$#,0);\$#,0
+			displayFolder: 09 - Raw Materials
+			lineageTag: f6a7b8c9-d0e1-2345-fabc-456789012345
+
+			annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+		measure 'Avg Paid Price per Lb (Copper)' = ```
+				CALCULATE(
+				    AVERAGE(po_fact_table[rawmat_price_per_lb]),
+				    po_fact_table[item_category_l2] = "Copper Products",
+				    USERELATIONSHIP('Time Intelligence'[Date], po_fact_table[analysis_date])
+				)
+				```
+			formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+			displayFolder: 09 - Raw Materials
+			lineageTag: a7b8c9d0-e1f2-3456-abcd-567890123456
+
+			annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+		measure 'Copper Premium/Discount %' = ```
+				VAR PaidPrice = [Avg Paid Price per Lb (Copper)]
+				VAR MarketPrice = [Copper Market Price]
+				RETURN
+				IF(MarketPrice <> 0, DIVIDE(PaidPrice - MarketPrice, MarketPrice), BLANK())
+				```
+			formatString: 0.0%;-0.0%;0.0%
+			displayFolder: 09 - Raw Materials
+			lineageTag: b8c9d0e1-f2a3-4567-bcde-678901234567
+
+		column Column
+			isHidden
+			formatString: 0
+			lineageTag: 17aa14aa-65a6-4b53-8b32-7d28fb53f4f5
+			summarizeBy: sum
+			isNameInferred
+			sourceColumn: [Column]
+
+			annotation SummarizationSetBy = Automatic
+
+		partition 'Measure Table' = calculated
+			mode: import
+			source = Row("Column", BLANK())
+
+		annotation PBI_Id = 895dbde2a6424c3c89d3e76b0159a4d4
+
+	table DateCoverageMeasureList
+		lineageTag: e5f6a7b8-c9d0-1e2f-3a4b-5c6d7e8f9a0b
+
+		column 'Measure Name'
+			dataType: string
+			lineageTag: f6a7b8c9-d0e1-2f3a-4b5c-6d7e8f9a0b1c
+			summarizeBy: none
+			sourceColumn: [Measure Name]
+			sortByColumn: 'Sort Order'
+
+			annotation SummarizationSetBy = Automatic
+
+		column 'Sort Order'
+			dataType: int64
+			formatString: 0
+			lineageTag: a7b8c9d0-e1f2-3a4b-5c6d-7e8f9a0b1c2d
+			summarizeBy: none
+			sourceColumn: [Sort Order]
+
+			annotation SummarizationSetBy = Automatic
+
+		partition DateCoverageMeasureList = calculated
+			mode: import
+			source =
+					DATATABLE(
+					    "Measure Name", STRING,
+					    "Sort Order", INTEGER,
+					    {
+					        {"Due Date Coverage %", 1},
+					        {"Promise Date Coverage %", 2},
+					        {"Receipt Date Coverage %", 3},
+					        {"Expected Receipt Date Coverage %", 4},
+					        {"Arrived Date Coverage %", 5},
+					        {"Open Orders Due Date Coverage %", 6},
+					        {"Closed Orders Receipt Date Coverage %", 7},
+					        {"Date Completeness Score %", 8}
+					    }
+					)
+
+		annotation PBI_Id = a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6
+
+	table DatePerspective
+		isHidden
+		lineageTag: 5a2e1c28-1c96-4581-a3be-83aac4bd13ae
+
+		column Perspective
+			isHidden
+			lineageTag: ce11db62-436b-4add-a735-fd463ee729d6
+			summarizeBy: none
+			isNameInferred
+			sourceColumn: [Perspective]
+
+			annotation SummarizationSetBy = Automatic
+
+		partition DatePerspective = calculated
+			mode: import
+			source = DATATABLE("Perspective", STRING, {{"Receipt Date"}, {"Order Date"}})
+
+		annotation PBI_Id = 04620caa71a54212a9561708e8135f41
+
+	table DimCategory
+		lineageTag: 11111111-1111-1111-1111-111111111111
+
+		column item_category_l1
+			dataType: string
+			lineageTag: b21b861f-e2b6-4e9e-bfa5-fbe36ed4f4ef
+			summarizeBy: none
+			isNameInferred
+			sourceColumn: po_fact_table[item_category_l1]
+			columnOrigin: po_fact_table.item_category_l1
+
+			annotation SummarizationSetBy = Automatic
+
+		partition DimCategory = calculated
+			mode: import
+			source = DISTINCT ( po_fact_table[item_category_l1] )
+
+	table DimItem
+		lineageTag: 22222222-2222-2222-2222-222222222222
+
+		column item_name_mpn
+			dataType: string
+			lineageTag: 85ada082-e9ab-43ad-b07b-4aa5b830d501
+			summarizeBy: none
+			sourceColumn: [item_name_mpn]
+
+			annotation SummarizationSetBy = Automatic
+
+		column item_short_name
+			dataType: string
+			lineageTag: a1b2c3d4-e5f6-7890-abcd-ef1234567890
+			summarizeBy: none
+			sourceColumn: [item_short_name]
+
+			annotation SummarizationSetBy = Automatic
+
+		column item_display_name
+			dataType: string
+			lineageTag: 4ed56d54-18d2-46a8-a2e6-940f0d229448
+			summarizeBy: none
+			sourceColumn: [item_display_name]
+
+			annotation SummarizationSetBy = Automatic
+
+		column item_category_l1
+			dataType: string
+			lineageTag: 7296ce27-ac3b-4053-b9b8-9e4c5375c275
+			summarizeBy: none
+			sourceColumn: [item_category_l1]
+
+			annotation SummarizationSetBy = Automatic
+
+		column item_id
+			lineageTag: 1a609744-9cdc-4c6b-80fe-2c0fb952708f
+			isNameInferred
+			sourceColumn: po_fact_table[item_id]
+			columnOrigin: po_fact_table.item_id
+
+		partition DimItem = calculated
+			mode: import
+			source =
+					ADDCOLUMNS (
+					    VALUES ( po_fact_table[item_id] ),
+					    "item_name_mpn",
+					        MAXX (
+					            FILTER ( po_fact_table, po_fact_table[item_id] = EARLIER ( po_fact_table[item_id] ) ),
+					            po_fact_table[item_name_mpn]
+					        ),
+					    "item_short_name",
+					        MAXX (
+					            FILTER ( po_fact_table, po_fact_table[item_id] = EARLIER ( po_fact_table[item_id] ) ),
+					            po_fact_table[item_short_name]
+					        ),
+					    "item_display_name",
+					        MAXX (
+					            FILTER ( po_fact_table, po_fact_table[item_id] = EARLIER ( po_fact_table[item_id] ) ),
+					            po_fact_table[item_display_name]
+					        ),
+					    "item_category_l1",
+					        MAXX (
+					            FILTER ( po_fact_table, po_fact_table[item_id] = EARLIER ( po_fact_table[item_id] ) ),
+					            po_fact_table[item_category_l1]
+					        )
+					)
+
+	table DimSupplier
+		lineageTag: cd8669ac-5dfa-4f95-8dd1-79c4073ca754
+
+		column standardized_vendor_name
+			dataType: string
+			lineageTag: ae8ac770-f4c8-49dc-8c05-0cd5df7b3711
+			summarizeBy: none
+			isNameInferred
+			sourceColumn: po_fact_table[standardized_vendor_name]
+			columnOrigin: po_fact_table.standardized_vendor_name
+
+			annotation SummarizationSetBy = Automatic
+
+		column supplier_type
+			dataType: string
+			lineageTag: 31d0daca-94df-42e0-8387-1542a309ab19
+			summarizeBy: none
+			sourceColumn: [supplier_type]
+
+			annotation SummarizationSetBy = Automatic
+
+		column vendor_location
+			dataType: string
+			lineageTag: d13f19ea-0a1f-4135-8c7f-394d1797ee0f
+			summarizeBy: none
+			sourceColumn: [vendor_location]
+
+			annotation SummarizationSetBy = Automatic
+
+		column intercompany
+			dataType: string
+			lineageTag: 483fe8d5-9d59-4e6e-9ff7-bac36e98ba1a
+			summarizeBy: none
+			sourceColumn: [intercompany]
+
+			annotation SummarizationSetBy = Automatic
+
+		partition DimSupplier = calculated
+			mode: import
+			source =
+					ADDCOLUMNS (
+					    VALUES ( po_fact_table[standardized_vendor_name] ),
+					    "supplier_type",
+					        MAXX (
+					            FILTER ( po_fact_table, po_fact_table[standardized_vendor_name] = EARLIER ( po_fact_table[standardized_vendor_name] ) ),
+					            po_fact_table[supplier_type]
+					        ),
+					    "vendor_location",
+					        MAXX (
+					            FILTER ( po_fact_table, po_fact_table[standardized_vendor_name] = EARLIER ( po_fact_table[standardized_vendor_name] ) ),
+					            po_fact_table[vendor_location]
+					        ),
+					    "intercompany",
+					        MAXX (
+					            FILTER ( po_fact_table, po_fact_table[standardized_vendor_name] = EARLIER ( po_fact_table[standardized_vendor_name] ) ),
+					            po_fact_table[intercompany]
+					        )
+					)
+
+		annotation PBI_Id = 0819419355b34750a9bf7b5cc6d4a35c
+
+	table CopperPriceIndex
+		lineageTag: c9d0e1f2-a3b4-5678-cdef-789012345678
+
+		column Year_Month
+			dataType: string
+			lineageTag: d0e1f2a3-b4c5-6789-defa-890123456789
+			summarizeBy: none
+			sourceColumn: Year_Month
+
+			annotation SummarizationSetBy = Automatic
+
+		column Copper_Price_Per_Lb
+			dataType: double
+			formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+			lineageTag: e1f2a3b4-c5d6-7890-efab-901234567890
+			summarizeBy: average
+			sourceColumn: Copper_Price_Per_Lb
+
+			annotation SummarizationSetBy = Automatic
+
+			annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+		partition CopperPriceIndex = calculated
+			mode: import
+			source =
+					SUMMARIZE(
+					    FILTER(po_fact_table, NOT(ISBLANK(po_fact_table[copper_market_price_per_lb]))),
+					    po_fact_table[order_year_month],
+					    "Year_Month", po_fact_table[order_year_month],
+					    "Copper_Price_Per_Lb", MAX(po_fact_table[copper_market_price_per_lb])
+					)
+
+		annotation PBI_Id = c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5
+
+	table po_fact_table
+		lineageTag: 45b40c0c-e4a1-4efe-87d1-5aa9cdb67483
+
+		column source_system
+			dataType: string
+			displayFolder: Additional Columns
+			lineageTag: ab2d4490-422b-4095-9355-19090703581e
+			summarizeBy: none
+			sourceColumn: source_system
+
+			annotation SummarizationSetBy = Automatic
+
+		column transaction_type
+			dataType: string
+			displayFolder: Additional Columns
+			lineageTag: ef156348-fe36-45ab-b9da-d6291fcc3b7f
+			summarizeBy: none
+			sourceColumn: transaction_type
+
+			annotation SummarizationSetBy = Automatic
+
+		column po_number
+			dataType: string
+			displayFolder: Additional Columns
+			lineageTag: e05866e3-3b0f-4ae7-bd96-35cbd3490e2f
+			summarizeBy: none
+			sourceColumn: po_number
+
+			annotation SummarizationSetBy = Automatic
+
+		column po_line
+			dataType: int64
+			formatString: 0
+			displayFolder: Additional Columns
+			lineageTag: af9c4d27-b05c-4b66-8042-c2275f532f9d
+			summarizeBy: sum
+			sourceColumn: po_line
+
+			annotation SummarizationSetBy = Automatic
+
+		column po_release_num
+			dataType: double
+			displayFolder: Additional Columns
+			lineageTag: 9888aa73-6988-4cbb-a2ac-24d6e664980f
+			summarizeBy: sum
+			sourceColumn: po_release_num
+
+			annotation SummarizationSetBy = Automatic
+
+			annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+		column receipt_number
+			dataType: string
+			displayFolder: Additional Columns
+			lineageTag: 1ed9bef4-2c0e-4ebe-a359-ba688dcfe473
+			summarizeBy: none
+			sourceColumn: receipt_number
+
+			annotation SummarizationSetBy = Automatic
+
+		column receipt_line
+			dataType: double
+			displayFolder: Additional Columns
+			lineageTag: f8b315c6-6746-42c9-9ff8-efc40991bd5f
+			summarizeBy: sum
+			sourceColumn: receipt_line
+
+			annotation SummarizationSetBy = Automatic
+
+			annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+		column subsidiary_company
+			dataType: string
+			displayFolder: Additional Columns
+			lineageTag: 7087f925-54b8-4846-8a14-78b2292b4559
+			summarizeBy: none
+			sourceColumn: subsidiary_company
+
+			annotation SummarizationSetBy = Automatic
+
+		column department
+			dataType: string
+			displayFolder: Additional Columns
+			lineageTag: 54eacfa8-8242-4c1f-9c4d-e982a3a47c44
+			summarizeBy: none
+			sourceColumn: department
+
+			annotation SummarizationSetBy = Automatic
+
+		column location_warehouse
+			dataType: string
+			displayFolder: Additional Columns
+			lineageTag: 475e84be-02f4-4dc3-9bb0-2089e9fee8fb
+			summarizeBy: none
+			sourceColumn: location_warehouse
+
+			annotation SummarizationSetBy = Automatic
+
+		column plant_site
+			dataType: string
+			displayFolder: Additional Columns
+			lineageTag: 93d6d774-7a5e-4346-8ea8-5f6322538c22
+			summarizeBy: none
+			sourceColumn: plant_site
+
+			annotation SummarizationSetBy = Automatic
+
+		column created_by
+			dataType: string
+			displayFolder: Additional Columns
+			lineageTag: 2fc4632a-fba6-46ca-bdbc-deb20f3d5055
+			summarizeBy: none
+			sourceColumn: created_by
+
+			annotation SummarizationSetBy = Automatic
+
+		column buyer_id
+			dataType: string
+			displayFolder: Additional Columns
+			lineageTag: b00fc64c-4585-4982-9b82-82dc0cf298e4
+			summarizeBy: none
+			sourceColumn: buyer_id
+
+			annotation SummarizationSetBy = Automatic
+
+		column po_status
+			dataType: string
+			displayFolder: ✅ Status Flags
+			lineageTag: adcbb829-6edf-461b-93d6-284c946ca64d
+			summarizeBy: none
+			sourceColumn: po_status
+
+			annotation SummarizationSetBy = Automatic
+
+		column is_open_order
+			dataType: boolean
+			formatString: """TRUE"";""TRUE"";""FALSE"""
+			displayFolder: ✅ Status Flags
+			lineageTag: 07cb8b09-ccdb-4970-be84-f2c693f40cbf
+			summarizeBy: none
+			sourceColumn: is_open_order
+
+			annotation SummarizationSetBy = Automatic
+
+		column is_open_release
+			dataType: boolean
+			formatString: """TRUE"";""TRUE"";""FALSE"""
+			displayFolder: Additional Columns
+			lineageTag: cb00188c-33a0-4bb6-a22c-c4aa762ca182
+			summarizeBy: none
+			sourceColumn: is_open_release
+
+			annotation SummarizationSetBy = Automatic
+
+		column is_confirmed
+			dataType: boolean
+			formatString: """TRUE"";""TRUE"";""FALSE"""
+			displayFolder: Additional Columns
+			lineageTag: 13ebf00c-d2f9-4aa6-8a51-1ed338755231
+			summarizeBy: none
+			sourceColumn: is_confirmed
+
+			annotation SummarizationSetBy = Automatic
+
+		column bill_variance_status
+			dataType: string
+			displayFolder: Additional Columns
+			lineageTag: e18aa0b3-0bdf-4c2f-9c41-bb6eda53657f
+			summarizeBy: none
+			sourceColumn: bill_variance_status
+
+			annotation SummarizationSetBy = Automatic
+
+		column order_date
+			dataType: dateTime
+			formatString: m/d/yy
+			displayFolder: 📅 Dates - Analysis
+			lineageTag: ecc52dab-e924-4928-addc-f1b22a224cf6
+			summarizeBy: none
+			sourceColumn: order_date
+
+			annotation SummarizationSetBy = Automatic
+
+		column expected_receipt_date
+			dataType: dateTime
+			formatString: m/d/yy
+			displayFolder: 📅 Dates - Analysis
+			lineageTag: 8779828a-f8a6-497b-8c20-97037f9dbb3d
+			summarizeBy: none
+			sourceColumn: expected_receipt_date
+
+			variation Variation
+				isDefault
+				relationship: 672d635e-3eca-4791-aad0-fbf0eb0529c6
+				defaultHierarchy: LocalDateTable_2a670592-cb4b-4f7f-9598-dd44c287734c.'Date Hierarchy'
+
+			annotation SummarizationSetBy = Automatic
+
+		column due_date
+			dataType: dateTime
+			formatString: m/d/yy
+			displayFolder: 📅 Dates - Analysis
+			lineageTag: 109fdf2c-2366-4296-a6ef-519303f43db1
+			summarizeBy: none
+			sourceColumn: due_date
+
+			variation Variation
+				isDefault
+				relationship: 87f83729-8810-40b6-8c13-0cdaefc0761f
+				defaultHierarchy: LocalDateTable_1ecf1fef-3313-492d-a50d-3aa55e6530d1.'Date Hierarchy'
+
+			annotation SummarizationSetBy = Automatic
+
+		column promise_date
+			dataType: dateTime
+			formatString: m/d/yy
+			displayFolder: 📅 Dates - Analysis
+			lineageTag: fe226135-c1c4-4607-833d-651987d0becc
+			summarizeBy: none
+			sourceColumn: promise_date
+
+			variation Variation
+				isDefault
+				relationship: 834aa3a3-a8e9-40bf-9e94-2b936e20aad9
+				defaultHierarchy: LocalDateTable_7f4f14d3-3e66-488a-85bc-0f3ff43109f3.'Date Hierarchy'
+
+			annotation SummarizationSetBy = Automatic
+
+		column requested_date
+			dataType: double
+			displayFolder: Additional Columns
+			lineageTag: ff07d8b7-5ceb-42f8-804f-712d0cbec4f8
+			summarizeBy: sum
+			sourceColumn: requested_date
+
+			annotation SummarizationSetBy = Automatic
+
+			annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+		column receipt_date
+			dataType: dateTime
+			formatString: m/d/yy
+			displayFolder: 📅 Dates - Analysis
+			lineageTag: 60b16d8c-1364-4a81-ac70-dd20200713af
+			summarizeBy: none
+			sourceColumn: receipt_date
+
+			variation Variation
+				isDefault
+				relationship: 489a13b8-31ad-48c9-905f-5091e47707fe
+				defaultHierarchy: LocalDateTable_6146e7d5-e035-43b8-8888-c212c406316b.'Date Hierarchy'
+
+			annotation SummarizationSetBy = Automatic
+
+		column arrived_date
+			dataType: dateTime
+			formatString: m/d/yy
+			displayFolder: Additional Columns
+			lineageTag: a5c61a4d-82e6-4c93-af10-9f6ec2adcc28
+			summarizeBy: none
+			sourceColumn: arrived_date
+
+			variation Variation
+				isDefault
+				relationship: 27e97348-8631-4fea-898a-8be9f06ff897
+				defaultHierarchy: LocalDateTable_8b55a8d6-a5b7-4cec-a714-2915ce224156.'Date Hierarchy'
+
+			annotation SummarizationSetBy = Automatic
+
+		column total_quantity
+			dataType: double
+			formatString: 0
+			displayFolder: 📦 Quantities
+			lineageTag: 231dc698-91d9-411a-a8a4-fc75d0385a5d
+			summarizeBy: sum
+			sourceColumn: total_quantity
+
+			annotation SummarizationSetBy = Automatic
+
+		column received_quantity
+			dataType: double
+			displayFolder: 📦 Quantities
+			lineageTag: 66fb7c27-4bdc-4f4f-a6ce-fd9c5a8605b1
+			summarizeBy: sum
+			sourceColumn: received_quantity
+
+			annotation SummarizationSetBy = Automatic
+
+			annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+		column open_quantity
+			dataType: double
+			displayFolder: 📦 Quantities
+			lineageTag: e7f96478-dc9c-4756-bc16-d39a437c6c21
+			summarizeBy: sum
+			sourceColumn: open_quantity
+
+			annotation SummarizationSetBy = Automatic
+
+			annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+		column vendor_quantity
+			dataType: double
+			displayFolder: Additional Columns
+			lineageTag: 79ef8c10-c576-4c24-a48b-1a14cf0615d4
+			summarizeBy: sum
+			sourceColumn: vendor_quantity
+
+			annotation SummarizationSetBy = Automatic
+
+			annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+		column uninvoiced_qty_supplier
+			dataType: double
+			displayFolder: Additional Columns
+			lineageTag: 37340d58-5194-4eca-aaf7-4b5aa6b03bc4
+			summarizeBy: sum
+			sourceColumn: uninvoiced_qty_supplier
+
+			annotation SummarizationSetBy = Automatic
+
+			annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+		column uninvoiced_qty_internal
+			dataType: double
+			displayFolder: Additional Columns
+			lineageTag: 7655a6ff-e416-447a-9b2a-9fbef6891925
+			summarizeBy: sum
+			sourceColumn: uninvoiced_qty_internal
+
+			annotation SummarizationSetBy = Automatic
+
+			annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+		column unit_cost
+			dataType: double
+			displayFolder: 📊 Spend & Amounts
+			lineageTag: f5cc3cc9-1344-4cf2-9fff-32f4cfe96fbf
+			summarizeBy: sum
+			sourceColumn: unit_cost
+
+			annotation SummarizationSetBy = Automatic
+
+			annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+		column extended_amount
+			dataType: double
+			displayFolder: 📊 Spend & Amounts
+			lineageTag: b6ca226d-23c5-4a69-aa6b-a3b3223516f1
+			summarizeBy: sum
+			sourceColumn: extended_amount
+
+			annotation SummarizationSetBy = Automatic
+
+			annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+		column cost_per_code
+			dataType: string
+			displayFolder: Additional Columns
+			lineageTag: fd71769f-0cc6-4385-a8c9-2c11dc23008e
+			summarizeBy: none
+			sourceColumn: cost_per_code
+
+			annotation SummarizationSetBy = Automatic
+
+		column ship_to_name
+			dataType: string
+			displayFolder: Additional Columns
+			lineageTag: 3d28e9ea-807f-47d2-a01c-51b854cc966f
+			summarizeBy: none
+			sourceColumn: ship_to_name
+
+			annotation SummarizationSetBy = Automatic
+
+		column ship_to_zip
+			dataType: string
+			displayFolder: Additional Columns
+			lineageTag: dac87762-65d7-47dd-9412-1664e979c2ba
+			summarizeBy: none
+			sourceColumn: ship_to_zip
+
+			annotation SummarizationSetBy = Automatic
+
+		column ship_to_country
+			dataType: string
+			displayFolder: Additional Columns
+			lineageTag: 8aa8186e-ab6e-43e5-a9e7-9bab03817995
+			summarizeBy: none
+			sourceColumn: ship_to_country
+
+			annotation SummarizationSetBy = Automatic
+
+		column ship_via_code
+			dataType: string
+			displayFolder: Additional Columns
+			lineageTag: b7980d1e-a823-4364-b0bc-478bb0735acd
+			summarizeBy: none
+			sourceColumn: ship_via_code
+
+			annotation SummarizationSetBy = Automatic
+
+		column vendor_id
+			dataType: int64
+			formatString: 0
+			displayFolder: 🏢 Supplier
+			lineageTag: 37e83402-46c1-419c-8f02-8af54309dfed
+			summarizeBy: sum
+			sourceColumn: vendor_id
+
+			annotation SummarizationSetBy = Automatic
+
+		column vendor_name
+			dataType: string
+			displayFolder: Additional Columns
+			lineageTag: e356e405-a225-47b1-87cf-763fc97c6c44
+			summarizeBy: none
+			sourceColumn: vendor_name
+
+			annotation SummarizationSetBy = Automatic
+
+		column vendor_zip
+			dataType: string
+			displayFolder: Additional Columns
+			lineageTag: beeb68dd-a9d6-4763-90c1-2b753e0fed10
+			summarizeBy: none
+			sourceColumn: vendor_zip
+
+			annotation SummarizationSetBy = Automatic
+
+		column purchase_point
+			dataType: string
+			displayFolder: Additional Columns
+			lineageTag: eabcad1b-900a-47ee-b58f-945a2a69cdb4
+			summarizeBy: none
+			sourceColumn: purchase_point
+
+			annotation SummarizationSetBy = Automatic
+
+		column terms_code
+			dataType: string
+			displayFolder: Additional Columns
+			lineageTag: b79c33fb-786b-450e-89c9-737a534dc513
+			summarizeBy: none
+			sourceColumn: terms_code
+
+			annotation SummarizationSetBy = Automatic
+
+		column item_id
+			dataType: string
+			displayFolder: 📋 Item
+			lineageTag: aac0e2ca-0f98-4e2f-bcbb-5ef4343afdf8
+			summarizeBy: none
+			sourceColumn: item_id
+
+			annotation SummarizationSetBy = Automatic
+
+		column item_name_mpn
+			dataType: string
+			displayFolder: 📋 Item
+			lineageTag: e0760312-63b3-4633-9bd1-f01e521f9f10
+			summarizeBy: none
+			sourceColumn: item_name_mpn
+
+			annotation SummarizationSetBy = Automatic
+
+		column item_short_name
+			dataType: string
+			displayFolder: 📋 Item
+			lineageTag: b2c3d4e5-f6a7-8901-bcde-f23456789012
+			summarizeBy: none
+			sourceColumn: item_short_name
+
+			annotation SummarizationSetBy = Automatic
+
+		column item_display_name
+			dataType: string
+			displayFolder: 📋 Item
+			lineageTag: 15e8cff1-4089-4f6d-9164-5cf8b29f9242
+			summarizeBy: none
+			sourceColumn: item_display_name
+
+			annotation SummarizationSetBy = Automatic
+
+		column item_description
+			dataType: string
+			displayFolder: 📋 Item
+			lineageTag: 8cd6f177-8c7d-42cd-a0c1-96ecede6f3d7
+			summarizeBy: none
+			sourceColumn: item_description
+
+			annotation SummarizationSetBy = Automatic
+
+		column line_description
+			dataType: string
+			displayFolder: Additional Columns
+			lineageTag: 93779081-e35d-496e-9a04-90e1de56ed34
+			summarizeBy: none
+			sourceColumn: line_description
+
+			annotation SummarizationSetBy = Automatic
+
+		column vendor_part_num
+			dataType: string
+			displayFolder: Additional Columns
+			lineageTag: 0ea35dd6-058b-45f1-a4af-7d6650ce59cd
+			summarizeBy: none
+			sourceColumn: vendor_part_num
+
+			annotation SummarizationSetBy = Automatic
+
+		column item_gl_account
+			dataType: string
+			displayFolder: Additional Columns
+			lineageTag: bb9686e3-7fd0-476d-a014-aa0ba55de3c4
+			summarizeBy: none
+			sourceColumn: item_gl_account
+
+			annotation SummarizationSetBy = Automatic
+
+		column item_type
+			dataType: string
+			displayFolder: Additional Columns
+			lineageTag: 802b6d12-61c7-4771-9364-2d39e7bee972
+			summarizeBy: none
+			sourceColumn: item_type
+
+			annotation SummarizationSetBy = Automatic
+
+		column product_line_class
+			dataType: string
+			displayFolder: Additional Columns
+			lineageTag: 2844c2bf-a745-4f37-867c-de3cff0fd4b0
+			summarizeBy: none
+			sourceColumn: product_line_class
+
+			annotation SummarizationSetBy = Automatic
+
+		column uom_internal
+			dataType: string
+			displayFolder: Additional Columns
+			lineageTag: 44d8f2d9-7a58-4427-ae71-58dc0e126a93
+			summarizeBy: none
+			sourceColumn: uom_internal
+
+			annotation SummarizationSetBy = Automatic
+
+		column uom_purchasing
+			dataType: string
+			displayFolder: Additional Columns
+			lineageTag: 30aa6c01-62e0-48e8-b731-c54688e72e5c
+			summarizeBy: none
+			sourceColumn: uom_purchasing
+
+			annotation SummarizationSetBy = Automatic
+
+		column job_number
+			dataType: string
+			displayFolder: Additional Columns
+			lineageTag: e9512f88-e5be-4301-926e-c85a95125149
+			summarizeBy: none
+			sourceColumn: job_number
+
+			annotation SummarizationSetBy = Automatic
+
+		column memo
+			dataType: string
+			displayFolder: Additional Columns
+			lineageTag: 9d8d80a0-b44e-4609-b9ba-53f4c1aa86b7
+			summarizeBy: none
+			sourceColumn: memo
+
+			annotation SummarizationSetBy = Automatic
+
+		column intercompany
+			dataType: string
+			displayFolder: 🏢 Supplier
+			lineageTag: c2a61d1c-6837-4850-bea4-50110df6d1d5
+			summarizeBy: none
+			sourceColumn: intercompany
+
+			annotation SummarizationSetBy = Automatic
+
+		column vendor_owner
+			dataType: string
+			displayFolder: Additional Columns
+			lineageTag: cf0eb14e-ef13-4ed2-a840-cd9a5352327b
+			summarizeBy: none
+			sourceColumn: vendor_owner
+
+			annotation SummarizationSetBy = Automatic
+
+		column supplier_tendency
+			dataType: string
+			displayFolder: Additional Columns
+			lineageTag: 9a6bada4-31fb-47de-be28-ba6c9117ef4d
+			summarizeBy: none
+			sourceColumn: supplier_tendency
+
+			annotation SummarizationSetBy = Automatic
+
+		column supplier_type
+			dataType: string
+			displayFolder: 🏢 Supplier
+			lineageTag: 800f2d93-77a3-45c9-b6e2-0990d96f8a96
+			summarizeBy: none
+			sourceColumn: supplier_type
+
+			annotation SummarizationSetBy = Automatic
+
+		column vendor_location
+			dataType: string
+			displayFolder: Additional Columns
+			lineageTag: 9a5d4c3a-e5f4-4a10-b65b-c36e677d1336
+			summarizeBy: none
+			sourceColumn: vendor_location
+
+			annotation SummarizationSetBy = Automatic
+
+		column vendor_location_detail
+			dataType: string
+			displayFolder: Additional Columns
+			lineageTag: f2a80fa4-fa3f-4068-8ac6-010adb1b81d2
+			summarizeBy: none
+			sourceColumn: vendor_location_detail
+
+			annotation SummarizationSetBy = Automatic
+
+		column supplier_category
+			dataType: string
+			displayFolder: Additional Columns
+			lineageTag: a053fa7b-7735-43c6-8a6a-b8b023f6a798
+			summarizeBy: none
+			sourceColumn: supplier_category
+
+			annotation SummarizationSetBy = Automatic
+
+		column supplier_category_detail
+			dataType: string
+			displayFolder: Additional Columns
+			lineageTag: e46ea626-db1c-4c0c-95d5-2382a64f422b
+			summarizeBy: none
+			sourceColumn: supplier_category_detail
+
+			annotation SummarizationSetBy = Automatic
+
+		column states_current_terms
+			dataType: string
+			displayFolder: Additional Columns
+			lineageTag: 14b17aeb-31dd-4088-b221-8d9d1cd3ae40
+			summarizeBy: none
+			sourceColumn: states_current_terms
+
+			annotation SummarizationSetBy = Automatic
+
+		column states_historical_avg_pmt_days
+			dataType: double
+			displayFolder: Additional Columns
+			lineageTag: f4a8c282-bf6c-4f70-a3b6-9375492fa26f
+			summarizeBy: sum
+			sourceColumn: states_historical_avg_pmt_days
+
+			annotation SummarizationSetBy = Automatic
+
+			annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+		column scott_chris_days_to_pay
+			dataType: double
+			formatString: 0
+			displayFolder: Additional Columns
+			lineageTag: adda5317-c4d4-44b2-b3e5-7030fb025164
+			summarizeBy: sum
+			sourceColumn: scott_chris_days_to_pay
+
+			annotation SummarizationSetBy = Automatic
+
+		column electrical_distributor
+			dataType: string
+			displayFolder: Additional Columns
+			lineageTag: abe77ed8-8155-48ae-a25e-08175947e706
+			summarizeBy: none
+			sourceColumn: electrical_distributor
+
+			annotation SummarizationSetBy = Automatic
+
+		column standardized_vendor_name
+			dataType: string
+			displayFolder: 🏢 Supplier
+			lineageTag: 66215438-3397-47b3-a472-b6063adec38a
+			summarizeBy: none
+			sourceColumn: standardized_vendor_name
+
+			annotation SummarizationSetBy = Automatic
+
+		column item_category_l1
+			dataType: string
+			displayFolder: 🏷️ Category
+			lineageTag: c239887f-d554-4b94-b3cf-674d3f839b69
+			summarizeBy: none
+			sourceColumn: item_category_l1
+
+			annotation SummarizationSetBy = Automatic
+
+		column item_category_l2
+			dataType: string
+			displayFolder: 🏷️ Category
+			lineageTag: 6edd448f-b0e0-4ae2-9b6e-ea5d2732805b
+			summarizeBy: none
+			sourceColumn: item_category_l2
+
+			annotation SummarizationSetBy = Automatic
+
+		column item_category_l3
+			dataType: string
+			displayFolder: 🏷️ Category
+			lineageTag: 9ed2acbb-06c6-4f8d-b290-0f832fa218cd
+			summarizeBy: none
+			sourceColumn: item_category_l3
+
+			annotation SummarizationSetBy = Automatic
+
+		column item_raw_description
+			dataType: string
+			displayFolder: Additional Columns
+			lineageTag: 70db09f5-5ca5-4439-ad96-898214e7291f
+			summarizeBy: none
+			sourceColumn: item_raw_description
+
+			annotation SummarizationSetBy = Automatic
+
+		column item_analysis_type
+			dataType: string
+			displayFolder: Additional Columns
+			lineageTag: 4e9d8ec7-e2eb-49fd-9fe1-eed98714471f
+			summarizeBy: none
+			sourceColumn: item_analysis_type
+
+			annotation SummarizationSetBy = Automatic
+
+		column item_extraction_confidence
+			dataType: string
+			displayFolder: Additional Columns
+			lineageTag: 23513d05-eb7a-4539-a13a-4c2aa265a6d4
+			summarizeBy: none
+			sourceColumn: item_extraction_confidence
+
+			annotation SummarizationSetBy = Automatic
+
+		column item_spec_type
+			dataType: string
+			displayFolder: Additional Columns
+			lineageTag: b30113c3-a25d-40b5-a2cb-bb0b6ca823ee
+			summarizeBy: none
+			sourceColumn: item_spec_type
+
+			annotation SummarizationSetBy = Automatic
+
+		column item_spec_amps
+			dataType: string
+			displayFolder: Additional Columns
+			lineageTag: 8c132e24-0223-4ae5-aa10-4f0e999accf9
+			summarizeBy: none
+			sourceColumn: item_spec_amps
+
+			annotation SummarizationSetBy = Automatic
+
+		column item_spec_voltage
+			dataType: string
+			displayFolder: Additional Columns
+			lineageTag: cc746739-4573-4bb5-b241-54fbd2220817
+			summarizeBy: none
+			sourceColumn: item_spec_voltage
+
+			annotation SummarizationSetBy = Automatic
+
+		column item_spec_phase
+			dataType: string
+			displayFolder: Additional Columns
+			lineageTag: eb1016aa-8c2a-42b1-a0a8-7ae0ce9a2124
+			summarizeBy: none
+			sourceColumn: item_spec_phase
+
+			annotation SummarizationSetBy = Automatic
+
+		column item_spec_poles
+			dataType: string
+			displayFolder: Additional Columns
+			lineageTag: 882abccd-8057-48c0-9f3b-747f6f96f8aa
+			summarizeBy: none
+			sourceColumn: item_spec_poles
+
+			annotation SummarizationSetBy = Automatic
+
+		column item_spec_kaic
+			dataType: string
+			displayFolder: Additional Columns
+			lineageTag: ab1fb5cf-72e3-4392-a08f-31f65360f1c6
+			summarizeBy: none
+			sourceColumn: item_spec_kaic
+
+			annotation SummarizationSetBy = Automatic
+
+		column item_spec_frame
+			dataType: string
+			displayFolder: Additional Columns
+			lineageTag: 6bf1a002-e011-4491-90e2-25380c12ea66
+			summarizeBy: none
+			sourceColumn: item_spec_frame
+
+			annotation SummarizationSetBy = Automatic
+
+		column item_spec_kva
+			dataType: string
+			displayFolder: Additional Columns
+			lineageTag: 67abb0d9-f409-4b9e-b2f9-75d7b10a6ee6
+			summarizeBy: none
+			sourceColumn: item_spec_kva
+
+			annotation SummarizationSetBy = Automatic
+
+		column item_spec_gauge
+			dataType: string
+			displayFolder: Additional Columns
+			lineageTag: c70e7d72-4905-4fd4-88d4-92b90103aa7c
+			summarizeBy: none
+			sourceColumn: item_spec_gauge
+
+			annotation SummarizationSetBy = Automatic
+
+		column item_spec_nema
+			dataType: string
+			displayFolder: Additional Columns
+			lineageTag: dab45992-f17e-4936-b5ca-3e4ed46dcc5b
+			summarizeBy: none
+			sourceColumn: item_spec_nema
+
+			annotation SummarizationSetBy = Automatic
+
+		column rawmat_finish
+			dataType: string
+			displayFolder: Additional Columns
+			lineageTag: 9073b546-1fbb-42e0-a74b-4507eae387c2
+			summarizeBy: none
+			sourceColumn: rawmat_finish
+
+			annotation SummarizationSetBy = Automatic
+
+		column rawmat_thickness
+			dataType: double
+			displayFolder: Additional Columns
+			lineageTag: ee0df9e3-66a5-438e-89c4-213c09bc0304
+			summarizeBy: sum
+			sourceColumn: rawmat_thickness
+
+			annotation SummarizationSetBy = Automatic
+
+			annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+		column rawmat_width
+			dataType: double
+			displayFolder: Additional Columns
+			lineageTag: dbeb950c-70e3-4ebd-85e0-75be977ee95d
+			summarizeBy: sum
+			sourceColumn: rawmat_width
+
+			annotation SummarizationSetBy = Automatic
+
+			annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+		column rawmat_length
+			dataType: double
+			displayFolder: Additional Columns
+			lineageTag: 749045bc-0e0b-4a6f-a3e6-ef8cc4554fa8
+			summarizeBy: sum
+			sourceColumn: rawmat_length
+
+			annotation SummarizationSetBy = Automatic
+
+			annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+		column rawmat_uom
+			dataType: string
+			displayFolder: Additional Columns
+			lineageTag: d6437ecb-b60f-4311-82f6-573cc56df810
+			summarizeBy: none
+			sourceColumn: rawmat_uom
+
+			annotation SummarizationSetBy = Automatic
+
+		column rawmat_weight_lbs
+			dataType: double
+			displayFolder: Additional Columns
+			lineageTag: 2c9be5af-a537-492b-9d72-4b6124c22f88
+			summarizeBy: sum
+			sourceColumn: rawmat_weight_lbs
+
+			annotation SummarizationSetBy = Automatic
+
+			annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+		column rawmat_total_weight_lbs
+			dataType: double
+			displayFolder: Additional Columns
+			lineageTag: d177f3b5-205b-482a-ba05-ed8ead30b8d1
+			summarizeBy: sum
+			sourceColumn: rawmat_total_weight_lbs
+
+			annotation SummarizationSetBy = Automatic
+
+			annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+		column rawmat_price_per_lb
+			dataType: double
+			displayFolder: Additional Columns
+			lineageTag: 025545cd-f685-431d-822b-500d345f2a58
+			summarizeBy: sum
+			sourceColumn: rawmat_price_per_lb
+
+			annotation SummarizationSetBy = Automatic
+
+			annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+		column copper_market_price_per_lb
+			dataType: double
+			formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+			displayFolder: Additional Columns
+			lineageTag: f2a3b4c5-d6e7-8901-abcd-012345678901
+			summarizeBy: average
+			sourceColumn: copper_market_price_per_lb
+
+			annotation SummarizationSetBy = Automatic
+
+			annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+		column lead_time_days
+			dataType: double
+			formatString: 0
+			displayFolder: ⏱️ Performance Metrics
+			lineageTag: 0aba28bc-9a0d-4808-96db-6d37e611a9b7
+			summarizeBy: sum
+			sourceColumn: lead_time_days
+
+			annotation SummarizationSetBy = Automatic
+
+		column days_until_due
+			dataType: double
+			formatString: 0
+			displayFolder: ⏱️ Performance Metrics
+			lineageTag: d9bb4aa8-60a1-471d-b18c-a9ee497e8fd2
+			summarizeBy: sum
+			sourceColumn: days_until_due
+
+			annotation SummarizationSetBy = Automatic
+
+		column days_since_order
+			dataType: int64
+			formatString: 0
+			displayFolder: Additional Columns
+			lineageTag: cbf50e2d-4d58-464f-bcda-80c009ba9e9a
+			summarizeBy: sum
+			sourceColumn: days_since_order
+
+			annotation SummarizationSetBy = Automatic
+
+		column receipt_variance_qty
+			dataType: double
+			displayFolder: Additional Columns
+			lineageTag: 8035752d-1b00-407e-a2f6-0ac7b0011be8
+			summarizeBy: sum
+			sourceColumn: receipt_variance_qty
+
+			annotation SummarizationSetBy = Automatic
+
+			annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+		column receipt_variance_pct
+			dataType: double
+			displayFolder: Additional Columns
+			lineageTag: fa5d335d-0662-43ef-917c-7cd472f1e9ce
+			summarizeBy: sum
+			sourceColumn: receipt_variance_pct
+
+			annotation SummarizationSetBy = Automatic
+
+			annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+		column open_amount
+			dataType: double
+			displayFolder: 📊 Spend & Amounts
+			lineageTag: 759b0d0f-5d30-4112-ada2-3c6712dd6827
+			summarizeBy: sum
+			sourceColumn: open_amount
+
+			annotation SummarizationSetBy = Automatic
+
+			annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+		column spend_bucket
+			dataType: string
+			displayFolder: ⏱️ Performance Metrics
+			lineageTag: f198ee8c-25a2-44f8-9d85-c36fc3b65450
+			summarizeBy: none
+			sourceColumn: spend_bucket
+
+			annotation SummarizationSetBy = Automatic
+
+		column is_overdue
+			dataType: boolean
+			formatString: """TRUE"";""TRUE"";""FALSE"""
+			displayFolder: ✅ Status Flags
+			lineageTag: 426515bc-8776-41ff-8e23-84e4816b29b5
+			summarizeBy: none
+			sourceColumn: is_overdue
+
+			annotation SummarizationSetBy = Automatic
+
+		column is_fully_received
+			dataType: boolean
+			formatString: """TRUE"";""TRUE"";""FALSE"""
+			displayFolder: ✅ Status Flags
+			lineageTag: 8449b8ac-d151-47b3-9da1-7b8196703643
+			summarizeBy: none
+			sourceColumn: is_fully_received
+
+			annotation SummarizationSetBy = Automatic
+
+		column on_time_flag
+			dataType: boolean
+			formatString: """TRUE"";""TRUE"";""FALSE"""
+			displayFolder: ✅ Status Flags
+			lineageTag: cd7aa69f-5340-4082-a3d4-74893477a45f
+			summarizeBy: none
+			sourceColumn: on_time_flag
+
+			annotation SummarizationSetBy = Automatic
+
+		column calculated_price
+			dataType: double
+			displayFolder: Additional Columns
+			lineageTag: cf5e598a-daf0-4af6-ad51-aafc48742c1e
+			summarizeBy: sum
+			sourceColumn: calculated_price
+
+			annotation SummarizationSetBy = Automatic
+
+			annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+		column analysis_date
+			dataType: dateTime
+			formatString: m/d/yy
+			displayFolder: 📅 Dates - Analysis
+			lineageTag: c8ba6cb4-df39-4121-a95c-b9b9961d17ac
+			summarizeBy: none
+			sourceColumn: analysis_date
+
+			annotation SummarizationSetBy = Automatic
+
+			annotation UnderlyingDateTimeDataType = Date
+
+		column order_year
+			dataType: int64
+			formatString: 0
+			displayFolder: Additional Columns
+			lineageTag: 3a364b1e-6566-4338-bcb0-a88f3507c97d
+			summarizeBy: sum
+			sourceColumn: order_year
+
+			annotation SummarizationSetBy = Automatic
+
+		column order_month
+			dataType: int64
+			formatString: 0
+			displayFolder: Additional Columns
+			lineageTag: cacb6019-dbfa-4318-a8a9-6e3afb5f1048
+			summarizeBy: sum
+			sourceColumn: order_month
+
+			annotation SummarizationSetBy = Automatic
+
+		column order_year_month
+			dataType: string
+			displayFolder: Additional Columns
+			lineageTag: 4dadcb4b-fb66-4e0b-bd2b-f00be1465baa
+			summarizeBy: none
+			sourceColumn: order_year_month
+
+			annotation SummarizationSetBy = Automatic
+
+		column order_quarter
+			dataType: string
+			displayFolder: Additional Columns
+			lineageTag: c8a4a8c1-bba7-4e04-aa81-9d69a06c0daf
+			summarizeBy: none
+			sourceColumn: order_quarter
+
+			annotation SummarizationSetBy = Automatic
+
+		column business_unit
+			dataType: string
+			displayFolder: Additional Columns
+			lineageTag: d4e878df-4020-40f8-bcd3-2a7243e6044b
+			summarizeBy: none
+			sourceColumn: business_unit
+
+			annotation SummarizationSetBy = Automatic
+
+		column analysis_date_source
+			dataType: string
+			displayFolder: Additional Columns
+			lineageTag: 65def068-a5dd-43a3-a111-826efff1d10a
+			summarizeBy: none
+			sourceColumn: analysis_date_source
+
+			annotation SummarizationSetBy = Automatic
+
+		column analysis_date_is_fallback
+			dataType: boolean
+			formatString: """TRUE"";""TRUE"";""FALSE"""
+			displayFolder: Additional Columns
+			lineageTag: a8d03834-e376-4fde-aa98-3b8d017ce819
+			summarizeBy: none
+			sourceColumn: analysis_date_is_fallback
+
+			annotation SummarizationSetBy = Automatic
+
+		column _schema_version
+			dataType: string
+			displayFolder: Additional Columns
+			lineageTag: a5dfb71b-9d2f-4942-9560-8f926574f693
+			summarizeBy: none
+			sourceColumn: _schema_version
+
+			annotation SummarizationSetBy = Automatic
+
+		column _load_timestamp
+			dataType: dateTime
+			formatString: m/d/yy
+			displayFolder: Additional Columns
+			lineageTag: a1ad6319-2f8b-4b0f-97cd-1af2aa880cd7
+			summarizeBy: none
+			sourceColumn: _load_timestamp
+
+			variation Variation
+				isDefault
+				relationship: 4e2f0a55-82cb-4678-be88-4dcc5cb3dd7f
+				defaultHierarchy: LocalDateTable_f4aed3e7-d092-41f3-8eb0-a56f90ec7437.'Date Hierarchy'
+
+			annotation SummarizationSetBy = Automatic
+
+		column received_amount
+			dataType: double
+			displayFolder: 📊 Spend & Amounts
+			lineageTag: 5af65635-901a-4348-b768-5a40b52fa97d
+			summarizeBy: sum
+			sourceColumn: received_amount
+
+			annotation SummarizationSetBy = Automatic
+
+			annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+		column open_plus_received_quantity
+			dataType: double
+			displayFolder: 📊 Spend & Amounts
+			lineageTag: 4a96c1d2-a46e-49a5-a4c4-8e41bb1262b7
+			summarizeBy: sum
+			sourceColumn: open_plus_received_quantity
+
+			annotation SummarizationSetBy = Automatic
+
+			annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+		column open_plus_received_amount
+			dataType: double
+			displayFolder: 📊 Spend & Amounts
+			lineageTag: 2def3094-8a2b-4773-9518-af71ece47d3b
+			summarizeBy: sum
+			sourceColumn: open_plus_received_amount
+
+			annotation SummarizationSetBy = Automatic
+
+			annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+		column on_time_vs_due_flag
+			dataType: boolean
+			formatString: """TRUE"";""TRUE"";""FALSE"""
+			displayFolder: ✅ Status Flags
+			lineageTag: 4a5b6c7d-8e9f-0a1b-2c3d-4e5f6a7b8c9d
+			summarizeBy: none
+			sourceColumn: on_time_vs_due_flag
+
+			annotation SummarizationSetBy = Automatic
+
+		column on_time_vs_promise_flag
+			dataType: boolean
+			formatString: """TRUE"";""TRUE"";""FALSE"""
+			displayFolder: ✅ Status Flags
+			lineageTag: 5b6c7d8e-9f0a-1b2c-3d4e-5f6a7b8c9d0e
+			summarizeBy: none
+			sourceColumn: on_time_vs_promise_flag
+
+			annotation SummarizationSetBy = Automatic
+
+		column days_early_late_vs_due
+			dataType: double
+			formatString: 0.0
+			displayFolder: ⏱️ Lead Time
+			lineageTag: 6c7d8e9f-0a1b-2c3d-4e5f-6a7b8c9d0e1f
+			summarizeBy: sum
+			sourceColumn: days_early_late_vs_due
+
+			annotation SummarizationSetBy = Automatic
+
+		column days_early_late_vs_promise
+			dataType: double
+			formatString: 0.0
+			displayFolder: ⏱️ Lead Time
+			lineageTag: 7d8e9f0a-1b2c-3d4e-5f6a-7b8c9d0e1f2a
+			summarizeBy: sum
+			sourceColumn: days_early_late_vs_promise
+
+			annotation SummarizationSetBy = Automatic
+
+		partition po_fact_table = m
+			mode: import
+			source =
+					let
+					    Source =
+					        Parquet.Document(
+					            File.Contents(
+					                "C:\\Users\\podel\\Visual Studio Projects\\forgent-vF\\step_4_assembly\\b.final\\po_fact_table.parquet"
+					            )
+					        )
+					
+					in
+					    #"Source"
+
+		annotation PBI_ResultType = Table
+
+		annotation PBI_NavigationStepName = Navigation
+
+	table SupplierRankAxis
+		lineageTag: cfc941fa-300e-4b7f-bfb0-4ba974f18b82
+
+		column Value
+			formatString: 0
+			lineageTag: d43ab62b-0efa-4bb3-9192-e4e63f744b7d
+			summarizeBy: sum
+			isNameInferred
+			sourceColumn: [Value]
+
+			annotation SummarizationSetBy = Automatic
+
+		partition SupplierRankAxis = calculated
+			mode: import
+			source = ```
+					
+					GENERATESERIES( 1, 5000, 1 )
+					
+					```
+
+		annotation PBI_Id = 9a5974d2b5f64df88640d6cfca4a39c0
+
+	table 'Time Intelligence'
+		lineageTag: 9ffd86a5-1ad1-49e3-94e3-43ade5831809
+
+		column Date
+			dataType: dateTime
+			formatString: m/d/yy
+			lineageTag: e4192447-85f1-4c5c-9250-6f5da2feaabe
+			summarizeBy: none
+			sourceColumn: Date
+
+			variation Variation
+				isDefault
+				relationship: d2a8232a-2559-4af9-93da-76ac554aece6
+				defaultHierarchy: LocalDateTable_890dbbf8-b06a-49dd-9e74-d7af4137cd06.'Date Hierarchy'
+
+			annotation SummarizationSetBy = Automatic
+
+			annotation UnderlyingDateTimeDataType = Date
+
+		column Year
+			dataType: int64
+			formatString: 0
+			lineageTag: 61fefac8-67f1-4a8d-b89c-2b5c560c7ca7
+			summarizeBy: sum
+			sourceColumn: Year
+
+			annotation SummarizationSetBy = Automatic
+
+		column 'Month Number'
+			dataType: int64
+			formatString: 0
+			lineageTag: 2ac74c81-9815-4c6d-a3c5-ec7a879a257f
+			summarizeBy: sum
+			sourceColumn: Month Number
+
+			annotation SummarizationSetBy = Automatic
+
+		column 'Month Name'
+			dataType: string
+			lineageTag: d053f16f-75f3-47c3-92cc-175f0b1658f7
+			summarizeBy: none
+			sourceColumn: Month Name
+
+			annotation SummarizationSetBy = Automatic
+
+		column Quarter
+			dataType: string
+			lineageTag: a2be8657-3b6f-44a2-a349-9b283749652f
+			summarizeBy: none
+			sourceColumn: Quarter
+
+			annotation SummarizationSetBy = Automatic
+
+		column Year-Month
+			dataType: string
+			lineageTag: 4812b68e-37e2-4615-8139-98f4415249db
+			summarizeBy: none
+			sourceColumn: Year-Month
+
+			annotation SummarizationSetBy = Automatic
+
+		column 'Day of Week'
+			dataType: string
+			lineageTag: ea2a7937-5099-461d-90ef-e928969f3ca5
+			summarizeBy: none
+			sourceColumn: Day of Week
+
+			annotation SummarizationSetBy = Automatic
+
+		column 'Is Weekday'
+			dataType: boolean
+			formatString: """TRUE"";""TRUE"";""FALSE"""
+			lineageTag: dabc98dd-c485-48b9-893e-e478ee3d5c9c
+			summarizeBy: none
+			sourceColumn: Is Weekday
+
+			annotation SummarizationSetBy = Automatic
+
+		partition 'Time Intelligence' = m
+			mode: import
+			source =
+					let
+					    StartDate = #date(2021, 1, 1),
+					    EndDate = #date(2027, 12, 31),
+					    NumberOfDays = Duration.Days(EndDate - StartDate) + 1,
+					    DateList = List.Dates(StartDate, NumberOfDays, #duration(1, 0, 0, 0)),
+					    #"Converted to Table" = Table.FromList(DateList, Splitter.SplitByNothing(), {"Date"}, null, ExtraValues.Error),
+					    #"Changed Type" = Table.TransformColumnTypes(#"Converted to Table", {{"Date", type date}}),
+					    #"Added Year" = Table.AddColumn(#"Changed Type", "Year", each Date.Year([Date]), Int64.Type),
+					    #"Added Month Number" = Table.AddColumn(#"Added Year", "Month Number", each Date.Month([Date]), Int64.Type),
+					    #"Added Month Name" = Table.AddColumn(#"Added Month Number", "Month Name", each Date.MonthName([Date]), type text),
+					    #"Added Quarter" = Table.AddColumn(#"Added Month Name", "Quarter", each "Q" & Text.From(Date.QuarterOfYear([Date])), type text),
+					    #"Added Year-Month" = Table.AddColumn(#"Added Quarter", "Year-Month", each Date.ToText([Date], "yyyy-MM"), type text),
+					    #"Added Day of Week" = Table.AddColumn(#"Added Year-Month", "Day of Week", each Date.DayOfWeekName([Date]), type text),
+					    #"Added Is Weekday" = Table.AddColumn(#"Added Day of Week", "Is Weekday", each Date.DayOfWeek([Date], Day.Monday) < 5, type logical)
+					in
+					    #"Added Is Weekday"
+
+		annotation PBI_NavigationStepName = Navigation
+
+		annotation PBI_ResultType = Table
+

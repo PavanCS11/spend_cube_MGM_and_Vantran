@@ -1,0 +1,149 @@
+{
+  "version": "1.1.0",
+  "diagrams": [
+    {
+      "ordinal": 0,
+      "scrollPosition": {
+        "x": 0,
+        "y": 0
+      },
+      "nodes": [
+        {
+          "location": {
+            "x": 0,
+            "y": 0
+          },
+          "nodeIndex": "po_fact_table",
+          "nodeLineageTag": "45b40c0c-e4a1-4efe-87d1-5aa9cdb67483",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 8
+        },
+        {
+          "location": {
+            "x": 373,
+            "y": 11
+          },
+          "nodeIndex": "Time Intelligence",
+          "nodeLineageTag": "9ffd86a5-1ad1-49e3-94e3-43ade5831809",
+          "size": {
+            "height": 272,
+            "width": 234
+          },
+          "zIndex": 7
+        },
+        {
+          "location": {
+            "x": 788,
+            "y": 20
+          },
+          "nodeIndex": "Measure Table",
+          "nodeLineageTag": "18a9ba7b-952b-4bce-b4af-b58ede00c69a",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 6
+        },
+        {
+          "location": {
+            "x": 1072,
+            "y": 50
+          },
+          "nodeIndex": "DatePerspective",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 5
+        },
+        {
+          "location": {
+            "x": 805,
+            "y": 301
+          },
+          "nodeIndex": "DimSupplier",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 1
+        },
+        {
+          "location": {
+            "x": 1356,
+            "y": 150.5
+          },
+          "nodeIndex": "SupplierRankAxis",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 2
+        },
+        {
+          "location": {
+            "x": 1640,
+            "y": 150.5
+          },
+          "nodeIndex": "DimCategory",
+          "nodeLineageTag": "11111111-1111-1111-1111-111111111111",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 3
+        },
+        {
+          "location": {
+            "x": 1924,
+            "y": 162.5
+          },
+          "nodeIndex": "DimItem",
+          "nodeLineageTag": "22222222-2222-2222-2222-222222222222",
+          "size": {
+            "height": 176,
+            "width": 234
+          },
+          "zIndex": 4
+        },
+        {
+          "location": {
+            "x": 2208,
+            "y": 186.5
+          },
+          "nodeIndex": "DateCoverageMeasureList",
+          "nodeLineageTag": "e5f6a7b8-c9d0-1e2f-3a4b-5c6d7e8f9a0b",
+          "size": {
+            "height": 128,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 2492,
+            "y": 174.5
+          },
+          "nodeIndex": "CopperPriceIndex",
+          "nodeLineageTag": "c9d0e1f2-a3b4-5678-cdef-789012345678",
+          "size": {
+            "height": 152,
+            "width": 234
+          },
+          "zIndex": 0
+        }
+      ],
+      "name": "All tables",
+      "zoomValue": 50.346892102823141,
+      "pinKeyFieldsToTop": false,
+      "showExtraHeaderInfo": false,
+      "hideKeyFieldsWhenCollapsed": false,
+      "tablesLocked": false
+    }
+  ],
+  "selectedDiagram": "All tables",
+  "defaultDiagram": "All tables"
+}

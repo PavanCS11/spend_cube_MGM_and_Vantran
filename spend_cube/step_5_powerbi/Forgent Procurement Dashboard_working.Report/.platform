@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Report",
+    "displayName": "Forgent Procurement Dashboard"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "8165dc17-3b75-44c7-a780-7978dff8835e"
+  }
+}

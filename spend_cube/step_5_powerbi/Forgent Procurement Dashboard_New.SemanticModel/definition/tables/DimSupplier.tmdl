@@ -1,0 +1,51 @@
+table DimSupplier
+	lineageTag: cd8669ac-5dfa-4f95-8dd1-79c4073ca754
+
+	column standardized_vendor_name
+		dataType: string
+		lineageTag: ae8ac770-f4c8-49dc-8c05-0cd5df7b3711
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: po_fact_table[standardized_vendor_name]
+
+		annotation SummarizationSetBy = Automatic
+
+	column supplier_type
+		dataType: string
+		lineageTag: 31d0daca-94df-42e0-8387-1542a309ab19
+		summarizeBy: none
+		sourceColumn: [supplier_type]
+
+		annotation SummarizationSetBy = Automatic
+
+	column vendor_location
+		dataType: string
+		lineageTag: d13f19ea-0a1f-4135-8c7f-394d1797ee0f
+		summarizeBy: none
+		sourceColumn: [vendor_location]
+
+		annotation SummarizationSetBy = Automatic
+
+	column intercompany
+		dataType: string
+		lineageTag: 483fe8d5-9d59-4e6e-9ff7-bac36e98ba1a
+		summarizeBy: none
+		sourceColumn: [intercompany]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition DimSupplier = calculated
+		mode: import
+		source =
+				ADDCOLUMNS (
+				    VALUES ( po_fact_table[standardized_vendor_name] ),
+				    "supplier_type",
+				        CALCULATE ( MAX ( po_fact_table[supplier_type] ) ),
+				    "vendor_location",
+				        CALCULATE ( MAX ( po_fact_table[vendor_location] ) ),
+				    "intercompany",
+				        CALCULATE ( MAX ( po_fact_table[intercompany] ) )
+				)
+
+	annotation PBI_Id = 0819419355b34750a9bf7b5cc6d4a35c
+

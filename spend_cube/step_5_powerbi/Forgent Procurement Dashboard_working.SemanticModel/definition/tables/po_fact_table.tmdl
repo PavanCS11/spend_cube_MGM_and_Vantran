@@ -1,0 +1,1299 @@
+table po_fact_table
+	lineageTag: 45b40c0c-e4a1-4efe-87d1-5aa9cdb67483
+
+	column source_system
+		dataType: string
+		displayFolder: Additional Columns
+		lineageTag: ab2d4490-422b-4095-9355-19090703581e
+		summarizeBy: none
+		sourceColumn: source_system
+
+		annotation SummarizationSetBy = Automatic
+
+	column transaction_type
+		dataType: string
+		displayFolder: Additional Columns
+		lineageTag: ef156348-fe36-45ab-b9da-d6291fcc3b7f
+		summarizeBy: none
+		sourceColumn: transaction_type
+
+		annotation SummarizationSetBy = Automatic
+
+	column po_number
+		dataType: string
+		displayFolder: Additional Columns
+		lineageTag: e05866e3-3b0f-4ae7-bd96-35cbd3490e2f
+		summarizeBy: none
+		sourceColumn: po_number
+
+		annotation SummarizationSetBy = Automatic
+
+	column po_line
+		dataType: string
+		displayFolder: Additional Columns
+		lineageTag: af9c4d27-b05c-4b66-8042-c2275f532f9d
+		summarizeBy: none
+		sourceColumn: po_line
+
+		annotation SummarizationSetBy = Automatic
+
+	column po_release_num
+		dataType: double
+		formatString: 0
+		displayFolder: Additional Columns
+		lineageTag: 9888aa73-6988-4cbb-a2ac-24d6e664980f
+		summarizeBy: sum
+		sourceColumn: po_release_num
+
+		annotation SummarizationSetBy = Automatic
+
+	column receipt_number
+		dataType: double
+		displayFolder: Additional Columns
+		lineageTag: 1ed9bef4-2c0e-4ebe-a359-ba688dcfe473
+		summarizeBy: sum
+		sourceColumn: receipt_number
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column receipt_line
+		dataType: double
+		displayFolder: Additional Columns
+		lineageTag: f8b315c6-6746-42c9-9ff8-efc40991bd5f
+		summarizeBy: sum
+		sourceColumn: receipt_line
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column subsidiary_company
+		dataType: double
+		displayFolder: Additional Columns
+		lineageTag: 7087f925-54b8-4846-8a14-78b2292b4559
+		summarizeBy: sum
+		sourceColumn: subsidiary_company
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column department
+		dataType: double
+		displayFolder: Additional Columns
+		lineageTag: 54eacfa8-8242-4c1f-9c4d-e982a3a47c44
+		summarizeBy: sum
+		sourceColumn: department
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column location_warehouse
+		dataType: string
+		displayFolder: Additional Columns
+		lineageTag: 475e84be-02f4-4dc3-9bb0-2089e9fee8fb
+		summarizeBy: none
+		sourceColumn: location_warehouse
+
+		annotation SummarizationSetBy = Automatic
+
+	column plant_site
+		dataType: double
+		displayFolder: Additional Columns
+		lineageTag: 93d6d774-7a5e-4346-8ea8-5f6322538c22
+		summarizeBy: sum
+		sourceColumn: plant_site
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column created_by
+		dataType: double
+		displayFolder: Additional Columns
+		lineageTag: 2fc4632a-fba6-46ca-bdbc-deb20f3d5055
+		summarizeBy: sum
+		sourceColumn: created_by
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column buyer_id
+		dataType: double
+		displayFolder: Additional Columns
+		lineageTag: b00fc64c-4585-4982-9b82-82dc0cf298e4
+		summarizeBy: sum
+		sourceColumn: buyer_id
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column po_status
+		dataType: string
+		displayFolder: ✅ Status Flags
+		lineageTag: adcbb829-6edf-461b-93d6-284c946ca64d
+		summarizeBy: none
+		sourceColumn: po_status
+
+		annotation SummarizationSetBy = Automatic
+
+	column is_open_order
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		displayFolder: ✅ Status Flags
+		lineageTag: 07cb8b09-ccdb-4970-be84-f2c693f40cbf
+		summarizeBy: none
+		sourceColumn: is_open_order
+
+		annotation SummarizationSetBy = Automatic
+
+	column is_open_release
+		dataType: double
+		displayFolder: ✅ Status Flags
+		lineageTag: cb00188c-33a0-4bb6-a22c-c4aa762ca182
+		summarizeBy: sum
+		sourceColumn: is_open_release
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column is_confirmed
+		dataType: double
+		displayFolder: ✅ Status Flags
+		lineageTag: 13ebf00c-d2f9-4aa6-8a51-1ed338755231
+		summarizeBy: sum
+		sourceColumn: is_confirmed
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column bill_variance_status
+		dataType: double
+		displayFolder: ✅ Status Flags
+		lineageTag: e18aa0b3-0bdf-4c2f-9c41-bb6eda53657f
+		summarizeBy: sum
+		sourceColumn: bill_variance_status
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column order_date
+		dataType: dateTime
+		formatString: m/d/yy
+		displayFolder: 📅 Dates - Analysis
+		lineageTag: ecc52dab-e924-4928-addc-f1b22a224cf6
+		summarizeBy: none
+		sourceColumn: order_date
+
+		annotation SummarizationSetBy = Automatic
+
+	column due_date
+		dataType: dateTime
+		formatString: m/d/yy
+		displayFolder: 📅 Dates - Analysis
+		lineageTag: 109fdf2c-2366-4296-a6ef-519303f43db1
+		summarizeBy: none
+		sourceColumn: due_date
+
+		variation Variation
+			isDefault
+			relationship: 87f83729-8810-40b6-8c13-0cdaefc0761f
+			defaultHierarchy: LocalDateTable_1ecf1fef-3313-492d-a50d-3aa55e6530d1.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column promise_date
+		dataType: dateTime
+		formatString: m/d/yy
+		displayFolder: 📅 Dates - Analysis
+		lineageTag: fe226135-c1c4-4607-833d-651987d0becc
+		summarizeBy: none
+		sourceColumn: promise_date
+
+		variation Variation
+			isDefault
+			relationship: 834aa3a3-a8e9-40bf-9e94-2b936e20aad9
+			defaultHierarchy: LocalDateTable_7f4f14d3-3e66-488a-85bc-0f3ff43109f3.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column requested_date
+		dataType: double
+		isHidden
+		displayFolder: Additional Columns
+		lineageTag: ff07d8b7-5ceb-42f8-804f-712d0cbec4f8
+		summarizeBy: sum
+		sourceColumn: requested_date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column receipt_date
+		dataType: dateTime
+		formatString: m/d/yy
+		displayFolder: 📅 Dates - Analysis
+		lineageTag: 60b16d8c-1364-4a81-ac70-dd20200713af
+		summarizeBy: none
+		sourceColumn: receipt_date
+
+		variation Variation
+			isDefault
+			relationship: 489a13b8-31ad-48c9-905f-5091e47707fe
+			defaultHierarchy: LocalDateTable_6146e7d5-e035-43b8-8888-c212c406316b.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column arrived_date
+		dataType: dateTime
+		formatString: m/d/yy
+		displayFolder: 📅 Dates - Analysis
+		lineageTag: a5c61a4d-82e6-4c93-af10-9f6ec2adcc28
+		summarizeBy: none
+		sourceColumn: arrived_date
+
+		variation Variation
+			isDefault
+			relationship: 27e97348-8631-4fea-898a-8be9f06ff897
+			defaultHierarchy: LocalDateTable_8b55a8d6-a5b7-4cec-a714-2915ce224156.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column total_quantity
+		dataType: int64
+		formatString: 0
+		displayFolder: 📦 Quantities
+		lineageTag: 231dc698-91d9-411a-a8a4-fc75d0385a5d
+		summarizeBy: sum
+		sourceColumn: total_quantity
+
+		annotation SummarizationSetBy = Automatic
+
+	column received_quantity
+		dataType: double
+		displayFolder: 📦 Quantities
+		lineageTag: 66fb7c27-4bdc-4f4f-a6ce-fd9c5a8605b1
+		summarizeBy: sum
+		sourceColumn: received_quantity
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column open_quantity
+		dataType: double
+		displayFolder: 📦 Quantities
+		lineageTag: e7f96478-dc9c-4756-bc16-d39a437c6c21
+		summarizeBy: sum
+		sourceColumn: open_quantity
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column vendor_quantity
+		dataType: double
+		displayFolder: Additional Columns
+		lineageTag: 79ef8c10-c576-4c24-a48b-1a14cf0615d4
+		summarizeBy: sum
+		sourceColumn: vendor_quantity
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column uninvoiced_qty_supplier
+		dataType: double
+		displayFolder: Additional Columns
+		lineageTag: 37340d58-5194-4eca-aaf7-4b5aa6b03bc4
+		summarizeBy: sum
+		sourceColumn: uninvoiced_qty_supplier
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column uninvoiced_qty_internal
+		dataType: double
+		displayFolder: Additional Columns
+		lineageTag: 7655a6ff-e416-447a-9b2a-9fbef6891925
+		summarizeBy: sum
+		sourceColumn: uninvoiced_qty_internal
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column unit_cost
+		dataType: double
+		displayFolder: 📊 Spend & Amounts
+		lineageTag: f5cc3cc9-1344-4cf2-9fff-32f4cfe96fbf
+		summarizeBy: sum
+		sourceColumn: unit_cost
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column extended_amount
+		dataType: double
+		displayFolder: 📊 Spend & Amounts
+		lineageTag: b6ca226d-23c5-4a69-aa6b-a3b3223516f1
+		summarizeBy: sum
+		sourceColumn: extended_amount
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column cost_per_code
+		dataType: double
+		displayFolder: Additional Columns
+		lineageTag: fd71769f-0cc6-4385-a8c9-2c11dc23008e
+		summarizeBy: sum
+		sourceColumn: cost_per_code
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column ship_to_name
+		dataType: double
+		displayFolder: Additional Columns
+		lineageTag: 3d28e9ea-807f-47d2-a01c-51b854cc966f
+		summarizeBy: sum
+		sourceColumn: ship_to_name
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column ship_to_zip
+		dataType: double
+		displayFolder: Additional Columns
+		lineageTag: dac87762-65d7-47dd-9412-1664e979c2ba
+		summarizeBy: sum
+		sourceColumn: ship_to_zip
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column ship_to_country
+		dataType: double
+		displayFolder: Additional Columns
+		lineageTag: 8aa8186e-ab6e-43e5-a9e7-9bab03817995
+		summarizeBy: sum
+		sourceColumn: ship_to_country
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column ship_via_code
+		dataType: double
+		displayFolder: Additional Columns
+		lineageTag: b7980d1e-a823-4364-b0bc-478bb0735acd
+		summarizeBy: sum
+		sourceColumn: ship_via_code
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column vendor_id
+		dataType: string
+		displayFolder: 🏢 Supplier
+		lineageTag: 37e83402-46c1-419c-8f02-8af54309dfed
+		summarizeBy: none
+		sourceColumn: vendor_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column vendor_name
+		dataType: string
+		displayFolder: 🏢 Supplier
+		lineageTag: e356e405-a225-47b1-87cf-763fc97c6c44
+		summarizeBy: none
+		sourceColumn: vendor_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column vendor_zip
+		dataType: double
+		displayFolder: 🏢 Supplier
+		lineageTag: beeb68dd-a9d6-4763-90c1-2b753e0fed10
+		summarizeBy: sum
+		sourceColumn: vendor_zip
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column purchase_point
+		dataType: double
+		displayFolder: Additional Columns
+		lineageTag: eabcad1b-900a-47ee-b58f-945a2a69cdb4
+		summarizeBy: sum
+		sourceColumn: purchase_point
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column terms_code
+		dataType: string
+		displayFolder: Additional Columns
+		lineageTag: b79c33fb-786b-450e-89c9-737a534dc513
+		summarizeBy: none
+		sourceColumn: terms_code
+
+		annotation SummarizationSetBy = Automatic
+
+	column item_id
+		dataType: string
+		displayFolder: 📋 Item
+		lineageTag: aac0e2ca-0f98-4e2f-bcbb-5ef4343afdf8
+		summarizeBy: none
+		sourceColumn: item_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column item_name_mpn
+		dataType: string
+		displayFolder: 📋 Item
+		lineageTag: e0760312-63b3-4633-9bd1-f01e521f9f10
+		summarizeBy: none
+		sourceColumn: item_name_mpn
+
+		annotation SummarizationSetBy = Automatic
+
+	column item_display_name
+		dataType: double
+		displayFolder: 📋 Item\Source Details
+		lineageTag: 15e8cff1-4089-4f6d-9164-5cf8b29f9242
+		summarizeBy: sum
+		sourceColumn: item_display_name
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column item_description
+		dataType: string
+		displayFolder: 📋 Item
+		lineageTag: 8cd6f177-8c7d-42cd-a0c1-96ecede6f3d7
+		summarizeBy: none
+		sourceColumn: item_description
+
+		annotation SummarizationSetBy = Automatic
+
+	column line_description
+		dataType: double
+		displayFolder: 📋 Item\Source Details
+		lineageTag: 93779081-e35d-496e-9a04-90e1de56ed34
+		summarizeBy: sum
+		sourceColumn: line_description
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column vendor_part_num
+		dataType: double
+		displayFolder: Additional Columns
+		lineageTag: 0ea35dd6-058b-45f1-a4af-7d6650ce59cd
+		summarizeBy: sum
+		sourceColumn: vendor_part_num
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column item_gl_account
+		dataType: double
+		displayFolder: Additional Columns
+		lineageTag: bb9686e3-7fd0-476d-a014-aa0ba55de3c4
+		summarizeBy: sum
+		sourceColumn: item_gl_account
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column item_type
+		dataType: double
+		displayFolder: Additional Columns
+		lineageTag: 802b6d12-61c7-4771-9364-2d39e7bee972
+		summarizeBy: sum
+		sourceColumn: item_type
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column product_line_class
+		dataType: double
+		displayFolder: Additional Columns
+		lineageTag: 2844c2bf-a745-4f37-867c-de3cff0fd4b0
+		summarizeBy: sum
+		sourceColumn: product_line_class
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column uom_internal
+		dataType: double
+		displayFolder: Additional Columns
+		lineageTag: 44d8f2d9-7a58-4427-ae71-58dc0e126a93
+		summarizeBy: sum
+		sourceColumn: uom_internal
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column uom_purchasing
+		dataType: double
+		displayFolder: Additional Columns
+		lineageTag: 30aa6c01-62e0-48e8-b731-c54688e72e5c
+		summarizeBy: sum
+		sourceColumn: uom_purchasing
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column job_number
+		dataType: double
+		displayFolder: Additional Columns
+		lineageTag: e9512f88-e5be-4301-926e-c85a95125149
+		summarizeBy: sum
+		sourceColumn: job_number
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column memo
+		dataType: double
+		displayFolder: Additional Columns
+		lineageTag: 9d8d80a0-b44e-4609-b9ba-53f4c1aa86b7
+		summarizeBy: sum
+		sourceColumn: memo
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column intercompany
+		dataType: string
+		displayFolder: 🏢 Supplier
+		lineageTag: c2a61d1c-6837-4850-bea4-50110df6d1d5
+		summarizeBy: none
+		sourceColumn: intercompany
+
+		annotation SummarizationSetBy = Automatic
+
+	column supplier_type
+		dataType: string
+		displayFolder: 🏢 Supplier
+		lineageTag: 800f2d93-77a3-45c9-b6e2-0990d96f8a96
+		summarizeBy: none
+		sourceColumn: supplier_type
+
+		annotation SummarizationSetBy = Automatic
+
+	column vendor_location
+		dataType: string
+		displayFolder: 🏢 Supplier
+		lineageTag: 9a5d4c3a-e5f4-4a10-b65b-c36e677d1336
+		summarizeBy: none
+		sourceColumn: vendor_location
+
+		annotation SummarizationSetBy = Automatic
+
+	column standardized_vendor_name
+		dataType: string
+		displayFolder: 🏢 Supplier
+		lineageTag: 66215438-3397-47b3-a472-b6063adec38a
+		summarizeBy: none
+		sourceColumn: standardized_vendor_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column item_category_l1
+		dataType: string
+		displayFolder: 🏷️ Category
+		lineageTag: c239887f-d554-4b94-b3cf-674d3f839b69
+		summarizeBy: none
+		sourceColumn: item_category_l1
+
+		annotation SummarizationSetBy = Automatic
+
+	column item_category_l2
+		dataType: string
+		displayFolder: 🏷️ Category
+		lineageTag: 6edd448f-b0e0-4ae2-9b6e-ea5d2732805b
+		summarizeBy: none
+		sourceColumn: item_category_l2
+
+		annotation SummarizationSetBy = Automatic
+
+	column item_category_l3
+		dataType: string
+		displayFolder: 🏷️ Category
+		lineageTag: 9ed2acbb-06c6-4f8d-b290-0f832fa218cd
+		summarizeBy: none
+		sourceColumn: item_category_l3
+
+		annotation SummarizationSetBy = Automatic
+
+	column item_raw_description
+		dataType: string
+		displayFolder: 📋 Item\Source Details
+		lineageTag: 70db09f5-5ca5-4439-ad96-898214e7291f
+		summarizeBy: none
+		sourceColumn: item_raw_description
+
+		annotation SummarizationSetBy = Automatic
+
+	column item_analysis_type
+		dataType: double
+		displayFolder: 📋 Item\Source Details
+		lineageTag: 4e9d8ec7-e2eb-49fd-9fe1-eed98714471f
+		summarizeBy: sum
+		sourceColumn: item_analysis_type
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column item_extraction_confidence
+		dataType: double
+		displayFolder: 📋 Item\Source Details
+		lineageTag: 23513d05-eb7a-4539-a13a-4c2aa265a6d4
+		summarizeBy: sum
+		sourceColumn: item_extraction_confidence
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column item_spec_type
+		dataType: string
+		displayFolder: 🔧 Item Specs
+		lineageTag: b30113c3-a25d-40b5-a2cb-bb0b6ca823ee
+		summarizeBy: none
+		sourceColumn: item_spec_type
+
+		annotation SummarizationSetBy = Automatic
+
+	column item_spec_amps
+		dataType: string
+		displayFolder: 🔧 Item Specs
+		lineageTag: 8c132e24-0223-4ae5-aa10-4f0e999accf9
+		summarizeBy: none
+		sourceColumn: item_spec_amps
+
+		annotation SummarizationSetBy = Automatic
+
+	column item_spec_voltage
+		dataType: string
+		displayFolder: 🔧 Item Specs
+		lineageTag: cc746739-4573-4bb5-b241-54fbd2220817
+		summarizeBy: none
+		sourceColumn: item_spec_voltage
+
+		annotation SummarizationSetBy = Automatic
+
+	column item_spec_phase
+		dataType: string
+		displayFolder: 🔧 Item Specs
+		lineageTag: eb1016aa-8c2a-42b1-a0a8-7ae0ce9a2124
+		summarizeBy: none
+		sourceColumn: item_spec_phase
+
+		annotation SummarizationSetBy = Automatic
+
+	column item_spec_poles
+		dataType: string
+		displayFolder: 🔧 Item Specs
+		lineageTag: 882abccd-8057-48c0-9f3b-747f6f96f8aa
+		summarizeBy: none
+		sourceColumn: item_spec_poles
+
+		annotation SummarizationSetBy = Automatic
+
+	column item_spec_kaic
+		dataType: string
+		displayFolder: 🔧 Item Specs
+		lineageTag: ab1fb5cf-72e3-4392-a08f-31f65360f1c6
+		summarizeBy: none
+		sourceColumn: item_spec_kaic
+
+		annotation SummarizationSetBy = Automatic
+
+	column item_spec_frame
+		dataType: string
+		displayFolder: 🔧 Item Specs
+		lineageTag: 6bf1a002-e011-4491-90e2-25380c12ea66
+		summarizeBy: none
+		sourceColumn: item_spec_frame
+
+		annotation SummarizationSetBy = Automatic
+
+	column item_spec_kva
+		dataType: string
+		displayFolder: 🔧 Item Specs
+		lineageTag: 67abb0d9-f409-4b9e-b2f9-75d7b10a6ee6
+		summarizeBy: none
+		sourceColumn: item_spec_kva
+
+		annotation SummarizationSetBy = Automatic
+
+	column item_spec_gauge
+		dataType: string
+		displayFolder: 🔧 Item Specs
+		lineageTag: c70e7d72-4905-4fd4-88d4-92b90103aa7c
+		summarizeBy: none
+		sourceColumn: item_spec_gauge
+
+		annotation SummarizationSetBy = Automatic
+
+	column item_spec_nema
+		dataType: string
+		displayFolder: 🔧 Item Specs
+		lineageTag: dab45992-f17e-4936-b5ca-3e4ed46dcc5b
+		summarizeBy: none
+		sourceColumn: item_spec_nema
+
+		annotation SummarizationSetBy = Automatic
+
+	column rawmat_finish
+		dataType: double
+		displayFolder: 🔩 Raw Materials
+		lineageTag: 9073b546-1fbb-42e0-a74b-4507eae387c2
+		summarizeBy: sum
+		sourceColumn: rawmat_finish
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column rawmat_thickness
+		dataType: double
+		displayFolder: 🔩 Raw Materials
+		lineageTag: ee0df9e3-66a5-438e-89c4-213c09bc0304
+		summarizeBy: sum
+		sourceColumn: rawmat_thickness
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column rawmat_width
+		dataType: double
+		displayFolder: 🔩 Raw Materials
+		lineageTag: dbeb950c-70e3-4ebd-85e0-75be977ee95d
+		summarizeBy: sum
+		sourceColumn: rawmat_width
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column rawmat_length
+		dataType: double
+		displayFolder: 🔩 Raw Materials
+		lineageTag: 749045bc-0e0b-4a6f-a3e6-ef8cc4554fa8
+		summarizeBy: sum
+		sourceColumn: rawmat_length
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column rawmat_uom
+		dataType: double
+		displayFolder: 🔩 Raw Materials
+		lineageTag: d6437ecb-b60f-4311-82f6-573cc56df810
+		summarizeBy: sum
+		sourceColumn: rawmat_uom
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column rawmat_weight_lbs
+		dataType: double
+		displayFolder: 🔩 Raw Materials
+		lineageTag: 2c9be5af-a537-492b-9d72-4b6124c22f88
+		summarizeBy: sum
+		sourceColumn: rawmat_weight_lbs
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column rawmat_total_weight_lbs
+		dataType: double
+		displayFolder: 🔩 Raw Materials
+		lineageTag: d177f3b5-205b-482a-ba05-ed8ead30b8d1
+		summarizeBy: sum
+		sourceColumn: rawmat_total_weight_lbs
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column rawmat_price_per_lb
+		dataType: double
+		displayFolder: 🔩 Raw Materials
+		lineageTag: 025545cd-f685-431d-822b-500d345f2a58
+		summarizeBy: sum
+		sourceColumn: rawmat_price_per_lb
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column lead_time_days
+		dataType: double
+		formatString: 0
+		displayFolder: ⏱️ Performance Metrics
+		lineageTag: 0aba28bc-9a0d-4808-96db-6d37e611a9b7
+		summarizeBy: sum
+		sourceColumn: lead_time_days
+
+		annotation SummarizationSetBy = Automatic
+
+	column days_until_due
+		dataType: int64
+		formatString: 0
+		displayFolder: ⏱️ Performance Metrics
+		lineageTag: d9bb4aa8-60a1-471d-b18c-a9ee497e8fd2
+		summarizeBy: sum
+		sourceColumn: days_until_due
+
+		annotation SummarizationSetBy = Automatic
+
+	column days_since_order
+		dataType: int64
+		formatString: 0
+		displayFolder: ⏱️ Performance Metrics
+		lineageTag: cbf50e2d-4d58-464f-bcda-80c009ba9e9a
+		summarizeBy: sum
+		sourceColumn: days_since_order
+
+		annotation SummarizationSetBy = Automatic
+
+	column receipt_variance_qty
+		dataType: double
+		displayFolder: 📦 Quantities
+		lineageTag: 8035752d-1b00-407e-a2f6-0ac7b0011be8
+		summarizeBy: sum
+		sourceColumn: receipt_variance_qty
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column receipt_variance_pct
+		dataType: double
+		displayFolder: ⏱️ Performance Metrics
+		lineageTag: fa5d335d-0662-43ef-917c-7cd472f1e9ce
+		summarizeBy: sum
+		sourceColumn: receipt_variance_pct
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column open_amount
+		dataType: double
+		displayFolder: 📊 Spend & Amounts
+		lineageTag: 759b0d0f-5d30-4112-ada2-3c6712dd6827
+		summarizeBy: sum
+		sourceColumn: open_amount
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column spend_bucket
+		dataType: string
+		displayFolder: ⏱️ Performance Metrics
+		lineageTag: f198ee8c-25a2-44f8-9d85-c36fc3b65450
+		summarizeBy: none
+		sourceColumn: spend_bucket
+
+		annotation SummarizationSetBy = Automatic
+
+	column is_overdue
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		displayFolder: ✅ Status Flags
+		lineageTag: 426515bc-8776-41ff-8e23-84e4816b29b5
+		summarizeBy: none
+		sourceColumn: is_overdue
+
+		annotation SummarizationSetBy = Automatic
+
+	column is_fully_received
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		displayFolder: ✅ Status Flags
+		lineageTag: 8449b8ac-d151-47b3-9da1-7b8196703643
+		summarizeBy: none
+		sourceColumn: is_fully_received
+
+		annotation SummarizationSetBy = Automatic
+
+	column on_time_flag
+		dataType: string
+		displayFolder: ✅ Status Flags
+		lineageTag: cd7aa69f-5340-4082-a3d4-74893477a45f
+		summarizeBy: none
+		sourceColumn: on_time_flag
+
+		annotation SummarizationSetBy = Automatic
+
+	column calculated_price
+		dataType: double
+		displayFolder: 📊 Spend & Amounts
+		lineageTag: cf5e598a-daf0-4af6-ad51-aafc48742c1e
+		summarizeBy: sum
+		sourceColumn: calculated_price
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column analysis_date
+		dataType: dateTime
+		formatString: m/d/yy
+		displayFolder: 📅 Dates - Analysis
+		lineageTag: c8ba6cb4-df39-4121-a95c-b9b9961d17ac
+		summarizeBy: none
+		sourceColumn: analysis_date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column order_year
+		dataType: int64
+		formatString: 0
+		displayFolder: Additional Columns
+		lineageTag: 3a364b1e-6566-4338-bcb0-a88f3507c97d
+		summarizeBy: sum
+		sourceColumn: order_year
+
+		annotation SummarizationSetBy = Automatic
+
+	column order_month
+		dataType: int64
+		formatString: 0
+		displayFolder: Additional Columns
+		lineageTag: cacb6019-dbfa-4318-a8a9-6e3afb5f1048
+		summarizeBy: sum
+		sourceColumn: order_month
+
+		annotation SummarizationSetBy = Automatic
+
+	column order_year_month
+		dataType: string
+		displayFolder: Additional Columns
+		lineageTag: 4dadcb4b-fb66-4e0b-bd2b-f00be1465baa
+		summarizeBy: none
+		sourceColumn: order_year_month
+
+		annotation SummarizationSetBy = Automatic
+
+	column order_quarter
+		dataType: string
+		displayFolder: Additional Columns
+		lineageTag: c8a4a8c1-bba7-4e04-aa81-9d69a06c0daf
+		summarizeBy: none
+		sourceColumn: order_quarter
+
+		annotation SummarizationSetBy = Automatic
+
+	column business_unit
+		dataType: string
+		displayFolder: Additional Columns
+		lineageTag: d4e878df-4020-40f8-bcd3-2a7243e6044b
+		summarizeBy: none
+		sourceColumn: business_unit
+
+		annotation SummarizationSetBy = Automatic
+
+	column analysis_date_source
+		dataType: string
+		displayFolder: Additional Columns
+		lineageTag: 65def068-a5dd-43a3-a111-826efff1d10a
+		summarizeBy: none
+		sourceColumn: analysis_date_source
+
+		annotation SummarizationSetBy = Automatic
+
+	column analysis_date_is_fallback
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		displayFolder: Additional Columns
+		lineageTag: a8d03834-e376-4fde-aa98-3b8d017ce819
+		summarizeBy: none
+		sourceColumn: analysis_date_is_fallback
+
+		annotation SummarizationSetBy = Automatic
+
+	column _schema_version
+		dataType: string
+		displayFolder: Additional Columns
+		lineageTag: a5dfb71b-9d2f-4942-9560-8f926574f693
+		summarizeBy: none
+		sourceColumn: _schema_version
+
+		annotation SummarizationSetBy = Automatic
+
+	column _load_timestamp
+		dataType: dateTime
+		formatString: m/d/yy
+		displayFolder: Additional Columns
+		lineageTag: a1ad6319-2f8b-4b0f-97cd-1af2aa880cd7
+		summarizeBy: none
+		sourceColumn: _load_timestamp
+
+		variation Variation
+			isDefault
+			relationship: 4e2f0a55-82cb-4678-be88-4dcc5cb3dd7f
+			defaultHierarchy: LocalDateTable_f4aed3e7-d092-41f3-8eb0-a56f90ec7437.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column received_amount
+		dataType: double
+		displayFolder: 📊 Spend & Amounts
+		lineageTag: 5af65635-901a-4348-b768-5a40b52fa97d
+		summarizeBy: sum
+		sourceColumn: received_amount
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column open_plus_received_quantity
+		dataType: double
+		displayFolder: 📊 Spend & Amounts
+		lineageTag: 4a96c1d2-a46e-49a5-a4c4-8e41bb1262b7
+		summarizeBy: sum
+		sourceColumn: open_plus_received_quantity
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column open_plus_received_amount
+		dataType: double
+		displayFolder: 📊 Spend & Amounts
+		lineageTag: 2def3094-8a2b-4773-9518-af71ece47d3b
+		summarizeBy: sum
+		sourceColumn: open_plus_received_amount
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column on_time_vs_due_flag
+		dataType: string
+		displayFolder: ✅ Status Flags
+		lineageTag: 4a5b6c7d-8e9f-0a1b-2c3d-4e5f6a7b8c9d
+		summarizeBy: none
+		sourceColumn: on_time_vs_due_flag
+
+		annotation SummarizationSetBy = Automatic
+
+	column on_time_vs_promise_flag
+		dataType: string
+		displayFolder: ✅ Status Flags
+		lineageTag: 5b6c7d8e-9f0a-1b2c-3d4e-5f6a7b8c9d0e
+		summarizeBy: none
+		sourceColumn: on_time_vs_promise_flag
+
+		annotation SummarizationSetBy = Automatic
+
+	column days_early_late_vs_due
+		dataType: string
+		displayFolder: ⏱️ Lead Time
+		lineageTag: 6c7d8e9f-0a1b-2c3d-4e5f-6a7b8c9d0e1f
+		summarizeBy: none
+		sourceColumn: days_early_late_vs_due
+
+		annotation SummarizationSetBy = Automatic
+
+	column days_early_late_vs_promise
+		dataType: string
+		displayFolder: ⏱️ Lead Time
+		lineageTag: 7d8e9f0a-1b2c-3d4e-5f6a-7b8c9d0e1f2a
+		summarizeBy: none
+		sourceColumn: days_early_late_vs_promise
+
+		annotation SummarizationSetBy = Automatic
+
+	column item_short_name
+		dataType: string
+		displayFolder: 📋 Item
+		lineageTag: b2c3d4e5-f6a7-8901-bcde-f23456789012
+		summarizeBy: none
+		sourceColumn: item_short_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column copper_market_price_per_lb
+		dataType: double
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		displayFolder: 🔩 Raw Materials
+		lineageTag: f2a3b4c5-d6e7-8901-abcd-012345678901
+		summarizeBy: sum
+		sourceColumn: copper_market_price_per_lb
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	column item_name
+		dataType: string
+		displayFolder: 📋 Item
+		lineageTag: a8b9c0d1-e2f3-4567-89ab-cdef01234567
+		summarizeBy: none
+		sourceColumn: item_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column _data_as_of_date
+		dataType: dateTime
+		formatString: m/d/yy
+		displayFolder: Additional Columns
+		lineageTag: b2be5a01-9c3f-4d1e-a6b8-7e9f0c1d2e3f
+		summarizeBy: none
+		sourceColumn: _data_as_of_date
+
+		annotation SummarizationSetBy = Automatic
+
+	column _original_open_quantity
+		dataType: double
+		lineageTag: ac4dae0b-b533-4bc1-9bf3-855e664079df
+		summarizeBy: sum
+		sourceColumn: _original_open_quantity
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column _open_quantity_corrected
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 7654e848-0a06-4442-b128-95ed9f279da9
+		summarizeBy: none
+		sourceColumn: _open_quantity_corrected
+
+		annotation SummarizationSetBy = Automatic
+
+	column _original_unit_cost
+		dataType: double
+		lineageTag: 0b9397f4-8efd-47f8-a289-71f1da7d7ed5
+		summarizeBy: sum
+		sourceColumn: _original_unit_cost
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column _unit_cost_correction
+		dataType: string
+		lineageTag: fd36522a-1f59-40cd-a138-03c5142d78c9
+		summarizeBy: none
+		sourceColumn: _unit_cost_correction
+
+		annotation SummarizationSetBy = Automatic
+
+	column _amount_source
+		dataType: string
+		lineageTag: 9b13dcfa-a132-4ff5-bb23-34d5c3a627b4
+		summarizeBy: none
+		sourceColumn: _amount_source
+
+		annotation SummarizationSetBy = Automatic
+
+	column is_late_or_overdue
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 6efce413-7a33-40ed-87d5-f10254644a28
+		summarizeBy: none
+		sourceColumn: is_late_or_overdue
+
+		annotation SummarizationSetBy = Automatic
+
+	column item_canonical_name
+		dataType: string
+		lineageTag: 5f96c66e-81d5-40ee-9238-cd86e5048eb5
+		summarizeBy: none
+		sourceColumn: item_canonical_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column item_canonical_group_id
+		dataType: double
+		formatString: 0
+		lineageTag: 745a53a8-6545-480b-ad8e-58958a50d888
+		summarizeBy: sum
+		sourceColumn: item_canonical_group_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column old_promise_date
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: eb5c460d-3165-4458-adf2-4a1a3f94979f
+		summarizeBy: none
+		sourceColumn: old_promise_date
+
+		variation Variation
+			isDefault
+			relationship: 1391020e-b019-4b4b-8f07-a312e09f6747
+			defaultHierarchy: LocalDateTable_f4fc2168-9aef-4b1a-a7eb-487db70824cd.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	partition po_fact_table = m
+		mode: import
+		source =
+				let
+				    Source =
+				        Parquet.Document(
+				            File.Contents(
+				                "C:\\Users\\deepankar.s\\OneDrive - Praval\Documents\\forgent debug\\forgent-vF 1\\forgent-raw-prac-debug\\step_4_assembly\\b.final\\po_fact_table.parquet"
+				            )
+				        ),
+				    #"Replaced Value" = Table.ReplaceValue(Source,"Other","Vantran",Replacer.ReplaceText,{"business_unit"}),
+				    #"Replaced Value1" = Table.ReplaceValue(#"Replaced Value",null,0,Replacer.ReplaceValue,{"uninvoiced_qty_supplier"}),
+				    #"Replaced Value2" = Table.ReplaceValue(#"Replaced Value1",null,0,Replacer.ReplaceValue,{"uninvoiced_qty_internal"}),
+				    #"Replaced Value3" = Table.ReplaceValue(#"Replaced Value2",null,0,Replacer.ReplaceValue,{"vendor_quantity"})
+				
+				in
+				    #"Replaced Value3"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

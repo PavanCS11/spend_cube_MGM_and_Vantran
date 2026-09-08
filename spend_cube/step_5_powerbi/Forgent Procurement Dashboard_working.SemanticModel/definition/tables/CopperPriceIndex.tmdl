@@ -1,0 +1,30 @@
+table CopperPriceIndex
+	lineageTag: c9d0e1f2-a3b4-5678-cdef-789012345678
+
+	column order_year_month
+		lineageTag: 90b427bb-9079-4079-a17d-c24024ba1225
+		isNameInferred
+		sourceColumn: po_fact_table[order_year_month]
+
+	column Year_Month
+		lineageTag: e2774c7e-ded1-44a5-9dbc-0bcb61dffdd2
+		isNameInferred
+		sourceColumn: [Year_Month]
+
+	column Copper_Price_Per_Lb
+		lineageTag: a9299d3b-ef51-4b59-892f-0ac7a7865abe
+		isNameInferred
+		sourceColumn: [Copper_Price_Per_Lb]
+
+	partition CopperPriceIndex = calculated
+		mode: import
+		source =
+				SUMMARIZE(
+				    FILTER(po_fact_table, NOT(ISBLANK(po_fact_table[copper_market_price_per_lb]))),
+				    po_fact_table[order_year_month],
+				    "Year_Month", po_fact_table[order_year_month],
+				    "Copper_Price_Per_Lb", MAX(po_fact_table[copper_market_price_per_lb])
+				)
+
+	annotation PBI_Id = c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5
+
