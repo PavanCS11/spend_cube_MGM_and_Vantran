@@ -239,7 +239,20 @@ class Normalizer:
         merged = ns_receipts.merge(lookup_df, on='_key_po', how='left')
 
         df.loc[ns_receipt_mask, 'promise_date'] = merged['_j_promise'].values
-        df.loc[ns_receipt_mask, 'old_promise_date'] = merged['_j_old_promise'].values
+        # Ensure both source and destination use a compatible datetime dtype
+        merged['_j_old_promise'] = pd.to_datetime(
+            merged['_j_old_promise'],
+            errors='coerce'
+        )
+
+        df['old_promise_date'] = pd.to_datetime(
+            df['old_promise_date'],
+            errors='coerce'
+        )
+
+        df.loc[ns_receipt_mask, 'old_promise_date'] = (
+            merged['_j_old_promise'].to_numpy()
+        )
         df.loc[ns_receipt_mask, 'due_date'] = merged['_j_due'].values
 
         promise_populated = merged['_j_promise'].notna().sum()

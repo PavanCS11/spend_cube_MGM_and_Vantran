@@ -809,7 +809,7 @@ class FinalBuilder:
             )
 
         # Start with NaN and track which source was used
-        df['item_name'] = pd.Series([np.nan] * len(df), index=df.index)
+        df['item_name'] = pd.Series(pd.NA, index=df.index, dtype='string')
         source_counts = {}
 
         # Priority sources (highest priority first)
@@ -1610,9 +1610,32 @@ class FinalBuilder:
             'order_date'
         ]
 
+        # Pandas datetime64[ns] supports dates only within its valid range.
+        # Convert invalid/out-of-bounds dates to NaT before assigning them
+        # into analysis_date.
+        min_valid_date = pd.Timestamp.min
+        max_valid_date = pd.Timestamp.max
+
         for col in date_cols:
             if col in df.columns:
-                df[col] = pd.to_datetime(df[col], errors='coerce')
+                parsed = pd.to_datetime(df[col], errors='coerce')
+
+                # Remove dates outside pandas datetime64[ns] range
+                valid_mask = (
+                    parsed.isna() |
+                    (
+                        (parsed >= min_valid_date) &
+                        (parsed <= max_valid_date)
+                    )
+                )
+
+                parsed = parsed.where(valid_mask)
+
+                # Force the column to the same datetime64[ns] type as analysis_date
+                df[col] = pd.Series(
+                    parsed,
+                    index=df.index
+                ).astype('datetime64[ns]')
 
         # Handle is_open_order
         is_open = df['is_open_order']
