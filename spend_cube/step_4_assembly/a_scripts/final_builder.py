@@ -79,19 +79,15 @@ class FinalBuilder:
         (100000, float('inf'), 'Strategic (>$100K)')
     ]
 
-    # OTD classification thresholds
-    GRACE_PERIOD_DAYS = 3    # Orders delivered within 3 days after promise are "On Time"
-    EARLY_THRESHOLD_DAYS = 14  # Orders delivered more than 14 days before promise are "Early"
+    # OTD classification threshold
+    GRACE_PERIOD_DAYS = 3    # Delivered on or before promise + 3 days is On Time
     """
-    3-Category OTD Classification (per OTD Policy Document):
-    - Reference date: promise_date (unified across systems via ingestion join)
-      This is the contractual commitment date. due_date is excluded from OTD
-      scoring because it is an operational/MRP date that changes throughout PO life.
-    - "Early":   receipt_date < (promise_date - EARLY_THRESHOLD_DAYS)
-    - "On Time": (promise_date - EARLY_THRESHOLD_DAYS) <= receipt_date <= (promise_date + GRACE_PERIOD_DAYS)
-    - "Late":    receipt_date > (promise_date + GRACE_PERIOD_DAYS)
-    - Primary metric: on_time_flag / on_time_vs_promise_flag (contractual OTD)
-    - Secondary metric: on_time_vs_due_flag (operational tracking only)
+    OTD Classification (Promise Date):
+    - On Time: final completion receipt <= promise_date + GRACE_PERIOD_DAYS
+    - Late: final completion receipt > promise_date + GRACE_PERIOD_DAYS
+    - Open and not yet past promise + grace: NULL (not OTD eligible yet)
+    - Open and past promise + grace: Late
+    - OTD is evaluated once per PO line, not once per receipt transaction.
     """
 
     # Reporting date range configuration (from central config in taxonomy.py)
@@ -1140,85 +1136,482 @@ class FinalBuilder:
         return df
 
     def _add_status_flags(self, df: pd.DataFrame) -> pd.DataFrame:
-        """Adds status flags: is_overdue, is_fully_received."""
-        today = pd.Timestamp.now().normalize()
+        """Adds status flags using the promise-date + grace-period rule."""
 
-        # is_overdue uses the contractual promise date (per OTD policy),
-        # with fallback: promise_date > due_date
-        effective_promise = None
-        if 'promise_date' in df.columns:
-            effective_promise = df['promise_date'].copy()
-        if effective_promise is not None and 'due_date' in df.columns:
-            effective_promise = effective_promise.fillna(df['due_date'])
-        elif effective_promise is None and 'due_date' in df.columns:
-            effective_promise = df['due_date'].copy()
+        # OTD/overdue eligibility must use the pipeline data-as-of date.
+        # analysis_date must not be used for any source system.
+        data_as_of_date = pd.to_datetime(
+            self.pipeline_metadata.get('max_file_date'),
+            errors='coerce'
+        )
 
-        if effective_promise is not None:
-            qty_open = df.get('open_quantity', pd.Series([0] * len(df))).fillna(0)
-            # Apply grace period: overdue only if past (effective_promise + grace_period)
-            grace_adjusted = effective_promise + pd.Timedelta(days=self.GRACE_PERIOD_DAYS)
-            df['is_overdue'] = (grace_adjusted < today) & (qty_open > 0)
+        if pd.notna(data_as_of_date):
+            as_of_date = pd.Series(data_as_of_date, index=df.index)
         else:
-            df['is_overdue'] = False
+            as_of_date = pd.Series(
+                pd.Timestamp.now().normalize(),
+                index=df.index
+            )
+
+        promise = (
+            pd.to_datetime(df['promise_date'], errors='coerce')
+            if 'promise_date' in df.columns
+            else pd.Series(pd.NaT, index=df.index)
+        )
 
         if 'open_quantity' in df.columns:
-            df['is_fully_received'] = df['open_quantity'].fillna(0) <= 0
+            qty_open = pd.to_numeric(
+                df['open_quantity'],
+                errors='coerce'
+            ).fillna(0)
+        else:
+            qty_open = pd.Series(
+                0,
+                index=df.index,
+                dtype='float64'
+            )
+
+        grace_boundary = promise + pd.Timedelta(
+            days=self.GRACE_PERIOD_DAYS
+        )
+
+        df['is_overdue'] = (
+            promise.notna()
+            & as_of_date.notna()
+            & (as_of_date > grace_boundary)
+            & (qty_open > 0)
+        )
+
+        # Preserve existing row-level is_fully_received logic.
+        if 'open_quantity' in df.columns:
+            df['is_fully_received'] = pd.to_numeric(
+                df['open_quantity'],
+                errors='coerce'
+            ).fillna(0) <= 0
+
         elif 'total_quantity' in df.columns and 'received_quantity' in df.columns:
-            df['is_fully_received'] = df['received_quantity'].fillna(0) >= df['total_quantity'].fillna(0)
+            total_qty = pd.to_numeric(
+                df['total_quantity'],
+                errors='coerce'
+            ).fillna(0)
+
+            received_qty = pd.to_numeric(
+                df['received_quantity'],
+                errors='coerce'
+            ).fillna(0)
+
+            df['is_fully_received'] = received_qty >= total_qty
+
         else:
             df['is_fully_received'] = None
 
-        return df
+        return df   
 
     def _add_otd_metrics(self, df: pd.DataFrame) -> pd.DataFrame:
-        """Adds on-time delivery metrics per OTD Policy Document.
+        """Calculate one OTD result per PO line without changing fact-table grain.
 
-        Primary OTD metric uses the contractual promise date (unified across systems).
-        Due date is excluded from OTD scoring — it is an operational/MRP date
-        that changes throughout PO life and would mask late deliveries.
+        Physical Receipt/Open Order rows are preserved. No synthetic rows are created.
+        For each PO line, an existing Open Order row is the OTD representative while
+        the line is incomplete; once fully received, the latest existing receipt row
+        is the OTD representative.
         """
+        key_cols = [
+            'source_system',
+            'business_unit',
+            'po_number',
+            'po_line',
+            'po_release_num',
+            'item_id'
+        ]
 
-        def _classify_otd(receipt_date, reference_date):
-            """Classify deliveries as 'Early', 'On Time', or 'Late'.
-            Grace period: 14 days early, 3 days late.
-            """
-            both_present = receipt_date.notna() & reference_date.notna()
-            early_boundary = reference_date - pd.Timedelta(days=self.EARLY_THRESHOLD_DAYS)
-            late_boundary = reference_date + pd.Timedelta(days=self.GRACE_PERIOD_DAYS)
+        for col in key_cols:
+            if col not in df.columns:
+                df[col] = ''
 
-            result = pd.Series(None, index=df.index, dtype='object')
-            result[both_present & (receipt_date < early_boundary)] = 'Early'
-            result[both_present & (receipt_date >= early_boundary) & (receipt_date <= late_boundary)] = 'On Time'
-            result[both_present & (receipt_date > late_boundary)] = 'Late'
-            return result
+        for col in ['promise_date', 'receipt_date']:
+            if col in df.columns:
+                df[col] = pd.to_datetime(df[col], errors='coerce')
 
-        # ── Effective promise date (contractual commitment) ──
-        # promise_date is unified at ingestion: NS Receipts via PO Line Dates join, Epicor direct
-        effective_promise = df['promise_date'].copy() if 'promise_date' in df.columns else None
+        key_frame = df[key_cols].copy().fillna('')
 
-        # ── Effective due date (operational/MRP) ──
-        # Fallback chain: due_date > promise_date
-        effective_due = df['due_date'].copy() if 'due_date' in df.columns else None
-        if effective_due is not None and 'promise_date' in df.columns:
-            effective_due = effective_due.fillna(df['promise_date'])
+        for col in key_cols:
+            key_frame[col] = key_frame[col].astype(str).str.strip()
 
-        # ── OTD vs Promise Date (PRIMARY — contractual OTD) ──
-        if 'receipt_date' in df.columns and effective_promise is not None:
-            df['on_time_vs_promise_flag'] = _classify_otd(df['receipt_date'], effective_promise)
+        df['otd_line_key'] = key_frame.astype(str).agg('|'.join, axis=1)
+
+        df['final_receipt_date'] = pd.NaT
+        df['delta_of_promise_date_vs_receipt_date'] = np.nan
+        df['otd_is_fully_received'] = False
+        df['is_otd_representative'] = False
+        df['on_time_vs_promise_flag'] = None
+        df['on_time_flag'] = None
+
+        if df.empty:
+            return df
+
+        tt = df.get(
+            'transaction_type',
+            pd.Series('', index=df.index)
+        ).astype(str).str.strip().str.lower()
+
+        is_receipt = tt.eq('receipts')
+        is_open = tt.eq('open orders')
+
+        def num_col(name):
+            return (
+                pd.to_numeric(df[name], errors='coerce')
+                if name in df.columns
+                else pd.Series(np.nan, index=df.index)
+            )
+
+        open_qty = num_col('open_quantity')
+        total_qty = num_col('total_quantity')
+        received_qty = num_col('received_quantity').fillna(0)
+
+        for key, idx in df.groupby('otd_line_key', sort=False).groups.items():
+
+            idx = list(idx)
+            g = df.loc[idx]
+
+            receipt_idx = [
+                i for i in idx
+                if is_receipt.loc[i]
+                and pd.notna(df.at[i, 'receipt_date'])
+            ]
+
+            open_idx = [
+                i for i in idx
+                if is_open.loc[i]
+            ]
+
+            # ---------------------------------------------------------
+            # Determine whether the PO line is fully received
+            # ---------------------------------------------------------
+            existing_open_qty = (
+                open_qty.loc[open_idx].dropna()
+                if open_idx
+                else pd.Series(dtype=float)
+            )
+
+            if len(existing_open_qty):
+
+                # Existing Open Order row is authoritative
+                remaining_qty = float(existing_open_qty.max())
+                fully_received = remaining_qty <= 0
+
+            else:
+
+                # No Open Order row.
+                # Derive completion from ordered quantity vs receipts.
+                ordered_values = total_qty.loc[idx].dropna()
+
+                ordered_qty = (
+                    float(ordered_values.max())
+                    if len(ordered_values)
+                    else np.nan
+                )
+
+                received_total = (
+                    float(received_qty.loc[receipt_idx].sum())
+                    if receipt_idx
+                    else 0.0
+                )
+
+                if pd.notna(ordered_qty):
+
+                    remaining_qty = ordered_qty - received_total
+                    fully_received = remaining_qty <= 0
+
+                else:
+
+                    # Cannot safely determine partial/full status
+                    # when ordered quantity is unavailable.
+                    fully_received = bool(receipt_idx)
+                    remaining_qty = np.nan
+
+            # ---------------------------------------------------------
+            # Determine Promise Date
+            # ---------------------------------------------------------
+            promise_values = (
+                pd.to_datetime(
+                    g['promise_date'],
+                    errors='coerce'
+                ).dropna()
+            )
+
+            promise_date = (
+                promise_values.max()
+                if len(promise_values)
+                else pd.NaT
+            )
+
+            final_receipt = pd.NaT
+            representative_idx = None
+
+            # ---------------------------------------------------------
+            # Determine OTD representative row
+            # ---------------------------------------------------------
+            #
+            # Fully received:
+            #     Latest Receipt row is representative.
+            #
+            # Still open/partial:
+            #     Existing Open Order row is representative.
+            #
+            # No synthetic rows are created.
+            # ---------------------------------------------------------
+
+            if fully_received:
+
+                if receipt_idx:
+
+                    receipt_dates = pd.to_datetime(
+                        df.loc[receipt_idx, 'receipt_date'],
+                        errors='coerce'
+                    )
+
+                    max_receipt = receipt_dates.max()
+
+                    candidates = receipt_dates[
+                        receipt_dates == max_receipt
+                    ].index.tolist()
+
+                    representative_idx = candidates[-1]
+
+                    final_receipt = max_receipt
+
+            else:
+
+                if open_idx:
+                    representative_idx = open_idx[-1]
+
+            # ---------------------------------------------------------
+            # Calculate Promise-Date OTD status
+            # ---------------------------------------------------------
+
+            status = None
+            delta = np.nan
+
+            if pd.notna(promise_date):
+
+                boundary = (
+                    promise_date
+                    + pd.Timedelta(days=self.GRACE_PERIOD_DAYS)
+                )
+
+                # Fully received
+                if fully_received and pd.notna(final_receipt):
+
+                    if final_receipt <= boundary:
+                        status = 'On Time'
+                    else:
+                        status = 'Late'
+
+                    delta = (
+                        promise_date - final_receipt
+                    ).days
+
+                else:
+
+                    # Still open/partial.
+                    #
+                    # IMPORTANT:
+                    # Use pipeline max_file_date, NOT analysis_date,
+                    # to determine whether the promise + grace period
+                    # has actually been breached.
+
+                    data_as_of_date = pd.to_datetime(
+                        self.pipeline_metadata.get('max_file_date'),
+                        errors='coerce'
+                    )
+
+                    if (
+                        pd.notna(data_as_of_date)
+                        and data_as_of_date > boundary
+                    ):
+                        status = 'Late'
+                    else:
+                        status = None
+
+            # ---------------------------------------------------------
+            # Store PO-line-level OTD results
+            # ---------------------------------------------------------
+
+            df.loc[
+                idx,
+                'otd_is_fully_received'
+            ] = fully_received
+
+            df.loc[
+                idx,
+                'final_receipt_date'
+            ] = final_receipt
+
+            df.loc[
+                idx,
+                'delta_of_promise_date_vs_receipt_date'
+            ] = delta
+
+            # ---------------------------------------------------------
+            # Mark the single OTD representative row
+            # ---------------------------------------------------------
+
+            if representative_idx is not None:
+
+                representative_promise_date = pd.to_datetime(
+                    df.at[
+                        representative_idx,
+                        'promise_date'
+                    ],
+                    errors='coerce'
+                )
+
+                data_as_of_date = pd.to_datetime(
+                    self.pipeline_metadata.get('max_file_date'),
+                    errors='coerce'
+                )
+
+                if (
+                    pd.notna(representative_promise_date)
+                    and pd.notna(data_as_of_date)
+                    and representative_promise_date <= data_as_of_date
+                ):
+                    df.at[
+                        representative_idx,
+                        'is_otd_representative'
+                    ] = True
+
+            # ---------------------------------------------------------
+            # Apply the same PO-line OTD status to all physical rows
+            # ---------------------------------------------------------
+
+            df.loc[
+                idx,
+                'on_time_vs_promise_flag'
+            ] = status
+
+            df.loc[
+                idx,
+                'on_time_flag'
+            ] = status
+
+        # OTD eligibility based on pipeline data-as-of date.
+        data_as_of_date = pd.to_datetime(
+            self.pipeline_metadata.get('max_file_date'),
+            errors='coerce'
+        )
+
+        if pd.notna(data_as_of_date) and 'promise_date' in df.columns:
+            df['is_otd_eligible'] = (
+                pd.to_datetime(df['promise_date'], errors='coerce').notna()
+                & (
+                    pd.to_datetime(df['promise_date'], errors='coerce')
+                    <= data_as_of_date
+                )
+            )
         else:
-            df['on_time_vs_promise_flag'] = None
+            df['is_otd_eligible'] = False
 
-        # ── OTD vs Due Date (SECONDARY — operational tracking) ──
-        if 'receipt_date' in df.columns and effective_due is not None:
-            df['on_time_vs_due_flag'] = _classify_otd(df['receipt_date'], effective_due)
+        # -------------------------------------------------------------
+        # Due Date remains a SECONDARY operational metric.
+        # Promise-Date OTD no longer has an "Early" category.
+        # -------------------------------------------------------------
+
+        if (
+            'receipt_date' in df.columns
+            and 'due_date' in df.columns
+        ):
+
+            receipt_dt = pd.to_datetime(
+                df['receipt_date'],
+                errors='coerce'
+            )
+
+            due_dt = pd.to_datetime(
+                df['due_date'],
+                errors='coerce'
+            )
+
+            both = (
+                receipt_dt.notna()
+                & due_dt.notna()
+            )
+
+            early_boundary = (
+                due_dt
+                - pd.Timedelta(days=14)
+            )
+
+            late_boundary = (
+                due_dt
+                + pd.Timedelta(days=self.GRACE_PERIOD_DAYS)
+            )
+
+            due_result = pd.Series(
+                None,
+                index=df.index,
+                dtype='object'
+            )
+
+            due_result[
+                both
+                & (receipt_dt < early_boundary)
+            ] = 'Early'
+
+            due_result[
+                both
+                & (receipt_dt >= early_boundary)
+                & (receipt_dt <= late_boundary)
+            ] = 'On Time'
+
+            due_result[
+                both
+                & (receipt_dt > late_boundary)
+            ] = 'Late'
+
+            df['on_time_vs_due_flag'] = due_result
+
         else:
+
             df['on_time_vs_due_flag'] = None
 
-        # ── Days Early/Late vs Promise Date (PRIMARY) ──
-        if 'receipt_date' in df.columns and effective_promise is not None:
-            receipt_dt = pd.to_datetime(df['receipt_date'], errors='coerce')
-            promise_dt = pd.to_datetime(effective_promise, errors='coerce')
-            raw_days_vs_promise = (receipt_dt - promise_dt).dt.days
+        # -------------------------------------------------------------
+        # Days Early/Late vs Promise Date
+        # -------------------------------------------------------------
+        # Positive value = late after applying the 3-day grace period.
+        # Negative value = early.
+        #
+        # Example:
+        #   Promise = Jan 10
+        #   Receipt = Jan 12
+        #   Raw difference = 2
+        #   Result = 2
+        #
+        #   Promise = Jan 10
+        #   Receipt = Jan 15
+        #   Raw difference = 5
+        #   Result = 5 - 3 = 2 late days
+        # -------------------------------------------------------------
+
+        if (
+            'receipt_date' in df.columns
+            and 'promise_date' in df.columns
+        ):
+
+            receipt_dt = pd.to_datetime(
+                df['receipt_date'],
+                errors='coerce'
+            )
+
+            promise_dt = pd.to_datetime(
+                df['promise_date'],
+                errors='coerce'
+            )
+
+            raw_days_vs_promise = (
+                receipt_dt - promise_dt
+            ).dt.days
+
             df['days_early_late_vs_promise'] = np.where(
                 receipt_dt.notna() & promise_dt.notna(),
                 np.where(
@@ -1228,14 +1621,39 @@ class FinalBuilder:
                 ),
                 None
             )
+
         else:
+
             df['days_early_late_vs_promise'] = None
 
-        # ── Days Early/Late vs Due Date (SECONDARY) ──
-        if 'receipt_date' in df.columns and effective_due is not None:
-            receipt_dt = pd.to_datetime(df['receipt_date'], errors='coerce')
-            due_dt = pd.to_datetime(effective_due, errors='coerce')
-            raw_days_vs_due = (receipt_dt - due_dt).dt.days
+        # -------------------------------------------------------------
+        # Days Early/Late vs Due Date
+        # -------------------------------------------------------------
+        # Secondary operational metric.
+        #
+        # Positive value = late after applying the 3-day grace period.
+        # Negative value = early.
+        # -------------------------------------------------------------
+
+        if (
+            'receipt_date' in df.columns
+            and 'due_date' in df.columns
+        ):
+
+            receipt_dt = pd.to_datetime(
+                df['receipt_date'],
+                errors='coerce'
+            )
+
+            due_dt = pd.to_datetime(
+                df['due_date'],
+                errors='coerce'
+            )
+
+            raw_days_vs_due = (
+                receipt_dt - due_dt
+            ).dt.days
+
             df['days_early_late_vs_due'] = np.where(
                 receipt_dt.notna() & due_dt.notna(),
                 np.where(
@@ -1245,16 +1663,64 @@ class FinalBuilder:
                 ),
                 None
             )
+
         else:
-            df['days_early_late_vs_due'] = None
 
-        # on_time_flag = primary OTD metric (promise-based, per OTD policy)
-        df['on_time_flag'] = df['on_time_vs_promise_flag']
+            df['days_early_late_vs_due'] = None    
 
-        # Unified late/overdue flag: TRUE if either historically late OR currently overdue
+        # -------------------------------------------------------------
+        # Operational overdue flag
+        # -------------------------------------------------------------
+
+        if 'open_quantity' in df.columns:
+
+            oq = pd.to_numeric(
+                df['open_quantity'],
+                errors='coerce'
+            ).fillna(0)
+
+            promise = pd.to_datetime(
+                df.get('promise_date'),
+                errors='coerce'
+            )
+
+            data_as_of_date = pd.to_datetime(
+                self.pipeline_metadata.get('max_file_date'),
+                errors='coerce'
+            )
+
+            if pd.notna(data_as_of_date):
+
+                df['is_overdue'] = (
+                    promise.notna()
+                    & (oq > 0)
+                    & (
+                        data_as_of_date
+                        > promise
+                        + pd.Timedelta(
+                            days=self.GRACE_PERIOD_DAYS
+                        )
+                    )
+                )
+
+            else:
+
+                df['is_overdue'] = False
+
+        else:
+
+            df['is_overdue'] = False
+
+        # -------------------------------------------------------------
+        # Unified late/overdue flag
+        # -------------------------------------------------------------
+
         df['is_late_or_overdue'] = (
-            (df['on_time_flag'] == 'Late') |               # Historical: received late
-            (df['is_overdue'].fillna(False) == True)        # Current: overdue now
+            (df['on_time_vs_promise_flag'] == 'Late')
+            |
+            df['is_overdue']
+            .fillna(False)
+            .astype(bool)
         )
 
         return df
@@ -1269,9 +1735,6 @@ class FinalBuilder:
             df['spend_bucket'] = self._categorize_spend(df['open_plus_received_amount'])
         else:
             df['spend_bucket'] = 'Unknown'
-
-        df = self._add_status_flags(df)
-        df = self._add_otd_metrics(df)
 
         return df
 
@@ -1841,9 +2304,18 @@ class FinalBuilder:
         df['_load_timestamp'] = pd.Timestamp.now()
         df['_data_as_of_date'] = pd.to_datetime(self.pipeline_metadata.get('max_file_date'))
 
-        # Convert analysis_date to date (not datetime) for Parquet
+        # Convert date fields to date (not datetime) for Parquet
         if 'analysis_date' in df.columns:
-            df['analysis_date'] = pd.to_datetime(df['analysis_date']).dt.date
+            df['analysis_date'] = pd.to_datetime(
+                df['analysis_date'],
+                errors='coerce'
+            ).dt.date
+
+        if 'final_receipt_date' in df.columns:
+            df['final_receipt_date'] = pd.to_datetime(
+                df['final_receipt_date'],
+                errors='coerce'
+            ).dt.date
 
         # Get the schema
         schema = get_po_fact_schema()
@@ -1916,18 +2388,32 @@ class FinalBuilder:
         print("  Applying Terms Standardization...")
         df = self._apply_terms_standardization(df)
 
+        # Standardize Item IDs BEFORE Item Categorization
+        if 'item_name_mpn' in df.columns and 'source_system' in df.columns:
+
+            valid_mpn = (
+                df['item_name_mpn'].notna()
+                & df['item_name_mpn'].astype(str).str.strip().ne('')
+                & df['item_name_mpn'].astype(str).str.lower().ne('nan')
+            )
+
+            netsuite_mask = (
+                df['source_system'].astype(str).str.strip().str.upper().eq('NETSUITE')
+                & valid_mpn
+            )
+
+            if netsuite_mask.any():
+                df.loc[netsuite_mask, 'item_id'] = (
+                    df.loc[netsuite_mask, 'item_name_mpn']
+                    .astype(str)
+                    .str.strip()
+                )
+
+        # Apply Item Categorization AFTER Item ID Standardization
         print("  Applying Item Categorization...")
         df = self._apply_item_categorization(df)
 
-        # Standardize item_id to MPN (item_name_mpn is consistent across systems;
-        # raw item_id is a meaningless numeric ID in NetSuite)
-        print("  Standardizing Item IDs...")
-        if 'item_name_mpn' in df.columns:
-            valid_mpn = df['item_name_mpn'].notna() & (df['item_name_mpn'].astype(str).str.strip() != '')
-            standardized = valid_mpn.sum()
-            df.loc[valid_mpn, 'item_id'] = df.loc[valid_mpn, 'item_name_mpn']
-            print(f"    Standardized {standardized:,} item_id values to MPN")
-
+        # Resolve Category Conflicts
         df = self._resolve_category_conflicts(df)
 
         # Apply description fallback (replace placeholders with display name)
@@ -1958,6 +2444,12 @@ class FinalBuilder:
 
         # Compute analysis_date (replaces Power Query calculation)
         df = self._compute_analysis_date(df)
+        # Calculate OTD at PO-line grain BEFORE reporting-date filtering.
+        # Historical receipt rows must remain available so the final receipt date
+        # can be determined correctly.
+        print("  Calculating PO-line OTD metrics...")
+        df = self._add_status_flags(df)
+        df = self._add_otd_metrics(df)
 
         # Apply reporting date filter (after analysis_date but before metrics)
         df = self._apply_reporting_date_filter(df)
@@ -2051,12 +2543,15 @@ class FinalBuilder:
         if 'on_time_flag' in df.columns:
             on_time = df['on_time_flag'].dropna()
             if len(on_time) > 0:
-                early_count = (on_time == 'Early').sum()
                 on_time_count = (on_time == 'On Time').sum()
                 late_count = (on_time == 'Late').sum()
                 total = len(on_time)
                 otd_pct = (on_time_count / total) * 100
-                print(f"  OTD Rate: {otd_pct:.1f}% — Early={early_count:,}, On Time={on_time_count:,}, Late={late_count:,}")
+
+                print(
+                    f"  OTD Rate: {otd_pct:.1f}% — "
+                    f"On Time={on_time_count:,}, Late={late_count:,}"
+                )
 
         # 6-Column Quantity/Amount Summary
         if all(col in df.columns for col in ['open_amount', 'received_amount', 'open_plus_received_amount']):

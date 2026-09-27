@@ -6,7 +6,7 @@ Defines the explicit pyarrow schema for the po_fact_table.parquet output.
 This ensures Power BI can load the file with correct types without any
 Table.TransformColumnTypes in Power Query.
 
-Schema Version: 2.10.0
+Schema Version: 2.13.0
 
 Version 2.12.0 Changes (2026-07-14):
 - Added item_category_l4 and item_category_l5 to carry VanTran taxonomy levels 4 and 5
@@ -78,7 +78,7 @@ import pyarrow as pa
 from datetime import datetime
 
 # Schema version - increment when making breaking changes
-SCHEMA_VERSION = "2.12.0"  # VanTran taxonomy levels 4-5 added to fact schema
+SCHEMA_VERSION = "2.13.0"  # PO-line OTD logic: no Early, final receipt, representative row
 
 
 def get_po_fact_schema() -> pa.Schema:
@@ -275,12 +275,18 @@ def get_po_fact_schema() -> pa.Schema:
         ('spend_bucket', pa.string()),
         ('is_overdue', pa.bool_()),
         ('is_fully_received', pa.bool_()),
-        ('on_time_flag', pa.string()),              # Alias for on_time_vs_promise_flag (contractual OTD): "Early"/"On Time"/"Late"
-        ('on_time_vs_due_flag', pa.string()),       # 3-category vs due_date (operational): "Early"/"On Time"/"Late"
-        ('on_time_vs_promise_flag', pa.string()),   # 3-category vs promise_date (contractual OTD): "Early"/"On Time"/"Late"
-        ('days_early_late_vs_due', pa.float64()),   # receipt_date - due_date (days)
-        ('days_early_late_vs_promise', pa.float64()),  # receipt_date - promise_date (days)
-        ('is_late_or_overdue', pa.bool_()),         # TRUE if on_time_flag='Late' OR is_overdue=True
+        ('on_time_flag', pa.string()),              # Alias for on_time_vs_promise_flag: "On Time"/"Late"/NULL
+        ('on_time_vs_due_flag', pa.string()),       # Existing operational due-date classification
+        ('on_time_vs_promise_flag', pa.string()),   # Promise-based OTD: "On Time"/"Late"/NULL
+        ('days_early_late_vs_due', pa.float64()),   # Existing due-date metric
+        ('days_early_late_vs_promise', pa.float64()),  # Existing physical receipt-vs-promise metric
+        ('delta_of_promise_date_vs_receipt_date', pa.float64()),  # promise_date - final_receipt_date (days)
+        ('otd_line_key', pa.string()),              # PO-line-level key used for OTD evaluation
+        ('final_receipt_date', pa.date32()),        # Latest receipt only when PO line is fully received
+        ('otd_is_fully_received', pa.bool_()),      # PO-line-level completion status for OTD
+        ('is_otd_representative', pa.bool_()),      # Exactly one physical row per PO line used for OTD
+        ('is_otd_eligible', pa.bool_()),
+        ('is_late_or_overdue', pa.bool_()),         # TRUE if OTD status is Late or row is overdue
 
         # ============================================
         # NEW: CALENDAR ATTRIBUTES (precomputed)
@@ -362,6 +368,12 @@ NEW_COLUMNS = [
     'on_time_vs_promise_flag',
     'days_early_late_vs_due',
     'days_early_late_vs_promise',
+    'delta_of_promise_date_vs_receipt_date',
+    'otd_line_key',
+    'final_receipt_date',
+    'otd_is_fully_received',
+    'is_otd_representative',
+    'is_otd_eligible',
     # Short item name (v2.3.0)
     'item_short_name',
     # Unified item name (v2.7.0)
