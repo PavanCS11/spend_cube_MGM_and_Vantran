@@ -143,6 +143,720 @@ class Normalizer:
         """Normalises a PO line identifier to a clean integer string ('3', not '3.0')."""
         return pd.to_numeric(series, errors='coerce').astype('Int64').astype(str)
 
+    @staticmethod
+    def _normalize_syteline_key(series: pd.Series) -> pd.Series:
+        """
+        Normalize Syteline join-key columns while preserving alphanumeric values.
+
+        Examples:
+            12345      -> '12345'
+            12345.0    -> '12345'
+            ' 12345 '  -> '12345'
+            'ABC123'   -> 'ABC123'
+            blank/NaN  -> ''
+        """
+        if series is None:
+            return pd.Series(dtype='object')
+
+        normalized = (
+            series
+            .astype('string')
+            .str.replace('\u00a0', ' ', regex=False)
+            .str.strip()
+        )
+
+        numeric_mask = normalized.str.fullmatch(r'\d+\.0+', na=False)
+
+        normalized.loc[numeric_mask] = (
+            normalized.loc[numeric_mask]
+            .str.replace(r'\.0+$', '', regex=True)
+        )
+
+        return normalized.fillna('')
+
+
+    @staticmethod
+    def _is_missing_syteline_value(series: pd.Series) -> pd.Series:
+        """
+        Identify values that should be treated as missing for Syteline
+        backfill purposes.
+        """
+        if series is None:
+            return pd.Series(dtype=bool)
+
+        normalized = (
+            series
+            .astype('string')
+            .str.strip()
+            .str.lower()
+        )
+
+        return (
+            series.isna()
+            | normalized.isin({
+                '',
+                'nan',
+                'none',
+                'null',
+                'n/a',
+                '<na>',
+            })
+        )
+
+
+    @staticmethod
+    def _first_non_missing(series: pd.Series):
+        """
+        Return the first non-missing value from a Series.
+        """
+        valid = series[
+            ~Normalizer._is_missing_syteline_value(series)
+        ]
+
+        if valid.empty:
+            return None
+
+        return valid.iloc[0]
+
+
+    def _load_syteline_backfill_file(self) -> pd.DataFrame:
+        """
+        Load the Syteline Backfill Missing Lines file.
+
+        This file is a lookup/enrichment source only and must never be
+        appended to the transaction dataset.
+        """
+        pattern = os.path.join(
+            self.input_dir,
+            'Syteline/Syteline Backfill Missing Lines*.xlsx'
+        )
+
+        files = glob.glob(pattern)
+
+        if not files:
+            print(
+                "\n  Syteline backfill: no "
+                "'Syteline Backfill Missing Lines*.xlsx' file found. "
+                "Skipping backfill."
+            )
+            return pd.DataFrame()
+
+        files.sort()
+
+        print(
+            f"\n  Loading Syteline backfill lookup from "
+            f"{len(files)} file(s)..."
+        )
+
+        frames = []
+
+        required_columns = {
+            'PO_Number',
+            'Line_ID',
+            'Document_Number',
+            'Vendor_ID',
+            'Vendor_Name',
+            'Promise Date',
+            'Order_Date',
+        }
+
+        for file_path in files:
+            filename = os.path.basename(file_path)
+
+            try:
+                df = pd.read_excel(
+                    file_path,
+                    dtype=object
+                )
+
+                print(
+                    f"    {filename}: "
+                    f"{len(df):,} rows, "
+                    f"{len(df.columns):,} columns"
+                )
+
+                missing_columns = (
+                    required_columns - set(df.columns)
+                )
+
+                if missing_columns:
+                    raise ValueError(
+                        f"Syteline backfill file '{filename}' "
+                        f"is missing required columns: "
+                        f"{sorted(missing_columns)}"
+                    )
+
+                frames.append(
+                    df[
+                        [
+                            'PO_Number',
+                            'Line_ID',
+                            'Document_Number',
+                            'Vendor_ID',
+                            'Vendor_Name',
+                            'Promise Date',
+                            'Order_Date',
+                        ]
+                    ].copy()
+                )
+
+            except Exception as exc:
+                raise ValueError(
+                    f"Failed to load Syteline backfill file "
+                    f"'{filename}': {exc}"
+                ) from exc
+
+        if not frames:
+            return pd.DataFrame()
+
+        backfill = pd.concat(
+            frames,
+            ignore_index=True
+        )
+
+        print(
+            f"    Total Syteline backfill rows loaded: "
+            f"{len(backfill):,}"
+        )
+
+        return backfill
+
+
+    def _build_syteline_receipt_backfill_lookup(
+        self,
+        backfill: pd.DataFrame
+    ) -> pd.DataFrame:
+        """
+        Build a receipt-level Syteline backfill lookup.
+
+        Key:
+            PO_Number + Line_ID + Document_Number
+
+        Vendor_ID / Vendor_Name:
+            First non-missing value.
+
+        Promise Date:
+            First non-missing value.
+        """
+        if backfill.empty:
+            return pd.DataFrame()
+
+        lookup = backfill.copy()
+
+        lookup['_key_po'] = self._normalize_syteline_key(
+            lookup['PO_Number']
+        )
+
+        lookup['_key_line'] = self._normalize_syteline_key(
+            lookup['Line_ID']
+        )
+
+        lookup['_key_document'] = self._normalize_syteline_key(
+            lookup['Document_Number']
+        )
+
+        valid_key_mask = (
+            lookup['_key_po'].ne('') &
+            lookup['_key_line'].ne('') &
+            lookup['_key_document'].ne('')
+        )
+
+        lookup = lookup.loc[
+            valid_key_mask,
+            [
+                '_key_po',
+                '_key_line',
+                '_key_document',
+                'Vendor_ID',
+                'Vendor_Name',
+                'Promise Date',
+                'Order_Date',
+            ]
+        ].copy()
+
+        if lookup.empty:
+            print(
+                "    Syteline receipt backfill: "
+                "no valid primary keys found."
+            )
+            return pd.DataFrame()
+
+        lookup = (
+            lookup
+            .groupby(
+                [
+                    '_key_po',
+                    '_key_line',
+                    '_key_document',
+                ],
+                as_index=False,
+                sort=False,
+            )
+            .agg(
+                {
+                    'Vendor_ID': self._first_non_missing,
+                    'Vendor_Name': self._first_non_missing,
+                    'Promise Date': self._first_non_missing,
+                    'Order_Date': self._first_non_missing,
+                }
+            )
+        )
+
+        lookup['Promise Date'] = pd.to_datetime(
+            lookup['Promise Date'],
+            errors='coerce'
+        ).dt.strftime('%Y-%m-%d')
+
+        lookup['Order_Date'] = pd.to_datetime(
+            lookup['Order_Date'],
+            errors='coerce'
+        ).dt.strftime('%Y-%m-%d')
+
+        print(
+            f"    Receipt backfill lookup: "
+            f"{len(lookup):,} unique "
+            f"PO+Line+Document keys"
+        )
+
+        return lookup
+
+
+    def _build_syteline_open_po_backfill_lookup(
+        self,
+        backfill: pd.DataFrame
+    ) -> pd.DataFrame:
+        """
+        Build an Open PO-level Syteline backfill lookup.
+
+        Key:
+            PO_Number + Line_ID
+
+        Vendor_ID / Vendor_Name:
+            First non-missing value.
+
+        Promise Date:
+            MAX(Promise Date).
+        """
+        if backfill.empty:
+            return pd.DataFrame()
+
+        lookup = backfill.copy()
+
+        lookup['_key_po'] = self._normalize_syteline_key(
+            lookup['PO_Number']
+        )
+
+        lookup['_key_line'] = self._normalize_syteline_key(
+            lookup['Line_ID']
+        )
+
+        valid_key_mask = (
+            lookup['_key_po'].ne('') &
+            lookup['_key_line'].ne('')
+        )
+
+        lookup = lookup.loc[
+            valid_key_mask,
+            [
+                '_key_po',
+                '_key_line',
+                'Vendor_ID',
+                'Vendor_Name',
+                'Promise Date',
+                'Order_Date',
+            ]
+        ].copy()
+
+        if lookup.empty:
+            print(
+                "    Syteline Open PO backfill: "
+                "no valid primary keys found."
+            )
+            return pd.DataFrame()
+
+        lookup['_promise_date_parsed'] = pd.to_datetime(
+            lookup['Promise Date'],
+            errors='coerce'
+        )
+
+        lookup['_order_date_parsed'] = pd.to_datetime(
+            lookup['Order_Date'],
+            errors='coerce'
+        )
+        
+        grouped = (
+            lookup
+            .groupby(
+                [
+                    '_key_po',
+                    '_key_line',
+                ],
+                as_index=False,
+                sort=False
+            )
+            .agg(
+                Vendor_ID=(
+                    'Vendor_ID',
+                    self._first_non_missing
+                ),
+                Vendor_Name=(
+                    'Vendor_Name',
+                    self._first_non_missing
+                ),
+                _promise_date_parsed=(
+                    '_promise_date_parsed',
+                    'max'
+                ),
+                _order_date_parsed=(
+                    '_order_date_parsed',
+                    'max'
+                ),
+            )
+        )
+
+        grouped['Promise Date'] = (
+            grouped['_promise_date_parsed']
+            .dt.strftime('%Y-%m-%d')
+        )
+
+        grouped['Order_Date'] = (
+            grouped['_order_date_parsed']
+            .dt.strftime('%Y-%m-%d')
+        )
+
+        grouped.drop(
+            columns=['_promise_date_parsed', '_order_date_parsed'],
+            inplace=True
+        )
+
+        print(
+            f"    Open PO backfill lookup: "
+            f"{len(grouped):,} unique PO+Line keys"
+        )
+
+        return grouped
+
+
+    def _backfill_syteline_missing_fields(
+        self,
+        df: pd.DataFrame
+    ) -> pd.DataFrame:
+        """
+        Backfill missing Syteline fields from the
+        Syteline Backfill Missing Lines file.
+
+        Receipts:
+            po_number + receipt_line + receipt_number
+            =
+            PO_Number + Line_ID + Document_Number
+
+        Open POs:
+            po_number + po_line
+            =
+            PO_Number + Line_ID
+
+        Existing non-missing values are never overwritten.
+        """
+        if df.empty:
+            return df
+
+        required_columns = {
+            'source_system',
+            'transaction_type',
+            'po_number',
+            'vendor_id',
+            'vendor_name',
+            'promise_date',
+            'order_date',
+        }
+
+        missing_columns = required_columns - set(df.columns)
+
+        if missing_columns:
+            raise ValueError(
+                "Cannot perform Syteline backfill. "
+                f"Normalized data is missing columns: "
+                f"{sorted(missing_columns)}"
+            )
+
+        # Backfill values may be strings even when the existing normalized
+        # column was inferred as numeric (for example vendor_id as float64).
+        # Use object dtype so existing values are preserved and missing
+        # values can safely be populated from the Syteline lookup.
+        for column in [
+            'vendor_id',
+            'vendor_name',
+            'promise_date',
+            'order_date'
+        ]:
+            df[column] = df[column].astype('object')
+
+        syteline_mask = (
+            df['source_system']
+            .astype(str)
+            .str.upper()
+            .str.strip()
+            .eq('SYTELINE')
+        )
+
+        if not syteline_mask.any():
+            return df
+
+        backfill = self._load_syteline_backfill_file()
+
+        if backfill.empty:
+            return df
+
+        # ============================================================
+        # SYTELINE RECEIPTS
+        # ============================================================
+        receipt_mask = (
+            syteline_mask &
+            df['transaction_type']
+            .astype(str)
+            .str.upper()
+            .str.strip()
+            .isin({'RECEIPT', 'RECEIPTS'})
+        )
+
+        if receipt_mask.any():
+            required_receipt_columns = {
+                'receipt_line',
+                'receipt_number',
+            }
+
+            missing_receipt_columns = (
+                required_receipt_columns - set(df.columns)
+            )
+
+            if missing_receipt_columns:
+                raise ValueError(
+                    "Cannot perform Syteline receipt backfill. "
+                    f"Missing normalized columns: "
+                    f"{sorted(missing_receipt_columns)}"
+                )
+
+            receipt_lookup = (
+                self._build_syteline_receipt_backfill_lookup(
+                    backfill
+                )
+            )
+
+            if not receipt_lookup.empty:
+                receipt_rows = df.loc[
+                    receipt_mask,
+                    [
+                        'po_number',
+                        'receipt_line',
+                        'receipt_number',
+                        'vendor_id',
+                        'vendor_name',
+                        'promise_date',
+                        'order_date',
+                    ],
+                ].copy()
+
+                # Preserve the original DataFrame index because merge()
+                # creates a new index.
+                receipt_rows['_original_index'] = (
+                    receipt_rows.index
+                )
+
+                receipt_rows['_key_po'] = (
+                    self._normalize_syteline_key(
+                        receipt_rows['po_number']
+                    )
+                )
+
+                receipt_rows['_key_line'] = (
+                    self._normalize_syteline_key(
+                        receipt_rows['receipt_line']
+                    )
+                )
+
+                receipt_rows['_key_document'] = (
+                    self._normalize_syteline_key(
+                        receipt_rows['receipt_number']
+                    )
+                )
+
+                receipt_rows = receipt_rows.merge(
+                    receipt_lookup.rename(
+                        columns={
+                            'Vendor_ID': '_bf_vendor_id',
+                            'Vendor_Name': '_bf_vendor_name',
+                            'Promise Date': '_bf_promise_date',
+                            'Order_Date': '_bf_order_date',
+                        }
+                    ),
+                    on=[
+                        '_key_po',
+                        '_key_line',
+                        '_key_document',
+                    ],
+                    how='left',
+                    validate='many_to_one',
+                )
+
+                for target, source in [
+                    ('vendor_id', '_bf_vendor_id'),
+                    ('vendor_name', '_bf_vendor_name'),
+                    ('promise_date', '_bf_promise_date'),
+                    ('order_date', '_bf_order_date'),
+                ]:
+                    target_missing = (
+                        self._is_missing_syteline_value(
+                            receipt_rows[target]
+                        )
+                    )
+
+                    source_available = (
+                        ~self._is_missing_syteline_value(
+                            receipt_rows[source]
+                        )
+                    )
+
+                    fill_mask = (
+                        target_missing &
+                        source_available
+                    )
+
+                    if fill_mask.any():
+                        original_indices = (
+                            receipt_rows.loc[
+                                fill_mask,
+                                '_original_index'
+                            ]
+                        )
+
+                        df.loc[
+                            original_indices,
+                            target
+                        ] = receipt_rows.loc[
+                            fill_mask,
+                            source
+                        ].values
+
+                        print(
+                            f"    Syteline receipts {target} "
+                            f"backfilled: "
+                            f"{fill_mask.sum():,} rows"
+                        )
+
+        # ============================================================
+        # SYTELINE OPEN POs
+        # ============================================================
+        open_mask = (
+            syteline_mask &
+            df['transaction_type']
+            .astype(str)
+            .str.upper()
+            .str.strip()
+            .isin({'OPEN_ORDER', 'OPEN ORDERS'})
+        )
+
+        if open_mask.any():
+            open_lookup = (
+                self._build_syteline_open_po_backfill_lookup(
+                    backfill
+                )
+            )
+
+            if not open_lookup.empty:
+                open_rows = df.loc[
+                    open_mask,
+                    [
+                        'po_number',
+                        'po_line',
+                        'vendor_id',
+                        'vendor_name',
+                        'promise_date',
+                        'order_date',
+                    ],
+                ].copy()
+
+                # Preserve original DataFrame index because merge()
+                # creates a new index.
+                open_rows['_original_index'] = (
+                    open_rows.index
+                )
+
+                open_rows['_key_po'] = (
+                    self._normalize_syteline_key(
+                        open_rows['po_number']
+                    )
+                )
+
+                open_rows['_key_line'] = (
+                    self._normalize_syteline_key(
+                        open_rows['po_line']
+                    )
+                )
+
+                open_rows = open_rows.merge(
+                    open_lookup.rename(
+                        columns={
+                            'Vendor_ID': '_bf_vendor_id',
+                            'Vendor_Name': '_bf_vendor_name',
+                            'Promise Date': '_bf_promise_date',
+                            'Order_Date': '_bf_order_date',
+                        }
+                    ),
+                    on=[
+                        '_key_po',
+                        '_key_line',
+                    ],
+                    how='left',
+                    validate='many_to_one',
+                )
+
+                for target, source in [
+                    ('vendor_id', '_bf_vendor_id'),
+                    ('vendor_name', '_bf_vendor_name'),
+                    ('promise_date', '_bf_promise_date'),
+                    ('order_date', '_bf_order_date'),
+                ]:
+                    target_missing = (
+                        self._is_missing_syteline_value(
+                            open_rows[target]
+                        )
+                    )
+
+                    source_available = (
+                        ~self._is_missing_syteline_value(
+                            open_rows[source]
+                        )
+                    )
+
+                    fill_mask = (
+                        target_missing &
+                        source_available
+                    )
+
+                    if fill_mask.any():
+                        original_indices = (
+                            open_rows.loc[
+                                fill_mask,
+                                '_original_index'
+                            ]
+                        )
+
+                        df.loc[
+                            original_indices,
+                            target
+                        ] = open_rows.loc[
+                            fill_mask,
+                            source
+                        ].values
+
+                        print(
+                            f"    Syteline open POs {target} "
+                            f"backfilled: "
+                            f"{fill_mask.sum():,} rows"
+                        )
+
+        return df
+
     def _load_po_line_dates_lookup(self) -> pd.DataFrame:
         """Loads NS PO Line Dates and returns a LINE-LEVEL lookup for joining to NS Receipt rows.
 
@@ -630,17 +1344,43 @@ class Normalizer:
 
         if all_normalized_data:
             # Combine all normalized data into single DataFrame
-            combined_df = pd.concat(all_normalized_data, ignore_index=True)
-            # Join PO Line Dates onto NS Receipt rows (line-level promise/due dates)
+            combined_df = pd.concat(
+                all_normalized_data,
+                ignore_index=True,
+                copy=False
+            )
+
+            # Release individual source DataFrames now that they are combined.
+            del all_normalized_data
+
+            # Join PO Line Dates onto NS Receipt rows
+            # (line-level promise/due dates)
             po_line_lookup = self._load_po_line_dates_lookup()
-            
-            combined_df = self._join_po_line_dates(combined_df, po_line_lookup)
-            
-            # Backfill VanTran receipt po_status from matching VanTran open orders
+
+            combined_df = self._join_po_line_dates(
+                combined_df,
+                po_line_lookup
+            )
+
+            # Backfill missing Syteline fields from the
+            # Syteline Backfill Missing Lines file.
+            #
+            # IMPORTANT:
+            # The backfill file is used only as a lookup.
+            # It is NOT added as transaction rows.
+            combined_df = self._backfill_syteline_missing_fields(
+                combined_df
+            )
+
+            # Backfill VanTran receipt po_status from
+            # matching VanTran open orders
             combined_df = self.po_status(combined_df)
 
-            # Backfill VanTran receipt promise_date from VanTran open-order Document Number
-            combined_df = self._backfill_vantran_receipt_promise_date(combined_df)
+            # Backfill VanTran receipt promise_date from
+            # VanTran open-order Document Number
+            combined_df = self._backfill_vantran_receipt_promise_date(
+                combined_df
+            )
 
             # Print data freshness report
             self._print_data_freshness_report(combined_df, all_file_dates)
@@ -701,7 +1441,49 @@ class Normalizer:
                 if file_path.lower().endswith('.xlsx') or file_path.lower().endswith('.xls'):
                     df_raw = pd.read_excel(file_path)
                 else:
-                    df_raw = pd.read_csv(file_path, encoding='utf-8-sig')
+                    # Read only the source columns actually required by the mapping.
+                    # This significantly reduces peak memory for large CSV files.
+                    mapping_specs = self.field_mapping[csv_mapping_column].dropna()
+
+                    required_source_columns = []
+                    for spec in mapping_specs:
+                        spec = str(spec).strip()
+
+                        if not spec:
+                            continue
+
+                        if spec.upper() == 'NULL':
+                            continue
+
+                        if re.match(r"Hardcode\s+'[^']*'", spec, re.IGNORECASE):
+                            continue
+
+                        if spec.lower().startswith('derive from'):
+                            continue
+
+                        required_source_columns.append(spec)
+
+                    # Read header only to identify which mapped columns actually exist.
+                    csv_header = pd.read_csv(
+                        file_path,
+                        encoding='utf-8-sig',
+                        nrows=0
+                    )
+
+                    available_columns = set(csv_header.columns)
+
+                    usecols = [
+                        column
+                        for column in required_source_columns
+                        if column in available_columns
+                    ]
+
+                    df_raw = pd.read_csv(
+                        file_path,
+                        encoding='utf-8-sig',
+                        usecols=usecols
+                    )
+
                 print(f"    Raw rows: {len(df_raw):,}, columns: {len(df_raw.columns)}")
 
                 # Apply CSV-driven field mapping
@@ -711,8 +1493,13 @@ class Normalizer:
                     source_config
                 )
 
+                # Release the raw source DataFrame before retaining the normalized data.
+                del df_raw
+
                 all_data.append(df_normalized)
                 print(f"    Normalized rows: {len(df_normalized):,}")
+
+                del df_normalized
 
             except Exception as e:
                 print(f"  Error processing file {file_path}: {e}")

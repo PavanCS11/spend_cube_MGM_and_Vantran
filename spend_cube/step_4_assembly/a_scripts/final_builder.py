@@ -1057,7 +1057,8 @@ class FinalBuilder:
         receipt_date_qualifies = (df['receipt_date'] >= reporting_start) & df['receipt_date'].notna()
 
         filter_mask = order_date_qualifies | receipt_date_qualifies
-        df_filtered = df[filter_mask].copy()
+        # Apply the filter without creating an additional full DataFrame copy.
+        df_filtered = df.loc[filter_mask]
 
         filtered_count = len(df_filtered)
         excluded_count = initial_count - filtered_count
