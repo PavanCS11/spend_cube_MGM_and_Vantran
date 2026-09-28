@@ -19,7 +19,7 @@ Status,is_confirmed,Vendor confirmation status,NULL,NULL,NULL,NULL,PO Confirmed 
 Status,bill_variance_status,Invoice variance status on receipt,NULL,Maximum of Bill Variance Status,NULL,Bill Variance Status,NULL,NULL,NULL,NULL,NetSuite Receipts only
 Dates,order_date,Date the PO was created,Maximum of Date,NULL,Date,Date,Order Date,Order Date,Order_Date,NULL,
 Dates,due_date,Due date for delivery,Maximum of Due Date,NULL,Due Date/Receive By,Due Date/Receive By,Due Date,Due Date,Due_Date,NULL,NS Receipts: populated by PO Line Dates join
-Dates,promise_date,Vendor promised delivery date,Maximum of Expected Receipt Date,NULL,Expected Receipt Date,Promise Date,Promise Date,Promise Date,NULL,NULL,NS Open POs: current commitment date; NS Receipts: populated by PO Line Dates join then NS Open POs fallback
+Dates,promise_date,Vendor promised delivery date,Maximum of Expected Receipt Date,NULL,Expected Receipt Date,Promise Date,Promise Date,Promise Date,Promise Date,Promise Date,NS Open POs: current commitment date; NS Receipts: populated by PO Line Dates join then NS Open POs fallback
 Dates,old_promise_date,Previous promise date before revision,Maximum of Promise Date,NULL,old_promise_date ,NULL,NULL,NULL,NULL,NULL,NS Open POs: prior commitment; NS Receipts: populated by PO Line Dates join
 Dates,requested_date,Requested delivery date (custom),Maximum of Requested Date,NULL,NULL,NULL,RequestedDate_c,RequestedDate_c,NULL,NULL,Epicor custom field
 Dates,receipt_date,Date goods were received,NULL,Maximum of Receipt Date,NULL,Date,NULL,Receipt Date Line,NULL,Recv_Date,Only on receipt transactions
