@@ -1,7 +1,7 @@
 ======================================================================
 DATA QUALITY REPORT
-Generated: 2026-09-27T16:25:52.783920
-Total Rows Checked: 195,594
+Generated: 2026-09-28T11:40:49.503975
+Total Rows Checked: 202,386
 ======================================================================
 
 --- CRITICAL CHECKS ---
@@ -12,20 +12,20 @@ Total Rows Checked: 195,594
 --- WARNING CHECKS ---
 
 [FAIL (WARNING)] Negative Quantities
-    Found 2105 rows with negative quantities (total_quantity: 27; received_quantity: 188; open_quantity: 1890)
+    Found 1038 rows with negative quantities (total_quantity: 840; received_quantity: 188; open_quantity: 10)
 
 [PASS] Status Consistency (open_amount vs is_open_order)
     Found 0 rows with open_amount > 0 but is_open_order = False
 
 [FAIL (WARNING)] Date Order Violations (receipt < order)
-    Found 125 rows where receipt_date < order_date
+    Found 138 rows where receipt_date < order_date
     Samples:
       - PO P40525: order=2024-07-02 00:00:00, receipt=2024-06-17 00:00:00
       - PO P40553: order=2024-07-05 00:00:00, receipt=2024-06-17 00:00:00
       - PO P42011: order=2024-12-06 00:00:00, receipt=2024-12-04 00:00:00
 
 [FAIL (WARNING)] Grain Uniqueness
-    Found 128 duplicate rows by primary key
+    Found 1506 duplicate rows by primary key
     Samples:
       - PO Memorized/1
       - PO Memorized/2
@@ -51,7 +51,7 @@ Total Rows Checked: 195,594
       - EPICOR PO 129920/2: ['Open Orders', 'Receipts']
 
 [FAIL (WARNING)] High Unit Cost (>$50K)
-    Found 3143 rows with unit_cost > $50,000 - verify these are legitimate
+    Found 3366 rows with unit_cost > $50,000 - verify these are legitimate
     Samples:
       - PO P-AE0000003/1: unit_cost=$65,000.00
       - PO P-AE0000007/1: unit_cost=$99,401.00
