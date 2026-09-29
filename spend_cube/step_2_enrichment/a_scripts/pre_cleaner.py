@@ -42,12 +42,6 @@ class PreCleaner:
         """
         print("  Applying derivation logic...")
 
-        # Ensure numeric columns use numeric dtypes before assignments
-        df['open_quantity'] = pd.to_numeric(
-            df['open_quantity'],
-            errors='coerce'
-        )
-
         # --- Derive is_open_order (quantity-based) ---
         # An order is open if it has remaining quantity to receive
         # This is the single source of truth, regardless of status fields
@@ -77,12 +71,6 @@ class PreCleaner:
                 (df['source_system'] == "NETSUITE_VANTRAN") &
                 txn_upper.isin({'OPEN_ORDER', 'OPEN ORDERS'})
             )
-            
-            df['open_quantity'] = pd.to_numeric(
-                df['open_quantity'],
-                errors='coerce'
-            )
-
             df.loc[vantran_open_mask, 'open_quantity'] = (
                 pd.to_numeric(df.loc[vantran_open_mask, 'total_quantity'], errors='coerce').fillna(0) -
                 pd.to_numeric(df.loc[vantran_open_mask, 'received_quantity'], errors='coerce').fillna(0)
