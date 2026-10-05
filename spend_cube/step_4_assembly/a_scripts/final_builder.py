@@ -1294,15 +1294,24 @@ class FinalBuilder:
                 else pd.Series(dtype=float)
             )
 
+            all_open_qty = open_qty.loc[idx].dropna()
+
             if len(existing_open_qty):
 
                 # Existing Open Order row is authoritative
                 remaining_qty = float(existing_open_qty.max())
                 fully_received = remaining_qty <= 0
 
+            elif len(all_open_qty):
+
+                # Receipt-only lines, such as Syteline.
+                # Use the available open_quantity to determine completion.
+                remaining_qty = float(all_open_qty.max())
+                fully_received = remaining_qty <= 0
+
             else:
 
-                # No Open Order row.
+                # Fallback when open_quantity is unavailable.
                 # Derive completion from ordered quantity vs receipts.
                 ordered_values = total_qty.loc[idx].dropna()
 
@@ -1325,8 +1334,6 @@ class FinalBuilder:
 
                 else:
 
-                    # Cannot safely determine partial/full status
-                    # when ordered quantity is unavailable.
                     fully_received = bool(receipt_idx)
                     remaining_qty = np.nan
 

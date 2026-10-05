@@ -1,7 +1,7 @@
 ======================================================================
 DATA QUALITY REPORT
-Generated: 2026-09-30T12:00:45.118025
-Total Rows Checked: 203,210
+Generated: 2026-10-05T21:16:02.578719
+Total Rows Checked: 207,510
 ======================================================================
 
 --- CRITICAL CHECKS ---
@@ -12,7 +12,7 @@ Total Rows Checked: 203,210
 --- WARNING CHECKS ---
 
 [FAIL (WARNING)] Negative Quantities
-    Found 1051 rows with negative quantities (total_quantity: 840; received_quantity: 201; open_quantity: 10)
+    Found 1096 rows with negative quantities (total_quantity: 884; received_quantity: 202; open_quantity: 10)
 
 [PASS] Status Consistency (open_amount vs is_open_order)
     Found 0 rows with open_amount > 0 but is_open_order = False
@@ -25,7 +25,7 @@ Total Rows Checked: 203,210
       - PO P42011: order=2024-12-06 00:00:00, receipt=2024-12-04 00:00:00
 
 [FAIL (WARNING)] Grain Uniqueness
-    Found 1506 duplicate rows by primary key
+    Found 1655 duplicate rows by primary key
     Samples:
       - PO Memorized/1
       - PO Memorized/2
@@ -44,25 +44,25 @@ Total Rows Checked: 203,210
     on_time_vs_promise_flag contains only valid OTD categories
 
 [FAIL (WARNING)] Transaction Type Overlap (Double-Count Risk)
-    Found 803 PO lines with both OPEN_ORDER and RECEIPT rows - potential double-counting risk
+    Found 991 PO lines with both OPEN_ORDER and RECEIPT rows - potential double-counting risk
     Samples:
       - EPICOR PO 128626/12: ['Open Orders', 'Receipts']
       - EPICOR PO 129920/2: ['Open Orders', 'Receipts']
       - EPICOR PO 129943/1: ['Open Orders', 'Receipts']
 
 [FAIL (WARNING)] High Unit Cost (>$50K)
-    Found 3464 rows with unit_cost > $50,000 - verify these are legitimate
+    Found 3582 rows with unit_cost > $50,000 - verify these are legitimate
     Samples:
       - PO P-AE0000003/1: unit_cost=$65,000.00
       - PO P-AE0000007/1: unit_cost=$99,401.00
       - PO P-AE0000007/2: unit_cost=$92,335.00
 
 [PASS] Unit Cost Corrections Applied
-    Applied 155 unit_cost corrections (1000x mills-to-dollars). Dollar impact: $0.00
+    Applied 156 unit_cost corrections (1000x mills-to-dollars). Dollar impact: $6,030,185.93
     Samples:
+      - PO 136446: $12,072.44 -> $12.07
       - PO 123848: $4,125.37 -> $4.13
       - PO 123848: $2,651.69 -> $2.65
-      - PO 131671: $2,412.53 -> $2.41
 
 [PASS] Reporting Date Coverage
     Both systems have coverage from 2024-01-01
