@@ -1294,19 +1294,26 @@ class FinalBuilder:
                 else pd.Series(dtype=float)
             )
 
-            all_open_qty = open_qty.loc[idx].dropna()
+            # Receipt-only rows, such as Syteline, do not have an
+            # Open Orders transaction row. For those lines, use the
+            # open_quantity carried by the receipt rows.
+            receipt_open_qty = (
+                open_qty.loc[receipt_idx].dropna()
+                if receipt_idx
+                else pd.Series(dtype=float)
+            )
 
             if len(existing_open_qty):
 
-                # Existing Open Order row is authoritative
+                # Actual Open Order row is authoritative.
                 remaining_qty = float(existing_open_qty.max())
                 fully_received = remaining_qty <= 0
 
-            elif len(all_open_qty):
+            elif len(receipt_open_qty):
 
-                # Receipt-only lines, such as Syteline.
-                # Use the available open_quantity to determine completion.
-                remaining_qty = float(all_open_qty.max())
+                # Receipt-only line, such as Syteline.
+                # open_quantity = 0 means the PO line is fully received.
+                remaining_qty = float(receipt_open_qty.max())
                 fully_received = remaining_qty <= 0
 
             else:
