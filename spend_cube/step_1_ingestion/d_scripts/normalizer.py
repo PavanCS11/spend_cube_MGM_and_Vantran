@@ -258,6 +258,7 @@ class Normalizer:
             'Vendor_Name',
             'Promise Date',
             'Order_Date',
+            'Recv_Date',
         }
 
         for file_path in files:
@@ -296,6 +297,7 @@ class Normalizer:
                             'Vendor_Name',
                             'Promise Date',
                             'Order_Date',
+                            'Recv_Date',
                         ]
                     ].copy()
                 )
@@ -371,6 +373,7 @@ class Normalizer:
                 'Vendor_Name',
                 'Promise Date',
                 'Order_Date',
+                'Recv_Date',
             ]
         ].copy()
 
@@ -398,6 +401,7 @@ class Normalizer:
                     'Vendor_Name': self._first_non_missing,
                     'Promise Date': self._first_non_missing,
                     'Order_Date': self._first_non_missing,
+                    'Recv_Date': self._first_non_missing,
                 }
             )
         )
@@ -409,6 +413,11 @@ class Normalizer:
 
         lookup['Order_Date'] = pd.to_datetime(
             lookup['Order_Date'],
+            errors='coerce'
+        ).dt.strftime('%Y-%m-%d')
+
+        lookup['Recv_Date'] = pd.to_datetime(
+            lookup['Recv_Date'],
             errors='coerce'
         ).dt.strftime('%Y-%m-%d')
 
@@ -568,6 +577,7 @@ class Normalizer:
             'vendor_name',
             'promise_date',
             'order_date',
+            'receipt_date',
         }
 
         missing_columns = required_columns - set(df.columns)
@@ -587,7 +597,8 @@ class Normalizer:
             'vendor_id',
             'vendor_name',
             'promise_date',
-            'order_date'
+            'order_date',
+            'receipt_date'
         ]:
             df[column] = df[column].astype('object')
 
@@ -653,6 +664,7 @@ class Normalizer:
                         'vendor_name',
                         'promise_date',
                         'order_date',
+                        'receipt_date',
                     ],
                 ].copy()
 
@@ -687,6 +699,7 @@ class Normalizer:
                             'Vendor_Name': '_bf_vendor_name',
                             'Promise Date': '_bf_promise_date',
                             'Order_Date': '_bf_order_date',
+                            'Recv_Date': '_bf_receipt_date',
                         }
                     ),
                     on=[
@@ -703,6 +716,7 @@ class Normalizer:
                     ('vendor_name', '_bf_vendor_name'),
                     ('promise_date', '_bf_promise_date'),
                     ('order_date', '_bf_order_date'),
+                    ('receipt_date', '_bf_receipt_date'),
                 ]:
                     target_missing = (
                         self._is_missing_syteline_value(

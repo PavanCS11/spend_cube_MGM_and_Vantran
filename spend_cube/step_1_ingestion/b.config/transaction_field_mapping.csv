@@ -2,7 +2,7 @@
 Identifiers,source_system,Identifies which ERP system the data originated from,Hardcode 'NETSUITE',Hardcode 'NETSUITE',System,System,Hardcode 'EPICOR',Hardcode 'EPICOR',Hardcode 'SYTELINE',Hardcode 'SYTELINE',Required for union of data
 Identifiers,transaction_type,Identifies whether record is open order or receipt,Hardcode 'OPEN_ORDER',Hardcode 'RECEIPT',Hardcode 'OPEN_ORDER',Hardcode 'RECEIPT',Hardcode 'OPEN_ORDER',Hardcode 'RECEIPT',Hardcode 'OPEN_ORDER',Hardcode 'RECEIPT',Required for combined table
 Identifiers,po_number,Purchase order number,PO Number,Maximum of PO Number,Document Number,Created From,PO Number,PO Number Header,PO_Number,PO_Number,Primary PO identifier
-Identifiers,po_line,Line number on the purchase order,PO Line,PO Line ID,Line ID,NULL,PO Line,PO Line,PO_Line,NULL,
+Identifiers,po_line,Line number on the purchase order,PO Line,PO Line ID,Line ID,NULL,PO Line,PO Line,PO_Line,Line_ID,
 Identifiers,po_release_num,Release number within a PO line (Epicor only),NULL,NULL,NULL,NULL,Release Number,Release Line,NULL,NULL,NetSuite doesn't have release concept - default to 1 or NULL
 Identifiers,receipt_number,Receipt/packing slip document number,NULL,Receipt Number,NULL,Document Number,NULL,Packing Slip,NULL,Document_Number,Only applicable to receipt transactions
 Identifiers,receipt_line,Line number on the receipt document,NULL,Receipt Line ID,NULL,Line ID,NULL,Pack Line,NULL,Line_ID,Only applicable to receipt transactions
