@@ -97,16 +97,43 @@ class PreCleaner:
 
 
         # Fallback: If open_quantity not available, derive from total - received
-        if 'total_quantity' in df.columns and 'received_quantity' in df.columns:
+        if (
+            'total_quantity' in df.columns
+            and 'received_quantity' in df.columns
+            and 'transaction_type' in df.columns
+        ):
+            is_open_order_txn = (
+                df['transaction_type']
+                .astype(str)
+                .str.strip()
+                .str.upper()
+                .isin({'OPEN_ORDER', 'OPEN ORDERS'})
+            )
+
             remaining = (
-                pd.to_numeric(df['total_quantity'], errors='coerce').fillna(0) -
+                pd.to_numeric(df['total_quantity'], errors='coerce').fillna(0)
+                -
                 pd.to_numeric(df['received_quantity'], errors='coerce').fillna(0)
             )
-            additional_open = (remaining > 0) & (~df['is_open_order'])
-            df.loc[remaining > 0, 'is_open_order'] = True
-            print(f"    is_open_order=True from remaining qty > 0: {additional_open.sum():,} additional rows")
 
-        print(f"    Total is_open_order=True: {df['is_open_order'].sum():,} rows")
+            additional_open = (
+                is_open_order_txn
+                & (remaining > 0)
+                & (~df['is_open_order'])
+            )
+
+            df.loc[
+                is_open_order_txn & (remaining > 0),
+                'is_open_order'
+            ] = True
+
+            # Receipt transactions are never Open Orders.
+            df.loc[~is_open_order_txn, 'is_open_order'] = False
+
+            print(
+                f"    is_open_order=True from remaining qty > 0: "
+                f"{additional_open.sum():,} additional rows"
+            )
 
         # --- Derive buyer_id (fallback to created_by) ---
         if 'buyer_id' in df.columns and 'created_by' in df.columns:
