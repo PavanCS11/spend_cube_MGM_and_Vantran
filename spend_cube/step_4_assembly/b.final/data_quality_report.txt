@@ -1,7 +1,7 @@
 ======================================================================
 DATA QUALITY REPORT
-Generated: 2026-10-14T15:29:29.748846
-Total Rows Checked: 208,737
+Generated: 2026-11-02T18:21:31.090783
+Total Rows Checked: 217,721
 ======================================================================
 
 --- CRITICAL CHECKS ---
@@ -12,7 +12,7 @@ Total Rows Checked: 208,737
 --- WARNING CHECKS ---
 
 [FAIL (WARNING)] Negative Quantities
-    Found 1097 rows with negative quantities (total_quantity: 884; received_quantity: 203; open_quantity: 10)
+    Found 1125 rows with negative quantities (total_quantity: 884; received_quantity: 227; open_quantity: 14)
 
 [PASS] Status Consistency (open_amount vs is_open_order)
     Found 0 rows with open_amount > 0 but is_open_order = False
@@ -25,7 +25,7 @@ Total Rows Checked: 208,737
       - PO P42011: order=2024-12-06 00:00:00, receipt=2024-12-04 00:00:00
 
 [FAIL (WARNING)] Grain Uniqueness
-    Found 1655 duplicate rows by primary key
+    Found 1656 duplicate rows by primary key
     Samples:
       - PO Memorized/1
       - PO Memorized/2
@@ -44,14 +44,14 @@ Total Rows Checked: 208,737
     on_time_vs_promise_flag contains only valid OTD categories
 
 [FAIL (WARNING)] Transaction Type Overlap (Double-Count Risk)
-    Found 1009 PO lines with both OPEN_ORDER and RECEIPT rows - potential double-counting risk
+    Found 943 PO lines with both OPEN_ORDER and RECEIPT rows - potential double-counting risk
     Samples:
-      - EPICOR PO 128626/12: ['Open Orders', 'Receipts']
       - EPICOR PO 129920/2: ['Open Orders', 'Receipts']
-      - EPICOR PO 129943/1: ['Open Orders', 'Receipts']
+      - EPICOR PO 130372/2: ['Open Orders', 'Receipts']
+      - EPICOR PO 130545/10: ['Open Orders', 'Receipts']
 
 [FAIL (WARNING)] High Unit Cost (>$50K)
-    Found 3605 rows with unit_cost > $50,000 - verify these are legitimate
+    Found 3659 rows with unit_cost > $50,000 - verify these are legitimate
     Samples:
       - PO P-AE0000003/1: unit_cost=$65,000.00
       - PO P-AE0000007/1: unit_cost=$99,401.00
